@@ -5,7 +5,9 @@
 \label{sec:appendix}
 
 \begin{acronym}[UMLX]
-  \acro{acro}{Acronym}
+  \acro{MVP}{Minimum Viable Product}
+  \acro{SaaS}{Software-as-a-Service}
+  \acro{SPA}{Single Page Application}
 \end{acronym}
 
 

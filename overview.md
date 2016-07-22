@@ -1,5 +1,5 @@
-# Einleitung
-\label{sec:introduction}
+# Übersicht
+\label{sec:overview}
 
 **Lawly ^[Arbeitstitel] gibt Juristen moderne Mittel an die Hand.**
 

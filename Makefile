@@ -7,7 +7,7 @@ all: thesis_skeleton.latex
 		--csl=apa.csl \
 		--metadata=link-citations:true \
 		--listings \
-		-f markdown \
+		-f markdown+definition_lists \
 		-o thesis.pdf
 	rm thesis_skeleton.latex
 

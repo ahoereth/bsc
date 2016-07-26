@@ -21,6 +21,11 @@ Beim Aufbau einer diesen Paradigmen folgenden Applikation ist es von Interesse e
 ### Web-Browser als Software Plattform
 \label{sec:browserSE}
 
+Die Wahl der Programmiersprache zum entwickeln einer Web-Anwendung ist einfach: Es gibt keine Auswahl. Nur JavaScript ist in allen Web-Browsern verfügbar und damit die einzige mögliche Wahl. Zwar gibt es eine Hand voll Sprachen welche zu JavaScript [transcompiliert](#glossar), also übersetzt, werden, zu Zeiten zu denen sich der \ac{ES} Standard und seine Adoptionsrate schnell durchsetzt sind diese aber nur bei Notwendigkeit einer sehr speziellen Gruppe von Funktionen interessant. ((Single outstanding feature: Strong Typing from Typescript))
+
+[Transcompilierung](#glossar) ist aber unabhängig von anderen Sprachen relevant. JavaScripts größter Vorteil, dass es in quasi jeder Browser Umgebung verfügbar ist, und dessen rasant fortschreitende Entwicklung, ist auch eine markante Achillesferse: Als Entwickler kann man nicht annehmen, dass Anwender einen Browser einsetzen welcher die aktuellste Iteration der Sprache standardkonform umsetzt. Aus diesem Grund haben sich Tools zur Transcompilierung des aktuellsten \ac{ES} Standards zu breiter unterstützten, älteren Iterationen durchgesetzt. In Kombination mit sogenannten [Polyfills](#glossar), Codes welche noch nicht vorhandene Funktionen mithilfe bestehender Funktionen nach implementieren, ist es so möglich den aktuellsten Stand der Sprache einzusetzen und trotzdem vom Vorteil der breiten Verfügbarkeit zu profitieren.
+
+
 
 ### Grundlegende Architektur
 

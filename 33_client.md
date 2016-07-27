@@ -45,6 +45,15 @@ Die Wahl der Programmiersprache zum entwickeln einer Web-Anwendung ist einfach: 
 * Komponenten Hierarchie
 * Virtual DOM
 
+```{.dot caption="\textbf{Home} component layout" label="components_home"}
+digraph {
+  HomeContainer -> Home;
+  Home -> WelcomeMessage;
+  Home -> LoginForm;
+  Home -> LawList;
+}
+```
+
 #### Container
 
 * Interaktion mit Redux

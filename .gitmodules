@@ -1,0 +1,3 @@
+[submodule "pandoc-dot2tex-filter"]
+	path = scripts/pandoc-dot2tex-filter
+	url = git@github.com:kuba-orlik/pandoc-dot2tex-filter.git

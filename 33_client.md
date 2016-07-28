@@ -50,6 +50,31 @@ digraph {
 
 <!-- TODO: Add visual outline of TodoApp -->
 
+Eine weitere Problematik ist, dass traditionell jeder Baustein einer Applikation über einen eigenen selbstverwalteten Zustand verfügt den er selbst durch den Controller und Interaktionen mit dem View manipuliert und gegebenenfalls über das Model an den wie auch immer gearteten persistenten Zustand (wie z.B. die Datenbank oder API) weiter gibt. Hieraus resultiert wieder die Schwierigkeit dass der Zustand eventuell von mehreren Teilen der Applikation benötigt und eventuell auch von mehreren manipuliert wird. <!-- TODO: Reasoning auf Deutsch? --> Reasoning über sich durch verschiedene Aktionen ergebende Ereignisse und Zustandsänderungen in der gesamt Applikation werden schwer.
+
+Die moderne Lösung hierfür liegt in einem uni-directional Datenfluss mit einem zentral verwalteten und nur über klar definierte Funktionen zu beeinflussenden Zustand. Bei strengem Befolgen dieses Ansatzes wird der gesamte Zustand der gesamte Zustand der Applikation, also auch wenn er nur für einzelne Komponenten relevant ist, zentral verwaltet und entlang der zuvor beschriebenen Komponenten-Hierarchie vererbt. Die Vererbung findet immer partiell statt, so dass jede Komponente nur die Untermenge des gesamt Zustandes kennt, die für sie beziehungsweise für ihr untergeordnete Komponenten relevant ist. Im gesamten Prozess beeinflusst keine Komponente den ihr übergebenen Zustand direkt, sondern nur über zentral definierte Funktionen, sogenannte Aktionen. Durch diese Zentralisierung von Zustand und Zustand-manipulierenden Aktionen wird die Applikation und insbesondere Zustandsveränderungen innerhalb der Applikation leichter durchschaubar. Zusätzlich entsteht die Möglichkeit den Zustand persistent für zukünftige Aufrufe der Applikation zu speichern, einzelne Aktionen zu simulieren und gegebenenfalls rückgängig zu machen.
+
+```{.dot caption="Uni-direktionaler Datenfluss mit zentralem globalen Zustand, partieller Zustandsvererbung und Aktions-basierter Zustandsmanipulation." label="dataflow"}
+digraph {
+  rankdir=TB
+  node [shape=none]
+  S [label="State"]
+  A [label="Component A"]
+  B [label="Component B"]
+  C [label="Component C"]
+  {rank=same;A B C}
+  S -> A [label="partial state"]
+  A -> B [label="partial state"]
+  B -> C [label="partial state"]
+  A -> S [label="action" style=dashed];
+  B -> S [label="action" style=dashed];
+  C -> S [label="action" style=dashed];
+}
+```
+
+Durch die Kombination einer modularen Komponenten-Hierarchie mit uni-direktionalen Datenfluss und zentral verwalteten globalen Zustand ergibt sich ein dem funktionellen Programmieren ähnlichen Einfachheit: Atomare Bestandteile der Applikation generieren deterministisch gegeben dem gleichen Zustand unabhängig vom Rest der Applikation testbar das gleiche Resultat.
+
+
 
 
 * Redux

@@ -14,6 +14,8 @@ Polyfill
   : $\,$
   : Code-Baustein, welcher ein in dem eingesetzten Browser noch nicht vorhandenes Feature mithilfe vorhandener Funktionen nach implementiert.
 
+to maintain
+  : $\,$
 
 
 # Abkürzungsverzeichnis

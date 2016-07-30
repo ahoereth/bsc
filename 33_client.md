@@ -1,7 +1,7 @@
 ## Client
 \label{sec:client}
 
-### Grundlagen einer modernen Web-Applikationen
+### Single-Page-Applications
 \label{sec:webapps}
 
 Bei traditionellen Webseiten und auch Webapplikationen führt bei einer \ac{SPA} nicht jede Interaktion zu einem vollständigen sogenannten Client-Server-Round-Trip. Bei einem solchen wird traditionell durch jede Interaktion eine Anfrage an den Server gestellt welcher auf Grundlage dieser eine neue Seite generiert und an den Client schickt, welcher die vorherige Seite dann durch die neue ersetzt.
@@ -15,6 +15,51 @@ Bei jeder Interaktion wird so clientseitig getestet ob die notwendigen Daten ber
 Der dritte Schritt ist es, nicht nur bereits alle voraussichtlich relevanten Daten zusammen mit jedem initialen Aufruf der Applikation zur Verfügung zu stellen, sondern über mehrere Aufrufe hinweg zu speichern und somit die Applikation auch ohne Internetverbindung verfügbar zu machen. Hieraus ergeben sich zwei neue Problematiken: Einerseits müssen nun vorgehaltene Daten müssen auf ihre Aktualität getestet und eventuell aktualisiert werden. Anderseits müssen, sobald eine Internetverbindung zum initialen Laden der Applikation nicht mehr relevant ist, auch zwingend Interaktionen welche nicht nur für die aktuelle Instanz relevant sind, lokal gespeichert und beim wieder erlangen einer Verbindung zum Server mit diesem abgeglichen werden.
 
 Beim Aufbau einer diesen Paradigmen folgenden Applikation ist es von Interesse einem "offline-first" Ansatz zu folgen. Ähnlich wie es bereits Standard ist sich beim Webdesign an "mobile-first" zu orientieren, betrachtet man quasi das schwächste beziehungsweise eingeschränkteste Glied der Kette als den Standard: Im optimalen Fall ist alles, was auf diesem Gerät nicht funktioniert, optional. Bei "mobile-first" ist so das Smartphone-Display meist der Maßstab für den gestaltet wird. An größere Displays passt sich das Layout dann möglichst durch relativ definierte Größen von Schriften und Containern und dynamisches fließen der Elemente, so dass je nach verfügbarer Fläche mehr oder weniger Container nebeneinander angezeigt werden, an. "offline-first" nimmt nun also das fehlen einer Internetverbindung als den Standard an. Alle Reaktionen auf Nutzeraktionen werden lokal berechnet und durchgeführt. Erst in einem zweiten Schritt werden diese dann, sobald eine Internetverbindung verfügbar ist, mit dem Server abgeglichen. Hierbei gilt, dass der Server immer "Recht" hat: Falls der Server als Ergebnis einer Aktion etwas anderes präsentiert als der Client, ersetzt das Ergebnis des Servers nachträglich das des Clients. Dies ist relevant da die Integrität des auf Clientseite ausgeführten Codes nicht garantiert werden kann. Somit kann es passieren, dass die Client-Applikation eine bestimmte Interaktion wie zum Beispiel das Löschen eines (wie auch immer gearteten) Eintrages genehmigt und lokal durchführt, der Server aber anderer Auffassung ist und die Löschung auf seiner Seite nicht durchführt und damit auch dem Client den Auftrag gibt sie rückgängig zu machen.
+
+<!-- TODO: Get the initial request arrow to the left -->
+```{.dot caption="User/Client/Server Kommunikations--Struktur einer traditionellen Webseite oder Webapplikationen. " label="website"}
+digraph {
+  node [shape=none];
+  SERV [label="Server"];
+  APP1 [label="Client-Instanz"];
+  APP2 [label="Client-Instanz"];
+  APP3 [label="..."];
+  VOID [label=""]
+  USER [label="User"];
+  {rank=same;APP1 APP2 APP3};
+  {rank=same;VOID USER};
+  {rank=max;SERV}
+
+  SERV -> APP1 [texlbl="\textbf{(2)} response"];
+  USER -> APP1 [texlbl="\textbf{(3)} interaction"];
+  APP1 -> SERV [texlbl="\textbf{(4)} request"]
+  SERV -> APP2 [texlbl="\textbf{(5)} response"];
+  USER -> APP2 [texlbl="\textbf{(6)} interaction"];
+  APP2 -> SERV [texlbl="\textbf{(7)} request"]
+  SERV -> APP3 [texlbl=""];
+  USER -> APP3 [texlbl=""];
+  VOID -> SERV [texlbl="\textbf{(1)} initial request"];
+}
+```
+
+```{.dot caption="Konzept einer Single-Page-Webapplikation. Kanten mit einer $\infty$-Markierung können sich beliebig oft wiederholen, Kanten ohne eben solche werden nur beim initialen Aufruf der Applikation angewendet. Gestrichelte Linien beschreiben Ereignisse, welche im Hintergrund ausgeführt werden und die weitere Interaktion mit der Applikation nicht blockieren." label="spa"}
+digraph {
+  rankdir=BT
+  node [shape=none];
+  USER [label="User"];
+  SERV [label="Content-Server"];
+  API [label="API-Server"];
+  APP [label="Single-Page-Application"];
+  {rank=same;SERV API};
+  {rank=same;USER APP};
+
+  USER -> SERV [texlbl="\textbf{(1)} initial request"];
+  SERV -> APP [texlbl="\textbf{(2)} response"];
+  API  -> APP [texlbl="\textbf{($\infty$)} responses" style=dashed];
+  APP  -> API [texlbl="\textbf{($\infty$)} requests" style=dashed];
+  USER -> APP [texlbl="\textbf{($\infty$)} interactions" style=dashed];
+}
+```
 
 
 

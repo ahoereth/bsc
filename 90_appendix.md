@@ -30,6 +30,7 @@ to maintain
   \acro{ES}{Ecma-Script}
   \acro{MVC}{Model-View-Controller}
   \acro{REST}{Representational State Transfer}
+  \acro{API}{Application Programming Interface}
 \end{acronym}
 
 

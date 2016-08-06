@@ -1,6 +1,6 @@
-all: thesis_skeleton.latex 00_abstract.latex
-	pandoc config.yaml [1-9][0-9]*.md \
-		--include-before=00_abstract.latex \
+all: thesis_skeleton.latex 000_abstract.latex
+	pandoc config.yaml [1-9][0-9][0-9]_*.md \
+		--include-before=$(word 2,$^) \
 		--atx-headers \
 		--latex-engine=pdflatex \
 		--template=$< \

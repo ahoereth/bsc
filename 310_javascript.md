@@ -1,5 +1,3 @@
-# Technologien und Paradigmen
-\label{sec:technology}
 
 ## JavaScript
 \label{sec:javascript}

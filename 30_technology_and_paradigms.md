@@ -1,24 +1,8 @@
-## Architektur
-\label{sec:architecture}
+# Technologien und Paradigmen
+\label{sec:technology}
 
-  * API-Server / SPA-Client Architektur Entscheidung (Strukturell)
-  * Programmiersprachliche Entscheidung, einführung in Javascript
-
-Konzeptionell gilt es für die initiale Web-Applikation drei unabhängige Architekturen zu entwickeln:
-
-  a) Datenbank
-  b) Server
-  c) Client
-
-Bei dem Clienten handelt es sich im Rahmen dieser Arbeit, wie zuvor erläutert, um ein möglichst breites Spektrum an unterschiedlichen Plattformen erreichen zu können, bei dem Client um eine reine Web-Applikation. Um für zukünftige native Applikationen für die verschiedenen Plattformen gerüstet zu sein wird der Server als reiner \ac{API}-Server entwickelt, welcher unabhängig von den eigentlichen Applikationen agieren kann. Er stellt eine Reihe von klar definierten Schnittstellen bereit, welche die reinen Daten unabhängig von ihren in den verschiedenen Applikationen später möglicherweise sehr unterschiedlichen visuellen Repräsentationen bereit stellt. Die Datenbank als dritte, den anderen beiden zu Grunde liegende, Komponente wird eng gekoppelt mit dem API-Server entwickelt um die Daten möglichst effizient bereitstellen zu können. 
-
-Neben dieser für den Betrieb der eigentlichen Applikation notwendigen Architektur gilt es außerdem 
-Neben dem API-Server wird auf sie von verschiedenen Skripten aus zugegriffen welche (in Zukunft möglichst automatisiert) Aktualisierungen der vorhandenen Gesetze vornehmen.
-
-((Zusätzlich, allerdings nicht unbedingt im Rahmen dieser Arbeit, wird eine Landing-Page für das Produkt entwickelt. Mithilfe von A/B-Testing wird diese Schritt für Schritt optimiert und sondiert, noch vor allgemeiner Verfügbarkeit des eigentlichen Produkts, mögliche Interessenten und versucht diese zur Registrierung mit ihrer E-Mailadresse zu überzeugen.))
-
-
-### JavaScript
+## JavaScript
+\label{sec:javascript}
 
 Softwaretechnisch wird auf Server- und Client-Seite primär auf JavaScript in seiner aktuellsten Iteration gesetzt. Die Verwendung der gleichen Sprache erleichtert die Wartung und ermöglicht den Einsatz von universellem, sogenannten isomorphischem, Code: Server und Client können auf die gleichen Bibliotheken zugreifen und gegebenenfalls Funktionen oder Klassen teilen.
 

@@ -1,8 +1,31 @@
 ## Client
-\label{sec:client}
 
-### Single-Page-Applications
-\label{sec:webapps}
+
+### Web-Browser als Software Plattform
+\label{sec:browserSE}
+
+Die Wahl der Programmiersprache zum entwickeln einer Web-Anwendung ist einfach: Es gibt keine Auswahl. Nur JavaScript ist in allen Web-Browsern verfügbar und damit die einzige mögliche Wahl. Zwar gibt es eine Hand voll Sprachen welche zu JavaScript [transcompiliert](#glossar), also übersetzt, werden, zu Zeiten zu denen sich der \ac{ES} Standard und seine Adoptionsrate schnell durchsetzt sind diese aber nur bei Notwendigkeit einer sehr speziellen Gruppe von Funktionen interessant. ((Single outstanding feature: Strong Typing from Typescript))
+
+[Transcompilierung](#glossar) ist aber unabhängig von anderen Sprachen relevant. JavaScripts größter Vorteil, dass es in quasi jeder Browser Umgebung verfügbar ist, und dessen rasant fortschreitende Entwicklung, ist auch eine markante Achillesferse: Als Entwickler kann man nicht annehmen, dass Anwender einen Browser einsetzen welcher die aktuellste Iteration der Sprache standardkonform umsetzt. Aus diesem Grund haben sich Tools zur Transcompilierung des aktuellsten \ac{ES} Standards zu breiter unterstützten, älteren Iterationen durchgesetzt. In Kombination mit sogenannten [Polyfills](#glossar), Codes welche noch nicht vorhandene Funktionen mithilfe bestehender Funktionen nach implementieren, ist es so möglich den aktuellsten Stand der Sprache einzusetzen und trotzdem vom Vorteil der breiten Verfügbarkeit zu profitieren.
+
+
+
+### Too many choices
+\label{sec:choiceofframeworks}
+
+Umso überschaubarer das Feld der zur Auswahl stehenden Programmiersprachen für die Entwicklung einer \ac{SPA} sind, umso breiter ist das Feld an [Frameworks](#glossar). Durch die immer weiter steigenden Anforderungen an Web- und Mobil- Applikationen im Allgemeinen sind auch best-practice Standards im ständigen Wandel. Das traditionell im Bereich der Frontend Entwicklung vorherrschende Konzept von \ac{MVC} zum Beispiel wird durch 
+
+
+Framework
+: Ein Framework (englisch für Rahmenstruktur) ist ein Programmiergerüst, das in der Softwaretechnik, insbesondere im Rahmen der objektorientierten Softwareentwicklung sowie bei komponentenbasierten Entwicklungsansätzen, verwendet wird. Im allgemeineren Sinne bezeichnet man mit Framework auch einen Ordnungsrahmen.^[de.wikipedia.org]
+
+**Entscheidung pro React**
+
+
+### Universal Apps
+
+### Single-Page-Applications (SPA)
+\label{sec:spa}
 
 Bei traditionellen Webseiten und auch Webapplikationen führt bei einer \ac{SPA} nicht jede Interaktion zu einem vollständigen sogenannten Client-Server-Round-Trip. Bei einem solchen wird traditionell durch jede Interaktion eine Anfrage an den Server gestellt welcher auf Grundlage dieser eine neue Seite generiert und an den Client schickt, welcher die vorherige Seite dann durch die neue ersetzt.
 
@@ -61,18 +84,8 @@ digraph {
 }
 ```
 
-
-
-### Web-Browser als Software Plattform
-\label{sec:browserSE}
-
-Die Wahl der Programmiersprache zum entwickeln einer Web-Anwendung ist einfach: Es gibt keine Auswahl. Nur JavaScript ist in allen Web-Browsern verfügbar und damit die einzige mögliche Wahl. Zwar gibt es eine Hand voll Sprachen welche zu JavaScript [transcompiliert](#glossar), also übersetzt, werden, zu Zeiten zu denen sich der \ac{ES} Standard und seine Adoptionsrate schnell durchsetzt sind diese aber nur bei Notwendigkeit einer sehr speziellen Gruppe von Funktionen interessant. ((Single outstanding feature: Strong Typing from Typescript))
-
-[Transcompilierung](#glossar) ist aber unabhängig von anderen Sprachen relevant. JavaScripts größter Vorteil, dass es in quasi jeder Browser Umgebung verfügbar ist, und dessen rasant fortschreitende Entwicklung, ist auch eine markante Achillesferse: Als Entwickler kann man nicht annehmen, dass Anwender einen Browser einsetzen welcher die aktuellste Iteration der Sprache standardkonform umsetzt. Aus diesem Grund haben sich Tools zur Transcompilierung des aktuellsten \ac{ES} Standards zu breiter unterstützten, älteren Iterationen durchgesetzt. In Kombination mit sogenannten [Polyfills](#glossar), Codes welche noch nicht vorhandene Funktionen mithilfe bestehender Funktionen nach implementieren, ist es so möglich den aktuellsten Stand der Sprache einzusetzen und trotzdem vom Vorteil der breiten Verfügbarkeit zu profitieren.
-
-
-
-### Grundlegende Architektur
+### Komponenten-Hierarchien
+\label{sec:components}
 
 Software Projekte aller Art leiden ab einer gewissen Größe unter ihrem eigenen Funktionsumfang -- der zu Grunde liegende Code läuft Gefahr mit wachsendem Umfang unübersichtlich zu werden. Um dies zu vermeiden ist eine klare Codestruktur notwendig. Für user-facing applications hat sich diesbezüglich für lange Zeit das \ac{MVC} Prinzip etabliert. Dieses beschreibt den Ansatz jede einzelne Ansicht der Applikation in drei miteinander interagierenden Teilen zu beschreiben: Der *View* für die Visualisierung der durch das *Model* beschrieben und mithilfe des *Controllers* zur Verfügung gestellten Daten. 
 
@@ -94,6 +107,9 @@ digraph {
 ```
 
 <!-- TODO: Add visual outline of TodoApp -->
+
+### Uni-Direktionaler Datenfluss
+\label{sec:dataflow}
 
 Eine weitere Problematik ist, dass traditionell jeder Baustein einer Applikation über einen eigenen selbstverwalteten Zustand verfügt den er selbst durch den Controller und Interaktionen mit dem View manipuliert und gegebenenfalls über das Model an den wie auch immer gearteten persistenten Zustand (wie z.B. die Datenbank oder API) weiter gibt. Hieraus resultiert wieder die Schwierigkeit dass der Zustand eventuell von mehreren Teilen der Applikation benötigt und eventuell auch von mehreren manipuliert wird. <!-- TODO: Reasoning auf Deutsch? --> Reasoning über sich durch verschiedene Aktionen ergebende Ereignisse und Zustandsänderungen in der gesamt Applikation werden schwer.
 
@@ -120,45 +136,6 @@ digraph {
 Durch die Kombination einer modularen Komponenten-Hierarchie mit uni-direktionalen Datenfluss und zentral verwalteten globalen Zustand ergibt sich ein dem funktionellen Programmieren ähnlichen Einfachheit: Atomare Bestandteile der Applikation generieren deterministisch gegeben dem gleichen Zustand unabhängig vom Rest der Applikation testbar das gleiche Resultat.
 
 
+### Unveränderbare Daten
+\label{sec:immutable}
 
-
-* Redux
-* Zentraler Store
-* Linearer Datenstrom
-
-#### Actions
-
-#### Reducers
-
-#### Store
-
-### React
-
-* Komponenten Hierarchie
-* Virtual DOM
-
-```{.dot caption="\textbf{Home} component layout" label="components_home"}
-digraph {
-  HomeContainer -> Home;
-  Home -> WelcomeMessage;
-  Home -> LoginForm;
-  Home -> LawList;
-}
-```
-
-#### Container
-
-* Interaktion mit Redux
-
-#### Components
-
-* *Dumme* Komponenten
-* Weiß nichts von Redux --> leicht zu testen
-* Zum großen Teil komplett state less -> leicht zu testen
-
-
-\pagebreak
-
-### Design
-
-* Material Design

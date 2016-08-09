@@ -1,8 +1,8 @@
 
-\documentclass[twoside,openright,titlepage,numbers=noenddot,headinclude=True,parts,%1headlines,% letterpaper a4paper
-                footinclude=false,cleardoublepage=empty,abstractoff, % <--- obsolete, remove (todo)
+\documentclass[twoside,openright,titlepage,numbers=noenddot,headinclude=True,parts,
+                footinclude=false,cleardoublepage=empty,abstractoff,
                 dvipsnames,
-                BCOR={{ BCOR }},fontsize={{ fontsize }},{{ language }},%
+                BCOR={{ BCOR }},fontsize={{ fontsize }},{{ language }},
                 ]{$documentclass$}
 
 $if(fontfamily)$
@@ -42,11 +42,9 @@ $endif$
 % Fixing bug related to Pandoc to Latex conversion
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 % \def\tightlist{}
-\def\include{}
+\def\include{} % marginpar bug
 
-\definecolor{Maroon}{cmyk}{0, 0.87, 0.68, 0.32}
-\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
-\definecolor{Black}{cmyk}{0, 0, 0, 0}
+\definecolor{lightlightgray}{gray}{0.95}
 
 \usepackage[gen]{eurosym}
 
@@ -150,26 +148,26 @@ $endif$
 % 5. Setup code listings
 % ******************************************************************************
 \usepackage{listings}
-\lstset{emph={trueIndex,root},emphstyle=\color{BlueViolet}}%\underbar} % for special keywords
-\lstset{language=[LaTeX]Tex,%C++,
-    keywordstyle=\color{RoyalBlue},%\bfseries,
-    basicstyle=\small\ttfamily,
-    %identifierstyle=\color{NavyBlue},
-    commentstyle=\color{Green}\ttfamily,
-    stringstyle=\rmfamily,
-    numbers=none,%left,%
-    numberstyle=\scriptsize,%\tiny
-    stepnumber=5,
-    numbersep=8pt,
-    showstringspaces=false,
-    breaklines=true,
-    frameround=ftff,
-    frame=single,
-    belowcaptionskip=.75\baselineskip
-    %frame=L
+\lstdefinestyle{code}{
+  keywordstyle=\color{RoyalBlue},
+  backgroundcolor=\color{lightlightgray},
+  basicstyle=\small\ttfamily,
+  commentstyle=\color{Green}\ttfamily,
+  numberstyle=\tiny,
+  extendedchars=true,
+  showstringspaces=false,
+  showspaces=false,
+  numbers=left,
+  numbersep=9pt,
+  tabsize=2,
+  breaklines=true,
+  showtabs=false,
+  captionpos=b
 }
 
-
+\lstset{language=python, style=code}
+\lstset{language=java, style=code}
+% \lstset{language=javascript, style=code} % TODO: errors?!
 
 
 % ********************************************************************
@@ -226,14 +224,7 @@ $endif$
 % Last, but not least...
 % ********************************************************************
 \usepackage{classicthesis}
-
-{% if crop %}
-%\usepackage[{{ paper }}paper]{geometry}
-%\usepackage[cam,{{ crop }},center,frame]{crop}
-\usepackage[{{ crop }}paper,layout={{ paper }}paper,layouthoffset=17mm,layoutvoffset=23.5mm,showcrop]{geometry}
-{% else %}
-\usepackage[{{ paper }}paper,layout={{ paper }}paper]{geometry}
-{% endif %}
+\usepackage[{{ paper }}paper,layout={{ paper }}paper,top=72pt,bottom=48pt,textwidth=336pt]{geometry}
 % ******************************************************************************
 
 

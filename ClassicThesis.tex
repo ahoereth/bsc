@@ -1,6 +1,7 @@
 
-\documentclass[twoside,openright,titlepage,numbers=noenddot,headinclude=True,footinclude=True,parts,%1headlines,% letterpaper a4paper
-                footinclude=true,cleardoublepage=empty,abstractoff, % <--- obsolete, remove (todo)
+\documentclass[twoside,openright,titlepage,numbers=noenddot,headinclude=True,parts,%1headlines,% letterpaper a4paper
+                footinclude=false,cleardoublepage=empty,abstractoff, % <--- obsolete, remove (todo)
+                dvipsnames,
                 BCOR={{ BCOR }},fontsize={{ fontsize }},{{ language }},%
                 ]{$documentclass$}
 
@@ -15,14 +16,14 @@ $if(linestretch)$
 $endif$
 
 \usepackage{parskip}
-\setlength{\parindent}{15pt}
+% \setlength{\parindent}{15pt}
 
 %********************************************************************
 % Note: Make all your adjustments in here
 %*******************************************************
 
 \usepackage[utf8]{inputenc}
-\usepackage{url}
+\usepackage[hyphens]{url}
 \usepackage{microtype}
 \usepackage{booktabs}
 \usepackage{tabulary}
@@ -32,6 +33,10 @@ $endif$
 \usepackage{enumitem}
 \usepackage{longtable}
 \usepackage{tikz}
+\usepackage{ragged2e}
+\usepackage{float}
+
+
 \setlist{nolistsep}
 
 % Fixing bug related to Pandoc to Latex conversion
@@ -60,7 +65,7 @@ $endif$
   % manychapters,
   pdfspacing,
   parts
-  ,drafting
+  % ,drafting
   % subfig,beramono,eulermath,eulerchapternumbers,floatperchapter,minionprospacing
   % nochapters, tocaligned
 }{classicthesis}
@@ -208,7 +213,8 @@ $endif$
     pdfproducer={LaTeX with hyperref and classicthesis}%
 }
 \urlstyle{same}  % don't use monospace font for urls
-
+\Urlmuskip=0mu plus 2mu % break long url
+% \def\UrlBreaks{\do\/\do-}
 
 $if(numbersections)$
 \setcounter{secnumdepth}{5}

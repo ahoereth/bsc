@@ -1,4 +1,8 @@
 /ignore/
-/thesis.pdf
 /env/
+/scripts/.cabal-sandbox/*
+/scripts/cabal.sandbox.config
 /*.latex
+/thesis.pdf
+
+!/scripts/.cabal-sandbox/world

@@ -1,8 +1,8 @@
-/ignore/
 /env/
+/ignore/
+/assets/*.class
 /scripts/.cabal-sandbox/*
+!/scripts/.cabal-sandbox/world
 /scripts/cabal.sandbox.config
 /*.latex
 /thesis.pdf
-
-!/scripts/.cabal-sandbox/world

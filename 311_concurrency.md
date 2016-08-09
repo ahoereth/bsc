@@ -1,16 +1,18 @@
 ### Concurrency
 Bei der Interpretation von Quelltext oder auch der Ausführung von compilierten Code wird sequentiell, also Operation für Operation in der im Quelltext vorgegebenen linearen Ordnung, ausgeführt. Dabei blockiert jede einzelne Operation das fortschreiten der Ausführung bis zu ihrer vollständigen Beendigung. Werden nun I/O-Operationen genauso wie alle anderen Operationen synchron bzw. blockierend ausgeführt, können unkalkulierbare Wartezeiten entstehen: Das ausführende Programm begibt sich in komplette Abhängigkeit zu einem anderen Programm bis dieses seine Berechnungen fertiggestellt hat. Bei linearem Code ist dieses blockierende Vorgehen nicht ohne weiteres vermeidbar, da spätere Zeilen Code in der Regel auf den erfolgreichen Abschluss der Ausführung von vorhergehenden Zeilen angewiesen sind.
 
-Bei einfachen Programmen ist diese Herangehensweise meist unproblematisch und auch anerkannt. Informatiker wird zu Beginn Ein- und Ausgabe als synchrone Operation beigebracht. Das erste Programm für angehende Programmierer ist oft vergleichbar mit dem in Quelltext-Ausschnitt @lst:javaio dargestellten Programm-Quelltext: Die Eingabe-Operation `IO.readInt()` in Zeile 4 unterbricht implizit die Programmausführung, bis die Nutzereingabe (durch einen Zeilenumbruch bzw. das einlesen des `\textbackslash n` Charakters) beendet ist. Zeile 5 kann nur ausgeführt werden, wenn Zeile 4 erfolgreich ausgeführt wurde. Dies gilt unabhängig davon, ob der weitere Verlauf des Programms von dem Ergebnis der Eingabe in Zeile 4 abhängt.
+Bei einfachen Programmen ist diese Herangehensweise meist unproblematisch und auch anerkannt. Informatiker wird zu Beginn Ein- und Ausgabe als synchrone Operation beigebracht. Das erste Programm für angehende Programmierer ist oft vergleichbar mit dem in Quelltext-Ausschnitt @lst:javaio dargestellten Programm-Quelltext: Die Eingabe-Operation `IO.readInt()` in Zeile 6 unterbricht implizit die Programmausführung, bis die Nutzereingabe (durch einen Zeilenumbruch bzw. das einlesen des `\textbackslash n` Charakters) beendet ist. Zeile 7 kann nur ausgeführt werden, wenn Zeile 5 erfolgreich ausgeführt wurde. Dies gilt unabhängig davon, ob der weitere Verlauf des Programms von dem Ergebnis der Eingabe in Zeile 5 abhängt.
 
-Listing: Java-Programm mit grundlegenden Ein- und Ausgabe-Operationen für Text
+Listing: Java-Programm mit Text Ein- und Ausgabe-Operationen
 
 ~~~{#lst:javaio .java}
-import AlgoTools.IO;
-public class HelloWorldIO {
+import java.util.Scanner;
+public class JavaIO {
   public static void main(String[] argv) {
-    int name = IO.readInt("Name: ");
-    IO.println("Hello " + name);
+    Scanner in = new Scanner(System.in);
+    System.out.print("Your name: ");
+    String name = in.nextLine();
+    System.out.println("Hello " + name);
   }
 }
 ~~~

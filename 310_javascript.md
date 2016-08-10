@@ -5,7 +5,9 @@ TODO: Hier auf mehr Vorteile eingehen, auch wenn sie später noch im Detail erl�
 
 Auf Client-Seite ist JavaScript die einzige Programmiersprache mit breiter Unterstützung in allen gängigen Browsern. Um JavaScript auch auf Serverseite zu interpretieren wird auf die Node.js Laufzeitumgebung gesetzt. 
 
-Das Open Source Projekt Node.js (auch einfach *node* genannt) wurde initial 2009 vorgestellt. Ryan Dahl begann die Entwicklung initial auf Grund seiner Frustration mit den zu diesem Zeitpunkt vorherrschenden Webserver Laufzeitumgebungen. Durch die Notwendigkeit zu immer mehr und komplexeren Ein- und Ausgabe (I/O) Operationen, also der Kommunikation eines Programms mit seinem Umfeld, stießen traditionelle Systeme zunehmend an ihre Grenzen.[^Ryan Dahl's original Node.js presentation: https://www.youtube.com/watch?v=ztspvPYybIY]
+Das Open Source Projekt Node.js (auch einfach *node* genannt) wurde initial 2009 vorgestellt. Ryan Dahl begann die Entwicklung initial auf Grund seiner Frustration mit den zu diesem Zeitpunkt vorherrschenden Webserver Laufzeitumgebungen. Durch die Notwendigkeit zu immer mehr und komplexeren Ein- und Ausgabe (I/O) Operationen, also der Kommunikation eines Programms mit seinem Umfeld, stießen traditionelle Systeme zunehmend an ihre Grenzen.[^nodejstalk]
+
+[^nodejstalk]: Ryan Dahl's original Node.js presentation: [youtu.be/ztspvPYybIY](https://youtu.be/ztspvPYybIY)
 
 Node interpretiert JavaScript-Quelltext mithilfe von Googles JavaScript Engine V8, welche auch in Googles hauseigenem Browser Chrome eingesetzt wird. 
 

@@ -12,27 +12,25 @@ def dotpng(key, value, format, meta):
     [[ident, classes, keyvals], code] = value
     if 'dotpng' in classes:
       caption = ''
-      label = ''
       sizing = 'width=\\textwidth'
       for k, v in keyvals:
         if k == 'caption': caption = v
-        if k == 'label':   label   = v
         if k == 'width':   sizing  = 'width='+v
         if k == 'height':  sizing  = 'height='+v
-        if k == 'scale':   ssizing = 'scale='+v
+        if k == 'scale':   sizing  = 'scale='+v
 
       dst = get_filename4code('graphviz', code, 'png')
       p = Popen(['dot', '-Tpng', '-o', dst], stdout=PIPE, stdin=PIPE, stderr=PIPE)
       p.communicate(bytes(code, 'utf-8'))
 
       result = '''
-        \\begin{figure}
+        \\begin{figure}[H]
           \\centering
           \\includegraphics[%s]{%s}
           \\caption{%s}
           \\label{%s}
         \\end{figure}
-      ''' % (sizing, dst, caption, label)
+      ''' % (sizing, dst, caption, ident)
       return { 'c': ['latex', result], 't': 'RawBlock' }
 
 if __name__ == '__main__':

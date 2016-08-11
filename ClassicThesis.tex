@@ -168,10 +168,25 @@ $endif$
   captionpos=b
 }
 
+
+\lstdefinelanguage{javascript}{
+  keywords={do, if, in, for, let, new, try, var, case, else, enum, eval, null, this, true, void, with, await, break, catch, class, const, false, super, throw, while, yield, delete, export, import, public, return, static, switch, typeof, default, extends, finally, package, private, continue, debugger, function, arguments, interface, protected, implements, instanceof},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  sensitive=true
+}
+
 \lstset{language=python, style=code}
 \lstset{language=java, style=code}
-% \lstset{language=javascript, style=code} % TODO: errors?!
-
+\lstset{language=javascript, style=code}
 
 % ********************************************************************
 % Using PDFLaTeX

@@ -1,4 +1,4 @@
-### Laufzeit
+### Laufzeit {#sec:js:runtime}
 
 Listing: JavaScript Runtime Environment Model
 
@@ -55,7 +55,7 @@ function foo() {
   }, 3000);
 }
 foo();
-console.log('end');"
+console.log('end');
 ~~~
 
 

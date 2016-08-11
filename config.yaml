@@ -16,6 +16,9 @@ link-citations: True
 listings: True
 codeBlockCaptions: True
 lstPrefix:
-  - Listing
-  - Listings
+  -
+  -
+secPrefix:
+  - Abschnitt
+  -
 ---

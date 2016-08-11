@@ -17,6 +17,18 @@ Polyfill
 to maintain
   : $\,$
 
+thread
+  : $\,$
+  : prozess
+
+concurrency
+  : $\,$
+  : prozess
+
+JIT
+  : Just-in-time-Kompilierung
+  : Übersetzung zu Maschinencode von Programmen oder einzelnen Teilen dieser zur Laufzeit.
+
 
 # Abkürzungsverzeichnis
 \label{sec:abbreviations}
@@ -27,10 +39,12 @@ to maintain
   \acro{SPA}{Single Page Application}
   \acro{BRAK}{Bundesrechtsanwaltskammer}
   \acro{beA}{besonderes elektronisches Anwaltspostfach}
-  \acro{ES}{Ecma-Script}
+  \acro{ES}{ECMAscript}
+  \acro{ES6}{ECMAScript 6}
   \acro{MVC}{Model-View-Controller}
   \acro{REST}{Representational State Transfer}
   \acro{API}{Application Programming Interface}
+  \acro{JIT}{Just-in-time-Kompilierung}
 \end{acronym}
 
 

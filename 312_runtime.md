@@ -64,7 +64,7 @@ Beim Aufruf einer Funktion aus dem Skript diese gemeinsam mit ihren Parametern a
 
 [^ecma_callstack]: Quelle [ECMA Spezifikation](http://www.ecma-international.org/ecma-262/5.1/#sec-10.3]
 
-Listing: Callstack für in Listing 1 (TODO) dargestellten Quelltext, Teil 1
+Listing: Callstack-Ausschnitt \\#1 zu Listing \\ref{lst:js_script}
 
 ~~~{#lst:js_callstack1 .dotpng scale=.33}
 digraph structs {
@@ -100,7 +100,7 @@ Der in Abbildung @lst:js_callstack1 dargestellte Callstack behandelt nur synchro
 
 Während sich das umgebende System nun also mit dem Ausführen des Timeouts beschäftigt, wird auf JavaScript-Ebene der Callstack, wie in Abbildung @lst:js_callstack2 dargestellt, weiter abgearbeitet ohne für für die Wartezeit blockiert zu sein. Der Callstack schreitet also mit der sequentiellen Abarbeitung des Scripts fort, bis die letzte dort definierte Operation ausgeführt, egal ob direkt oder über die lokalen APIs, wurde. Sobald er keine weiteren Aufgaben hat, benachrichtigt er die Ereignisschleife (eng. Event Loop), vrgl. Abbildung @lst:js_model: $Call\,Stack \rightarrow Event\,Queue$.
 
-Listing: Callstack für in Listing 1 (TODO) dargestellten Quelltext, Teil 2
+Listing: Callstack-Ausschnitt \\#2 zu Listing \\ref{lst:js_script}
 
 ~~~{#lst:js_callstack2 .dotpng scale=.33}
 digraph structs {
@@ -126,7 +126,7 @@ digraph structs {
 #### Event Loop & Task Queue
 Sobald die eine native \ac{API} ihre Berechnungen beendet hat, reiht sie es inklusive den ihr zuvor übergebenen Callback-Pointer an die Aufgabenwarteschlange (eng. Task-Queue) an. Die Ereignisschleife (eng. Event Loop) überwacht die Task-Queue und wartet darauf, vom Callstack über seine vollständige Abarbeitung benachrichtigt zu werden. Sobald diese Benachrichtigung erfolgt nimmt der Loop das am längsten in der Schlange wartende Element und legt es als Stack Frame wieder auf den Callstack auf, siehe Abbildung @lst:js_callstack3 und die Route $Call\,Stack \rightarrow Event\,Loop \leftrightarrow Task\,Queue \leftarrow Native\,APIs$ in Abbildung @lst:js_model.
 
-Listing: Callstack für in Listing 1 (TODO) dargestellten Quelltext, Teil 3
+Listing: Callstack-Ausschnitt \\#3 zu Listing \\ref{lst:js_script}
 
 ~~~{#lst:js_callstack3 .dotpng scale=.33}
 digraph structs {

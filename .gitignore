@@ -2,6 +2,7 @@
 /graphviz-images/
 /ignore/
 /assets/*.class
+/scripts/__pycache__/
 /scripts/.cabal-sandbox/*
 !/scripts/.cabal-sandbox/world
 /scripts/cabal.sandbox.config

@@ -19,6 +19,7 @@ Listing: JavaScript Runtime Environment Model
 ~~~{#lst:javascriptenv .dot}
 digraph G {
   node [shape=square];
+  splines=false;
 
   somenode [style=invis];
   script [shape=none];
@@ -28,16 +29,30 @@ digraph G {
   eventloop [label="Event Loop"];
   taskqueue [label="Task Queue"];
 
-  script -> callstack [label="push()"];
-  execution -> callstack [label="pop()" dir=back];
-  callstack -> native [label="pop(): nativeFunc, callback"]
-  eventloop -> taskqueue [label="waitForEvent()"];
-  eventloop -> callstack [label="push(callback, result)"]
-  native -> taskqueue [label="enqueue(callback, result)"];
-  taskqueue -> eventloop [label="dequeue(): callback, result"];
-
-  {rank=same;script execution}
+  {rank=same;script execution};
   {rank=same;callstack native};
   {rank=same;eventloop taskqueue};
+
+  callstack -> execution [label="pop()"];
+  callstack -> native [label="pop(): nativeFunc, callback"];
+  native -> taskqueue [label="enqueue(callback, result)"];
+
+  // Hack 1: Label on the left. Bonus: Whitespace fun.
+  script -> callstack [label="push()"];
+  script -> callstack [label="          "];
+
+  // Hack 2: 2 bend arrows with labels on either side.
+  callstack:s -> eventloop:n [label="notify() when empty" color=white];
+  eventloop:n -> callstack:s [label="push(callback, result)" color=white];
+  eventloop:c -> callstack:c [topath="bend right"];
+  callstack:c -> eventloop:c [topath="bend right"];
+
+  // Hack 3...
+  taskqueue -> eventloop [label="invisible massively long label" style=invis];
+  taskqueue -> eventloop [label="dequeue(): callback, result"];
+  eventloop -> taskqueue [label="waitForEvent()"];
+}
+~~~
+
 }
 ~~~

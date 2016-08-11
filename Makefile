@@ -6,7 +6,6 @@ all: thesis_skeleton.latex 000_abstract.latex
 		--latex-engine=pdflatex \
 		--bibliography=library.bib \
 		--csl=apa.csl \
-		--include-in-header=scripts/pandoc-dot2tex-filter/tikz-preamble.latex \
 		--filter=./scripts/.cabal-sandbox/bin/pandoc-crossref \
 		--filter=./scripts/.cabal-sandbox/bin/pandoc-citeproc \
 		--filter=./scripts/dot2tex.py \

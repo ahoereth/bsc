@@ -17,14 +17,15 @@ def dot2tex(key, value, format, meta):
         if k == 'label': label = v
         if k == 'width': width = v
 
-      # p = Popen(['dot2tex', '--figonly', '--autosize', '--codeonly'],
-      #           stdout=PIPE, stdin=PIPE, stderr=PIPE)
-      p = Popen(['fdp'], stdout=PIPE, stdin=PIPE, stderr=PIPE)
-      dot, err = p.communicate(bytes(graph, 'utf-8'))
-
-      p2 = Popen(['dot2tex', '-ftikz', '--codeonly'],
+      p = Popen(['dot2tex', '--codeonly'],
                 stdout=PIPE, stdin=PIPE, stderr=PIPE)
-      code, err = p2.communicate(dot)
+      code, err = p.communicate(bytes(graph, 'utf-8'))
+      # p = Popen(['fdp'], stdout=PIPE, stdin=PIPE, stderr=PIPE)
+      # dot, err = p.communicate(bytes(graph, 'utf-8'))
+
+      # p2 = Popen(['dot2tex', '-ftikz', '--codeonly'],
+      #           stdout=PIPE, stdin=PIPE, stderr=PIPE)
+      # code, err = p.communicate(dot)
 
       if len(err) != 0:
           raise ValueError(err.decode('utf-8'))

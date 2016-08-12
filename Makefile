@@ -8,9 +8,7 @@ all: thesis_skeleton.latex 000_abstract.latex
 		--csl=apa.csl \
 		--filter=./scripts/.cabal-sandbox/bin/pandoc-crossref \
 		--filter=./scripts/.cabal-sandbox/bin/pandoc-citeproc \
-		--filter=./scripts/dot2tex.py \
-		--filter=./scripts/dotpng.py \
-		--filter=./scripts/dotpdf.py \
+		--filter=./scripts/dot.py \
 		--listings \
 		-f markdown+definition_lists \
 		-o thesis.pdf

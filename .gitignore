@@ -1,5 +1,5 @@
 /env/
-/graphviz-images/
+/dot-images/
 /ignore/
 /assets/*.class
 /scripts/__pycache__/

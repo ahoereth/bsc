@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from subprocess import Popen, PIPE
-from pandocfilters import toJSONFilter, get_extension, get_caption, get_filename4code, RawBlock, Para, Image
+from pandocfilters import toJSONFilter, get_extension, get_filename4code, RawBlock, Para, Image, RawInline
 
 
 def extract_keyval(keyvals, key, default=None):
@@ -23,6 +23,8 @@ def dot(key, value, pandoctarget, _):
   if not 'dot' in classes:
     return
 
+  caption, keyvals = extract_keyval(keyvals, u'caption', [])
+
   # If src keyval is given, we read the val's file and ignore the block's body.
   # If src class is given, the file is specified in the block's body.
   src, keyvals = extract_keyval(keyvals, 'src')
@@ -39,7 +41,6 @@ def dot(key, value, pandoctarget, _):
 
   if targetformat == 'tex':
     width, keyvals = extract_keyval(keyvals, 'width', '\\columnwidth')
-    caption, _ = extract_keyval(keyvals, 'caption')
 
     p = Popen(['dot2tex', '--codeonly'], stdout=PIPE, stdin=PIPE, stderr=PIPE)
     tikz, err = p.communicate(bytes(code, 'utf-8'))
@@ -61,7 +62,6 @@ def dot(key, value, pandoctarget, _):
     return RawBlock('latex', result)
 
   elif targetformat in ['png', 'pdf']:
-    caption, _, keyvals = get_caption(keyvals)
     dst = get_filename4code('dot', code, targetformat)
 
     p = Popen(['dot', '-T' + targetformat, '-o', dst],
@@ -71,7 +71,9 @@ def dot(key, value, pandoctarget, _):
       raise ValueError(err.decode('utf-8'))
 
     # This overwrites ident prefixes like lst to fig. Desired behavior?
-    return Para([Image([ident, [], keyvals], caption, [dst, 'fig:'])])
+    return Para([Image([ident, [], keyvals],
+                       [RawInline('latex', caption)],
+                       [dst, 'fig:'])])
 
 if __name__ == '__main__':
     toJSONFilter(dot)

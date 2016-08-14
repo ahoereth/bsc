@@ -2,7 +2,7 @@
 
 Listing: JavaScript Runtime Environment Model
 
-~~~{#lst:js_model .dot}
+~~~{#lst:js_model .dot format=png}
 digraph G {
   node [shape=square];
   splines=false;
@@ -19,13 +19,13 @@ digraph G {
   {rank=same;callstack native};
   {rank=same;eventloop taskqueue};
 
-  callstack -> execution [label="pop()"];
+  callstack -> execution [label=" pop()"];
   callstack -> native [label="pop(): nativeFunc, callback"];
-  native -> taskqueue [label="enqueue(callback, result)"];
+  native -> taskqueue [label=" enqueue(callback, result)"];
 
   // Hack 1: Label on the left. Bonus: Whitespace fun.
-  script -> callstack [label="push()"];
-  script -> callstack [label="          "];
+  script -> callstack [label="push()         "];
+  script -> callstack [style=invis];
 
   // Hack 2: 2 bend arrows with labels on either side.
   callstack:s -> eventloop:n [label="notify() when empty" color=white];
@@ -62,7 +62,7 @@ console.log('end');
 #### Callstack
 Beim Aufruf einer Funktion aus dem Skript diese gemeinsam mit ihren Parametern als sogenannter *Stack Frame* auf den Callstack gelegt und ausgeführt. Immer der oberste Frame auf dem Stack befindet sich aktuell in Ausführung und bei Fertigstellung wieder vom Stack heruntergenommen.[^ecma_callstack] In Abbildung @lst:js_model ist dieser $push()/pop()$ Prozess in der $script \rightarrow Call\,Stack \rightarrow execution$ Route oben links sichtbar. Abbildung @lst:js_callstack1 zeigt einen Teil des durch den Quelltext in Listing @lst:js_script entstehenden Callstacks und seinen Auf- und Abbau von links nach rechts.
 
-[^ecma_callstack]: Quelle [ECMA Spezifikation](http://www.ecma-international.org/ecma-262/5.1/#sec-10.3]
+[^ecma_callstack]: Quelle: [ECMA-Spezifikation](http://www.ecma-international.org/ecma-262/5.1#sec-10.3)
 
 Listing: Callstack-Ausschnitt \\#1 zu Listing \\ref{lst:js_script}
 
@@ -148,7 +148,7 @@ digraph structs {
 
 In Listing @lst:js_console wird die Ausgabe des Skripts aus Listing @lst:js_script dargestellt. Hier ist es interessant zu bemerken, dass durch die Struktur des hier beschriebenen Ausführungsprozesses die Ausgabe mit einer in Zeile 6 definierten Auszeit der Dauer $0$ (`setTimeout(callback, 0)`) die gleiche wäre: Der `setTimeout` Aufruf würde immer noch den gleichen Weg rechts durch den Graphen über die nativen APIs beschreiten, wodurch die Callback-Funktion bis zur vollständigen Abarbeitung des restlichen Quelltextes in der Ereigniswarteschlange verweilen würde.
 
-Listing: Ausgabe durch den in Listing 1 (TODO) dargestellten Quelltext.
+Listing: Browser-Konsolen Ausgabe zu Listing \\ref{lst:js_script}
 
 ~~~{#lst:js_console .javascript}
 start

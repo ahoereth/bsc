@@ -150,7 +150,7 @@ In Listing @lst:js_console wird die Ausgabe des Skripts aus Listing @lst:js_scri
 
 Listing: Browser-Konsolen Ausgabe zu Listing \\ref{lst:js_script}
 
-~~~{#lst:js_console .javascript}
+~~~{#lst:js_console .raw}
 start
 in foo
 end

@@ -3,7 +3,7 @@ Bei der Interpretation von Quelltext oder auch der Ausführung von compilierten 
 
 Bei einfachen Programmen ist diese Herangehensweise meist unproblematisch und auch anerkannt. Informatiker wird zu Beginn Ein- und Ausgabe als synchrone Operation beigebracht. Das erste Programm für angehende Programmierer ist oft vergleichbar mit dem in Listing @lst:javaio dargestellten: Die Eingabeoperation `IO.readInt()` in Zeile 6 unterbricht implizit die Programmausführung, bis die Nutzereingabe durch einen Zeilenumbruch beendet wird. Code in Zeile 7ff kann nur ausgeführt werden, wenn Zeile 6 erfolgreich ausgeführt wurde. Dies gilt unabhängig davon, ob der weitere Verlauf des Programms von dem Ergebnis der Eingabe in Zeile 6 abhängt.
 
-Listing: Java-Programm mit Text Ein- und Ausgabeoperationen
+Listing: Blockierende I/O-Operationen in Java
 
 ~~~{#lst:javaio .java}
 import java.util.Scanner;
@@ -20,7 +20,7 @@ public class JavaIO {
 
 Listing @lst:pythonio stellt ein etwas komplexeres und ein speziell für Webserver sehr relevantes Beispiel dar: Die Datenbankabfrage in Zeile 4 blockiert bis zu ihrer Fertigstellung die weitere Ausführung des Programmcodes. Hierbei besteht die Gefahr, dass die Anfrage längere Zeit in Anspruch nehmen könnte, falls zum Beispiel die Verbindung zur Datenbank durch schlechte Latenzzeiten Aufgrund großer geographischer Entfernung eingeschränkt wäre. Die auf die Datenbankoperation folgenden Zeilen des Quelltextes werden erst nach vollständigem Abschluss der Anfrage ausgeführt.
 
-Listing: Sequentielle blockierende Datenbankoperation in Python
+Listing: Blockierende Datenbankoperation in Python
 
 ~~~{#lst:pythonio .python}
 from mysql import connector
@@ -54,7 +54,7 @@ Eine alternative Herangehensweise ist einer Art der gewissermaßen simulierten N
 
 Diese Herangehensweise ist einer der essentiellen Bestandteile von JavaScript. Dies gilt nicht nur Serverseitig innerhalb von Node.js, sondern insbesondere auch Clientseitig im Browser. Browser sind traditionell Programme welche nur in einem einzelnen Prozess ausgeführt wurden. Dadurch ,dass sie gewissermaßen die Laufzeitumgebung von clientseitigen JavaScript-Programmen darstellen, sind auch diese an den gleichen, einzelnen Prozess gebunden. Zwar setzen aktuelle Versionen des Firefox und Chrome Browsers auf einzelne Prozesse für individuelle Tabs, allerdings jedes Tab weiterhin nur auf einen einzelnen. Auch in solchen modernen Browsern ist die diese Einschränkung noch immer leicht provozierbar: Wenn ein auf einer Webseite ausgeführtes Script komplexe sequentielle Berechnungen durchführt, ist schnell merklich, dass die Interaktion mit der Webseite eingeschränkt ist. Klicks auf Links führen in einer solchen Situation zum Beispiel nicht mehr zu einem Seitenwechsel. Erst sobald die Berechnungen abgeschlossen sind, werden die angestauten Aktionen abgearbeitet. Mehr dazu in Abschnitt @sec:js:runtime, JavaScript Runtime.
 
-Listing: Nicht-blockierende Datenbankoperation in JavaScript
+Listing: Asynchrone Datenbankoperation in JavaScript
 
 ~~~{#lst:javascriptio .javascript}
 import { createConnection } from 'mysql';

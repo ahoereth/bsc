@@ -102,16 +102,16 @@ Um diese Probleme anzugehen hat sich speziell in der Web\hyp{}Entwicklung in den
 
 In Abbildung @lst:todo_hierarchy wird exemplarisch die Komponenten-Hierarchie einer fiktiven Applikation zur Aufgabenverwaltung dargestellt. Die Applikation besteht aus einer Liste aktueller Aufgaben, einem Eingabefeld um neue Aufgaben hinzuzufügen und der Möglichkeit erfüllte Aufgaben zu löschen. Die allen übergeordnete Komponente `TodoApp`, die sogenannte Wurzel, vererbt an die `TodoList`- und `TodoInput`-Komponenten. `TodoList` vererbt an die `TodoEntry`-Komponente um mithilfe dieser eine Liste aller vorhandenen Aufgaben darzustellen.
 
-Listing: Applikation zur \textbf{Aufgabenverwaltung}
+Listing: Aufgabenverwaltungs-Applikation
 
-```{.dot #lst:todo_hierarchy}
-digraph {
+~~~{#lst:todo_hierarchy .dot}
+digraph G {
   node [shape=none];
   TodoApp -> {TodoList TodoInput};
   TodoList -> TodoEntry;
   {rank=same;TodoEntry TodoInput};
 }
-```
+~~~
 
 <!-- TODO: Add visual outline of TodoApp -->
 

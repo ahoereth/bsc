@@ -44,7 +44,7 @@ digraph G {
 #### Script
 Das Skript beinhaltet alle vom Programmierer spezifizierten Aufgaben. Seine Interpretation erfolgt abhängig von der jeweiligen Umgebung, es wird also in Quelltextform an den Browser ausgeliefert und dann von seiner JavaScript Laufzeit interpretiert -- heutzutage ist eine \ac{JIT} verbreitet: Das Skript wird kurz vor Ausführung zu Maschinencode compiliert, also zum Beispiel bei jedem individuellen Seitenaufruf.
 
-Listing: JavaScript Quelltext mit synchroner und asynchroner Funktion.
+Listing: Asynchroner Funktionsaufruf in JavaScript (TODO: Enhance caption)
 
 ~~~{#lst:js_script .javascript}
 console.log('start');

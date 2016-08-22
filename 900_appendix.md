@@ -45,6 +45,7 @@ JIT
   \acro{REST}{Representational State Transfer}
   \acro{API}{Application Programming Interface}
   \acro{JIT}{Just-in-time-Kompilierung}
+  \acro{AJAX}{asynchronous JavaScript}
 \end{acronym}
 
 

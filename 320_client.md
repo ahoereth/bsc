@@ -1,74 +1,55 @@
-## Client
+## Client: Progressive Web Applikation
 
+Offline-First
+Mobile-First
 
-### Web-Browser als Software Plattform
-\label{sec:browserSE}
+* SPA
+* SSR
+* Responsive Design
 
-Die Wahl der Programmiersprache zum entwickeln einer Web-Anwendung ist einfach: Es gibt keine Auswahl. Nur JavaScript ist in allen Web-Browsern verfügbar und damit die einzige mögliche Wahl. Zwar gibt es eine Hand voll Sprachen welche zu JavaScript [transcompiliert](#glossar), also übersetzt, werden, zu Zeiten zu denen sich der \ac{ES} Standard und seine Adoptionsrate schnell durchsetzt sind diese aber nur bei Notwendigkeit einer sehr speziellen Gruppe von Funktionen interessant. ((Single outstanding feature: Strong Typing from Typescript))
+### Single Page Applications {#sec:spa}
+Traditionell wird bei dem Aufruf einer Webseite ein einzelnes HTML-Dokument vom Server an den Client übertragen, welches alle Informationen in einer bereits für die Darstellung strukturierten Form beinhaltet. Jede Interaktion mit einer solchen Webseite führt zu einer neuen Anfrage an den Server, welcher anhand der vom Clienten zur Verfügung gestellten Informationen eine neue Seite gegebenenfalls individuell generiert und zur Verfügung gestellt. Diesen Kreislauf von Anfrage an den Server, Darstellung der Webseite und Nutzerinteraktion mit dieser wird im folgenden als *vollständiger Roundtrip* bezeichnet, da jedes mal alle benötigten Daten übertragen werden. 
 
-[Transcompilierung](#glossar) ist aber unabhängig von anderen Sprachen relevant. JavaScripts größter Vorteil, dass es in quasi jeder Browser Umgebung verfügbar ist, und dessen rasant fortschreitende Entwicklung, ist auch eine markante Achillesferse: Als Entwickler kann man nicht annehmen, dass Anwender einen Browser einsetzen welcher die aktuellste Iteration der Sprache standardkonform umsetzt. Aus diesem Grund haben sich Tools zur Transcompilierung des aktuellsten \ac{ES} Standards zu breiter unterstützten, älteren Iterationen durchgesetzt. In Kombination mit sogenannten [Polyfills](#glossar), Codes welche noch nicht vorhandene Funktionen mithilfe bestehender Funktionen nach implementieren, ist es so möglich den aktuellsten Stand der Sprache einzusetzen und trotzdem vom Vorteil der breiten Verfügbarkeit zu profitieren.
+In Abbildung @lst:website wird dieser Kreislauf beispielhaft durchnummeriert dargestellt: Nach einer initialen Anfrage an den Server (1) antwortet dieser mit einer Webseite (2) mit welcher der Nutzer interagiert (3). Diese Interaktion löst eine Anfrage an den Server aus (4) welcher anhand dieser eine neue Webseite bereitstellt (5). Diese neue Webseite kann sich zwar inhaltlich mit der alten überschneiden, muss aber vom Clienten komplett neu dargestellt werden. An dieser Stelle beginnt der Kreislauf erneut: Der Nutzer interagiert mit der Seite (6), was in einer Anfrage an den Server resultiert (7) und so weiter.
 
-
-
-### Too many choices
-\label{sec:choiceofframeworks}
-
-Umso überschaubarer das Feld der zur Auswahl stehenden Programmiersprachen für die Entwicklung einer \ac{SPA} sind, umso breiter ist das Feld an [Frameworks](#glossar). Durch die immer weiter steigenden Anforderungen an Web- und Mobil- Applikationen im Allgemeinen sind auch best-practice Standards im ständigen Wandel. Das traditionell im Bereich der Frontend Entwicklung vorherrschende Konzept von \ac{MVC} zum Beispiel wird durch 
-
-
-Framework
-: Ein Framework (englisch für Rahmenstruktur) ist ein Programmiergerüst, das in der Softwaretechnik, insbesondere im Rahmen der objektorientierten Softwareentwicklung sowie bei komponentenbasierten Entwicklungsansätzen, verwendet wird. Im allgemeineren Sinne bezeichnet man mit Framework auch einen Ordnungsrahmen.^[de.wikipedia.org]
-
-**Entscheidung pro React**
-
-
-### Universal Apps
-
-### Single-Page-Applications (SPA)
-\label{sec:spa}
-
-Bei traditionellen Webseiten und auch Webapplikationen führt bei einer \ac{SPA} nicht jede Interaktion zu einem vollständigen sogenannten Client-Server-Round-Trip. Bei einem solchen wird traditionell durch jede Interaktion eine Anfrage an den Server gestellt welcher auf Grundlage dieser eine neue Seite generiert und an den Client schickt, welcher die vorherige Seite dann durch die neue ersetzt.
-
-Durch die zentrale Anforderung an die Client-Web-Applikation, sich ähnlich nativer Software zu verhalten ist die Entwicklung einer \ac{SPA} unabdingbar. Im Gegensatz zu den zuvor erläuterten Konzept eines vollständigen round-trips wird hierbei ein Großteil der Berechnungen auf Client-Seite ausgeführt. Beim initialen Laden der Seite werden alle notwendigen Layout- und Script-Dateien übertragen, so dass zum reagieren auf weitere Interaktionen nur semantische aber keine strukturellen Informationen mehr vom Server angefordert werden müssen. Dieser Ansatz liegt sehr nah an dem vorherrschenden Betriebskonzept von Mobilapplikationen: Nach der initialen Installation der App werden nur noch aktuelle semantische Informationen, zum Beispiel Nachrichten oder Videos, vom Server bereitgestellt.
-
-Der von uns verfolgte Ansatz geht einen Schritt weiter: Nicht nur werden strukturelle Informationen lokal nach dem initialen Laden vorgehalten, sondern auch Ergebnisse von weiteren Anfragen an den Server werden gespeichert (Stichwort: caching) um sie, in dem Fall, dass sie noch einmal relevant werden, nicht erneut ausführen zu müssen. Zum Beispiel werden so alle Einträge für die Gesetzesübersicht sofort zu Beginn an die Client-Instanz übertrage, um sie nicht bei jedem Aufruf der Übersichtsseite erneut laden zu müssen.
-
-Bei jeder Interaktion wird so clientseitig getestet ob die notwendigen Daten bereits lokal zur Verfügung stehen. Wenn dies der Fall ist, kann die neue Seite sofort angezeigt werden ohne unnötige Ladezeit. Dies führt zu einer besseren Nutzererfahrung weil Seitenwechsel so im besten Fall nicht mehr durch mögliche Konnektivitätseinschränkungen beeinträchtigt werden. Um dieses Nutzungsergebnis weiter zu verbessern ergibt sich hier auch die Möglichkeit potentiell relevante Daten vorzuladen. So hat ein Nutzer möglicherweise favorisierte Gesetze die er voraussichtlich regelmäßig aufrufen wird -- diese können nun unmittelbar zur Verfügung gestellt werden.
-
-Der dritte Schritt ist es, nicht nur bereits alle voraussichtlich relevanten Daten zusammen mit jedem initialen Aufruf der Applikation zur Verfügung zu stellen, sondern über mehrere Aufrufe hinweg zu speichern und somit die Applikation auch ohne Internetverbindung verfügbar zu machen. Hieraus ergeben sich zwei neue Problematiken: Einerseits müssen nun vorgehaltene Daten müssen auf ihre Aktualität getestet und eventuell aktualisiert werden. Anderseits müssen, sobald eine Internetverbindung zum initialen Laden der Applikation nicht mehr relevant ist, auch zwingend Interaktionen welche nicht nur für die aktuelle Instanz relevant sind, lokal gespeichert und beim wieder erlangen einer Verbindung zum Server mit diesem abgeglichen werden.
-
-Beim Aufbau einer diesen Paradigmen folgenden Applikation ist es von Interesse einem "offline-first" Ansatz zu folgen. Ähnlich wie es bereits Standard ist sich beim Webdesign an "mobile-first" zu orientieren, betrachtet man quasi das schwächste beziehungsweise eingeschränkteste Glied der Kette als den Standard: Im optimalen Fall ist alles, was auf diesem Gerät nicht funktioniert, optional. Bei "mobile-first" ist so das Smartphone-Display meist der Maßstab für den gestaltet wird. An größere Displays passt sich das Layout dann möglichst durch relativ definierte Größen von Schriften und Containern und dynamisches fließen der Elemente, so dass je nach verfügbarer Fläche mehr oder weniger Container nebeneinander angezeigt werden, an. "offline-first" nimmt nun also das fehlen einer Internetverbindung als den Standard an. Alle Reaktionen auf Nutzeraktionen werden lokal berechnet und durchgeführt. Erst in einem zweiten Schritt werden diese dann, sobald eine Internetverbindung verfügbar ist, mit dem Server abgeglichen. Hierbei gilt, dass der Server immer "Recht" hat: Falls der Server als Ergebnis einer Aktion etwas anderes präsentiert als der Client, ersetzt das Ergebnis des Servers nachträglich das des Clients. Dies ist relevant da die Integrität des auf Clientseite ausgeführten Codes nicht garantiert werden kann. Somit kann es passieren, dass die Client-Applikation eine bestimmte Interaktion wie zum Beispiel das Löschen eines (wie auch immer gearteten) Eintrages genehmigt und lokal durchführt, der Server aber anderer Auffassung ist und die Löschung auf seiner Seite nicht durchführt und damit auch dem Client den Auftrag gibt sie rückgängig zu machen.
-
-<!-- TODO: Get the initial request arrow to the left -->
-
-Listing: User/Client/Server Kommunikations--Struktur einer traditionellen Webseite oder Webapplikationen.
+Listing: Server-/Client-Kommunikation einer traditionellen Webseite
 
 ```{.dot #lst:website}
 digraph {
   node [shape=none];
   SERV [label="Server"];
-  APP1 [label="Client-Instanz"];
-  APP2 [label="Client-Instanz"];
-  APP3 [label="..."];
-  VOID [label=""]
+  APP1 [label="Website"];
+  APP2 [label="Website"];
+  APP3 [label="[...]"];
   USER [label="User"];
-  {rank=same;APP1 APP2 APP3};
-  {rank=same;VOID USER};
-  {rank=max;SERV}
 
-  SERV -> APP1 [label="(2) response"];
-  USER -> APP1 [label="(3) interaction"];
-  APP1 -> SERV [label="(4) request"]
-  SERV -> APP2 [label="(5) response"];
-  USER -> APP2 [label="(6) interaction"];
-  APP2 -> SERV [label="(7) request"]
-  SERV -> APP3 [label=""];
-  USER -> APP3 [label=""];
-  VOID -> SERV [label="(1) initial request"];
+  VOID -> SERV [label="(1) initial req."]
+  SERV:sw -> APP1 [label="(2) res."];
+  USER -> APP1 [label="(3) action"];
+  APP1 -> SERV:s [label="(4) req."]
+  SERV -> APP2:nw [label="(5) res."];
+  USER -> APP2 [label="(6) action"];
+  APP2 -> SERV [label="(7) req."]
+  SERV -> APP3 [style=dashed];
+  USER -> APP3 [style=dashed];
+
+  // Formatting hacks.
+  VOID [label=""]
+  VOID -> USER [style=invis]
+  APP1 -> APP2 [style=invis];
+  APP2 -> APP3 [style=invis];
+  {rank=min;SERV}
+  {rank=same;APP1 APP2 APP3};
+  {rank=same;VOID USER}
+  {rank=max;USER}
 }
 ```
 
-Listing: Konzept einer Single-Page-Webapplikation. Kanten mit einer Loop-Markierung können sich beliebig oft wiederholen, Kanten ohne eben solche werden nur beim initialen Aufruf der Applikation angewendet. Gestrichelte Linien beschreiben Ereignisse, welche im Hintergrund ausgeführt werden und die weitere Interaktion mit der Applikation nicht blockieren.
+Eine erste Erweiterung dieses Ansatzes liegt in dem Einsatz von interaktiven JavaScript Elementen: Interaktive Elemente sind in diesem Fall solche Teile der Webseite, welche Interaktionen ohne einen Neuladen der Seite zur Verfügung stellen. Weit verbreitet ist dies zum Beispiel für Foto-Galerien auf Nachrichten Seiten, in welchen zu jedem Zeitpunkt nur ein Bild dargestellt wird, das Anzeigen eines weiteren aber nicht eine neue Webseite lädt sondern nur das alte Bild-Element mit dem neuen austauscht. Zusätzlich ist es mit Hilfe von \ac{AJAX} möglich an solche Interaktionen Anfragen an den Server zu koppeln und weitere Informationen, wie zum Beispiel die URL und Beschreibung des nächsten Bildes, nachzuladen.
+
+\ac{AJAX} ist auch zentraler Teil von \ac{SPA}: Anstatt nur einzelne Elemente der Webseite mit Hilfe von JavaScript interaktiv zu gestalten, werden alle Interaktionen des Nutzers mit der Webseite durch JavaScript behandelt. Dieses Modell wird in Abbildung @lst:spa dargestellt: Ähnlich wie in Abbildung @lst:website stellt der Nutzer eine initiale Anfrage an den Server (1) woraufhin dieser die Webseite mit allen benötigten Skripts zur Verfügung stellt (2). Interaktionen des Nutzers mit der Applikation (3+) werden von nun an von dem vorgeladenen JavaScript-Code behandelt und resultieren, wenn nötig in für den Nutzer unsichtbaren \ac{AJAX}-Anfragen an den Server (4+) welcher mit den benötigten Daten antwortet (5+). Meist stellt der Server keine strukturellen Informationen sondern nur noch die rohen Daten zur Verfügung, welche dann auf Client-Seite strukturiert und dargestellt werden. Die gestrichelten Kanten sind von nun an also der neue Kreislauf ohne einen Austausch der eigentlichen Webseite.
+
+Listing: Single-Page-Webapplikation Client-/Server-Kommunikation
 
 ```{.dot #lst:spa}
 digraph {
@@ -83,11 +64,25 @@ digraph {
 
   USER -> SERV [label="(1) initial request"];
   SERV -> APP [label="(2) response"];
-  API  -> APP [label="(3+) responses" style=dashed];
-  APP  -> API [label="(3+) requests" style=dashed];
-  USER -> APP [label="(3+b) interactions" style=dashed];
+  USER -> APP [label="(3+) interactions" style=dashed];
+  APP  -> API [label="(4+) requests" style=dashed];
+  API  -> APP [label="(5+) responses" style=dashed];
 }
 ```
+
+Verbreitet und auch in Abbildung @lst:spa dargestellt ist der Ansatz Content- und API-Server zu trennen. Der Content-Server ist für das zur Verfügung stellen von statischen Dateien wie den HTML- und JavaScript-Dokumenten oder auch Bilder verantwortlich. Der API-Server steht in Verbindung zur Datenbank und stellt die eigentlichen inhaltlichen Daten zur Verfügung: Sämtliche Texte oder auch die URLs von darzustellenden Bildern hält er vor.
+
+Durch die zentrale Anforderung an die im Rahmen dieser Arbeit entwickelten Applikation, sich ähnlich nativer Software zu verhalten, ist die Entwicklung einer \ac{SPA} unabdingbar. Durch den Einsatz einer \ac{SPA} ist es Möglich Interaktionen sehr viel flüssiger zu behandeln: Ladezeiten können durch das vorladen von Daten im Hintergrund und die, durch die fehlende Notwendigkeit strukturelle Informationen zu übertragen, kleinere Größe der benötigten Daten verringert werden. TODO: Moar.
+
+### Offline-First
+Der von uns verfolgte Ansatz geht einen Schritt weiter: Nicht nur werden strukturelle Informationen lokal nach dem initialen Laden vorgehalten, sondern auch Ergebnisse von weiteren Anfragen an den Server werden gespeichert (Stichwort: caching) um sie, in dem Fall, dass sie noch einmal relevant werden, nicht erneut ausführen zu müssen. Zum Beispiel werden so alle Einträge für die Gesetzesübersicht sofort zu Beginn an die Client-Instanz übertrage, um sie nicht bei jedem Aufruf der Übersichtsseite erneut laden zu müssen.
+
+Bei jeder Interaktion wird so clientseitig getestet ob die notwendigen Daten bereits lokal zur Verfügung stehen. Wenn dies der Fall ist, kann die neue Seite sofort angezeigt werden ohne unnötige Ladezeit. Dies führt zu einer besseren Nutzererfahrung weil Seitenwechsel so im besten Fall nicht mehr durch mögliche Konnektivitätseinschränkungen beeinträchtigt werden. Um dieses Nutzungsergebnis weiter zu verbessern ergibt sich hier auch die Möglichkeit potentiell relevante Daten vorzuladen. So hat ein Nutzer möglicherweise favorisierte Gesetze die er voraussichtlich regelmäßig aufrufen wird -- diese können nun unmittelbar zur Verfügung gestellt werden.
+
+Der dritte Schritt ist es, nicht nur bereits alle voraussichtlich relevanten Daten zusammen mit jedem initialen Aufruf der Applikation zur Verfügung zu stellen, sondern über mehrere Aufrufe hinweg zu speichern und somit die Applikation auch ohne Internetverbindung verfügbar zu machen. Hieraus ergeben sich zwei neue Problematiken: Einerseits müssen nun vorgehaltene Daten müssen auf ihre Aktualität getestet und eventuell aktualisiert werden. Anderseits müssen, sobald eine Internetverbindung zum initialen Laden der Applikation nicht mehr relevant ist, auch zwingend Interaktionen welche nicht nur für die aktuelle Instanz relevant sind, lokal gespeichert und beim wieder erlangen einer Verbindung zum Server mit diesem abgeglichen werden.
+
+Beim Aufbau einer diesen Paradigmen folgenden Applikation ist es von Interesse einem "offline-first" Ansatz zu folgen. Ähnlich wie es bereits Standard ist sich beim Webdesign an "mobile-first" zu orientieren, betrachtet man quasi das schwächste beziehungsweise eingeschränkteste Glied der Kette als den Standard: Im optimalen Fall ist alles, was auf diesem Gerät nicht funktioniert, optional. Bei "mobile-first" ist so das Smartphone-Display meist der Maßstab für den gestaltet wird. An größere Displays passt sich das Layout dann möglichst durch relativ definierte Größen von Schriften und Containern und dynamisches fließen der Elemente, so dass je nach verfügbarer Fläche mehr oder weniger Container nebeneinander angezeigt werden, an. "offline-first" nimmt nun also das fehlen einer Internetverbindung als den Standard an. Alle Reaktionen auf Nutzeraktionen werden lokal berechnet und durchgeführt. Erst in einem zweiten Schritt werden diese dann, sobald eine Internetverbindung verfügbar ist, mit dem Server abgeglichen. Hierbei gilt, dass der Server immer "Recht" hat: Falls der Server als Ergebnis einer Aktion etwas anderes präsentiert als der Client, ersetzt das Ergebnis des Servers nachträglich das des Clients. Dies ist relevant da die Integrität des auf Clientseite ausgeführten Codes nicht garantiert werden kann. Somit kann es passieren, dass die Client-Applikation eine bestimmte Interaktion wie zum Beispiel das Löschen eines (wie auch immer gearteten) Eintrages genehmigt und lokal durchführt, der Server aber anderer Auffassung ist und die Löschung auf seiner Seite nicht durchführt und damit auch dem Client den Auftrag gibt sie rückgängig zu machen.
+
 
 ### Komponenten-Hierarchien
 \label{sec:components}

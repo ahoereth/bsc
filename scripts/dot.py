@@ -23,7 +23,7 @@ def dot(key, value, pandoctarget, _):
   if not 'dot' in classes:
     return
 
-  caption, keyvals = extract_keyval(keyvals, u'caption', [])
+  caption, keyvals = extract_keyval(keyvals, 'caption', [])
 
   # If src keyval is given, we read the val's file and ignore the block's body.
   # If src class is given, the file is specified in the block's body.
@@ -42,7 +42,7 @@ def dot(key, value, pandoctarget, _):
   if targetformat == 'tex':
     width, keyvals = extract_keyval(keyvals, 'width', '\\columnwidth')
 
-    p = Popen(['dot2tex', '--codeonly'], stdout=PIPE, stdin=PIPE, stderr=PIPE)
+    p = Popen(['dot2tex', '-ftikz', '--codeonly'], stdout=PIPE, stdin=PIPE, stderr=PIPE)
     tikz, err = p.communicate(bytes(code, 'utf-8'))
     if len(err) != 0:
       raise ValueError(err.decode('utf-8'))
@@ -50,7 +50,7 @@ def dot(key, value, pandoctarget, _):
     result = '''
       \\begin{figure}[H]
         \\centering
-        \\adjustbox{max width=%s}{
+        \\resizebox{%s}{!}{
           \\begin{tikzpicture}
             %s
           \\end{tikzpicture}

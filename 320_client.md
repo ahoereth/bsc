@@ -1,11 +1,13 @@
-## Client: Progressive Web Applikation
+## Client {#sec:client-theory}
+Im folgenden Abschnitt werden die bei der Implementierung der Applikation verfolgten Paradigmen erläutert. 
 
-Offline-First
-Mobile-First
+Zentral orientiert sich die angestrebte Nutzererfahrung der Applikation an dem 2015 von Alex Russel beschrieben Gesamtkonzept einer \ac{PWA}: Eine \ac{SPA} welche die besten Seiten von nativen mobilen Applikationen und Web-Applikationen vereint.[^pwa] Hierbei handelt es sich nicht um ein völlig neues Konzept, sondern vielmehr um eine clevere Kombination von bereits zuvor etablierten Einzelansätzen. Im Mittelpunkt dieser steht eine \ac{SPA} (@sec:spa), mit offline- (@sec:offline-first) sowie mobile-first (Abschnitt @sec:mobile-first) Grundsätzen entwickelt und durch serverseitiges Rendering und App-Shells (@sec:ssr-and-shells) erweitert.  (TODO: Manifest? Links? "Progessive"?)
 
-* SPA
-* SSR
-* Responsive Design
+[^pwa]: Quelle: [infrequently.org/2015/06/progressive-apps-escaping-tabs-without-losing-our-soul](https://infrequently.org/2015/06/progressive-apps-escaping-tabs-without-losing-our-soul/); Abgerufen 08.2016
+
+Bezüglich der Implementierung wird ein zum traditionell verbreiteten \ac{MVC}-Konzept im Kontrast stehender Ansatz einer Komponenten-Hierarchien (@sec:components) mit Uni-Direktionalem Datenfluss (@sec:dataflow) von unveränderbaren Datenstrukturen (@sec:immutable) vorgestellt und eingesetzt.
+
+
 
 ### Single Page Applications {#sec:spa}
 Traditionell wird bei dem Aufruf einer Webseite ein einzelnes HTML-Dokument vom Server an den Client übertragen, welches alle Informationen in einer bereits für die Darstellung strukturierten Form beinhaltet. Jede Interaktion mit einer solchen Webseite führt zu einer neuen Anfrage an den Server, welcher anhand der vom Clienten zur Verfügung gestellten Informationen eine neue Seite gegebenenfalls individuell generiert und zur Verfügung gestellt. Diesen Kreislauf von Anfrage an den Server, Darstellung der Webseite und Nutzerinteraktion mit dieser wird im folgenden als *vollständiger Roundtrip* bezeichnet, da jedes mal alle benötigten Daten übertragen werden. 

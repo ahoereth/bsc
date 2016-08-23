@@ -153,9 +153,71 @@ digraph {
 }
 ```
 
-Durch die Kombination einer modularen Komponenten-Hierarchie mit uni-direktionalen Datenfluss und zentral verwalteten globalen Zustand ergibt sich ein dem funktionellen Programmieren ähnlichen Einfachheit: Atomare Bestandteile der Applikation generieren deterministisch gegeben dem gleichen Zustand unabhängig vom Rest der Applikation testbar das gleiche Resultat.
+Durch die Kombination einer modularen Komponenten-Hierarchie mit uni-direktionalen Datenfluss und zentral verwalteten globalen Zustand ergibt sich ein dem funktionellen Programmieren ähnlichen Einfachheit: Atomare Bestandteile der Applikation generieren deterministisch gegeben dem gleichen Zustand unabhängig vom Rest der Applikation testbar das gleiche Resultat. Komponenten, welche diese Eigenschaft erfüllen, werden im folgenden auch *reine Komponenten* oder *pure components* genannt.
+
+Initial wurde dieser Ansatz 2014 von Facebook unter dem Namen *flux* präsentiert.[^flux] Seitdem wurde das Konzept von der JavaScript Gemeinschaft aufgegriffen und hat sich in einer weniger komplexen Form durch die *Redux* Bibliothek[^redux] durchgesetzt und in diesem Projekt eingesetzt wird.
+
+[^flux]: https://facebook.github.io/flux/docs/overview.html
+
+[^redux]: http://redux.js.org/
 
 
-### Unveränderbare Daten
-\label{sec:immutable}
+
+### Unveränderbare Daten {#sec:immutable}
+Als drittes Standbein neben dem Uni-Direktionalen Datenfluss und der Komponenten Hierarchie dienen in der entwickelten Anwendung unveränderbare Objekte, sogenannte *immutable objects* oder *immutables*.
+
+Der verbreitetere und aus er objektorientierten Programmierung bekannte Ansatz ist es, mit Instanzen von Objekten zu arbeiten, welche während der Laufzeit eines Programms manipuliert werden. Sehr bekannt ist dieses Modell aus der objektorientierten Programmierung, bei welcher Objekte meist Methoden zur Verfügung stellen um ihren eigenen Zustand zu manipulieren. Das Problem hierbei ist, dass veränderbare Daten in nicht vorhersehbaren Zuständen resultieren können. In @lst:mutable_javascript ist Beispielhaft die Funktion `take` definiert, welche den Wert eines Attributes eines ihr übergebenen Objektes zurückgibt und den Wert des Attributes allerdings auch nachträglich verändert. Falls diese Funktion nicht vom sie einsetzenden Programmierer geschrieben wurde, könnte dies zu unvorhersehbaren Resultaten im weiteren Programmablauf führen.
+
+Interessant hierbei ist auch, dass die Variable `obj` als `const`, also Konstante, definiert wurde: Scheinbar unveränderbar, bedeutet dies hier allerdings nicht, dass der Wert des Objektes unverändert bleibt, sondern die in der Variable gespeicherte Referenz auf das Objekt. Die Variable `arr` beinhaltet also garantiert immer eine Referenz auf das selbe Objekt, dieses allerdings nicht die selben Werte. Obwohl dieses verhalten bei angehenden Programmierern oft für Verwirrung sorgt, ist es ein auch aus anderen Sprachen wie C++ oder Java (`final`) bekanntes Verhalten.
+
+Listing: Pass-by-reference und veränderbare Daten in JavaScript
+
+~~~{.javascript #lst:mutable_javascript}
+function take(ref, key) {
+  return ref[key]--;
+}
+const obj = { foo: 42 };
+const foo = take(obj, 'foo');
+// obj: { foo: 41 }
+// foo: 42
+~~~
+
+Unveränderbare Datenstrukturen lösen dieses Problem, indem jede auf ihnen ausgeführte Operation ein neues Objekt zurückgibt, anstatt das alte direkt zu manipulieren (siehe Listing @lst:immutable_list).
+
+Listing: Veränderbares Array und unveränderbare Liste in JavaScript
+
+~~~{.javascript #lst:immutable_list}
+import { List } from 'immutable';
+
+const arr = [1, 2, 3];
+arr.push(4);
+// arr: [1, 2, 3, 4]
+
+const list1 = List([1, 2, 3]);
+const list2 = list1.push(4);
+// list1: [1, 2, 3]
+// list2: [1, 2, 3, 4]
+~~~
+
+Für ein besseres intuitives Verständnis kann man immutables statt als Objekte als individuelle Werte betrachten. Objekte sind Strukturen welche in ihren Attributen Referenzen auf Werte beinhalten. Diese Referenzen in einem Objekt können sich mit der Zeit wandeln, ohne dieses Objekt referenzierende Variablen zu ändern. Einzelne Werte wie der aus Java bekannte `String` oder `int` sind an sich unveränderbar.
+
+<!-- Dadurch ergibt sich auch die Möglichkeit extrem performante Identitätsvergleiche einzusetzen, wie sie in Listing @lst:immutable_equality zu sehen sind. Um zwei Datenstrukturen zu vergleichen muss hierbei nicht mehr jedes möglicherweise verschachtelte Wertepaar der beiden Objekte miteinander verglichen werden, sondern nur  -->
+
+<!-- Listing: Equality Checks mit unveränderbaren Datenstrukturen
+
+~~~{.javascript #lst:immutable_equality}
+import { Map } from 'immutable';
+const map1 = new Map({a:1, b:2, c:3});
+const map2 = map1.set('b', 2);
+const map3 = map1.set('b', 50);
+console.log(map1 === map2); // true
+console.log(map1 === map3); // false
+~~~ -->
+
+Zusammenfassend lässt sich der verfolgte Ansatz einer Komponenten-Hierarchie mit uni-direktionaler Datenfluss und unveränderbaren Datenstrukturen in einem ähnlichen Kontrast zu einem Model-View-Controller Ansatz beschreiben, wie funktionelle Programmierung zu objektorientierter Programmierung:
+
+Bei \ac{OOP} wird mit Instanzen von Objekten gearbeitet, welche jeweils ihren eigenen Zustand verwalten und durch Instanzmethoden die Manipulation von diesem ermöglichen. Referenzen auf Instanzen von Objekten werden vielfach an Funktionen übergeben welche die referenzierte Instanz manipulieren. Bei der funktionellen Programmierung hingegen werden Objekte als unveränderbar betrachtet. Der Aufruf einer Funktion verändert die ihm übergebenen Objekte nicht direkt, sondern gibt eine veränderte Kopie dieser zurück, welche solange benötigt in einem globalen Zustand gehalten werden.
+
+Vergleichbar stellt ein \ac{MVC}-Triplet eine Instanz dar, welche ihren eigenen Zustand hält und diesen von sich aus und über von ihr zur Verfügung gestellte Methoden verändert. Im von uns verfolgten Ansatz hingegen sind einzelne Komponenten funktional und hängen nur von ihrem Input ab. Da alle Komponenten von einem gemeinsamen Zustand abhängen, ist der Zustand der gesamten Applikation allein durch diesen zu jedem Zeitpunkt klar definiert.
+
 

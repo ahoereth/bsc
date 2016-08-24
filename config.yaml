@@ -1,11 +1,22 @@
 ---
 author: Alexander Höreth
 year: 2016
-department: Institut für Kognitionswissenschaft // Institut für Informatik
+degree: Cognitive Science, Bachelor of Science
+departments:
+  - Institut für Kognitionswissenschaft
+  - Institut für Informatik
+  # - Department for Cognitive Science
+  # - Department for Computer Science
 university: Universität Osnabrück
+  # University of Osnabrück
 title: Konzeptualisierung und Entwicklung einer Web-Applikation zur interaktiven Navigation deutscher Bundesgesetze
+  # Conceptualization and implmeentation of a web-application for interactive navigation of German federal law
 subtitle: Moderne Werkzeuge für Juristen
-supervisor: Prof. Dr. Oliver Vornberger, Universität Osnabrück
+supervisors:
+  - "Erstprüfer: Prof. Dr. Oliver Vornberger"
+  - "Zweitprüfer: Dr. phil. Tobias Thelen"
+  # - "Primary supervisor: Prof. Dr. Oliver Vornberger"
+  # - "Secondary supervisor: Dr. phil. Tobias Thelen"
 university_logo: img/uos.png
 
 documentclass: scrbook

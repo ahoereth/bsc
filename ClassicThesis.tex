@@ -168,9 +168,8 @@ $endif$
   captionpos=b
 }
 
-
 \lstdefinelanguage{javascript}{
-  keywords={do, if, in, for, let, new, try, var, case, else, enum, eval, null, this, true, void, with, await, break, catch, class, const, false, super, throw, while, yield, delete, export, import, public, return, static, switch, typeof, default, extends, finally, package, private, continue, debugger, function, arguments, interface, protected, implements, instanceof},
+  keywords={do, if, in, for, let, new, try, var, case, else, enum, eval, null, this, true, void, with, async, await, break, catch, class, const, false, super, throw, while, yield, delete, export, import, public, return, static, switch, typeof, default, extends, finally, package, private, continue, debugger, function, arguments, interface, protected, implements, instanceof, from},
   morecomment=[l]{//},
   morecomment=[s]{/*}{*/},
   morestring=[b]',
@@ -184,14 +183,9 @@ $endif$
   sensitive=true
 }
 
-\lstdefinelanguage{raw}{
-  keywords={}
-}
-
 \lstset{language=python, style=code}
 \lstset{language=java, style=code}
 \lstset{language=javascript, style=code}
-\lstset{language=raw, style=code}
 
 % ********************************************************************
 % Using PDFLaTeX
@@ -247,7 +241,7 @@ $endif$
 % Last, but not least...
 % ********************************************************************
 \usepackage{classicthesis}
-\usepackage[{{ paper }}paper,layout={{ paper }}paper,top=72pt,bottom=48pt,textwidth=336pt]{geometry}
+\usepackage[{{ paper }}paper,layout={{ paper }}paper,top=72pt,bottom=72pt,textwidth=336pt]{geometry}
 % ******************************************************************************
 
 
@@ -258,17 +252,22 @@ $endif$
 % Changing the text area
 % ********************************************************************
 %\linespread{1.05} % a bit more for Palatino
-%\areaset[current]{312pt}{761pt} % 686 (factor 2.2) + 33 head + 42 head \the\footskip
-%\setlength{\marginparwidth}{7em}%
-%\setlength{\marginparsep}{2em}%
+%\areaset[current]{336pt}{705pt} %{312pt}{761pt} % 686 (factor 2.2) + 33 head + 42 head \the\footskip
+% \setlength{\marginparwidth}{7em}%
+% \setlength{\marginparsep}{2em}%
 
 % ***********************************
 
 %********************************************************************
 % Hyphenation
 %*******************************************************
-%\hyphenation{put special hyphenation here}
+\lefthyphenmin3
+\usepackage{hyphenat}
 
+
+% $for(header-includes)$
+% $header-includes$
+% $endfor$
 % ********************************************************************
 % GO!GO!GO! MOVE IT!
 %*******************************************************
@@ -285,38 +284,48 @@ $endif$
 % Frontmatter
 %*******************************************************
 
-\begin{titlepage}
-  % \makeatletter
-  % \let\footnotesize\small
-  % \let\footnoterule\relax
-  % \let \footnote \thanks
-  % \null\vfil
-  \begin{flushleft}%
-    $if(title)$
-    {\LARGE \sffamily $title$ \par}
-    $endif$
 
-    \vspace*{2cm}
-    $if(subtitle)$
-    {\Large \sffamily $subtitle$ \par}%
-    \vskip 2cm%
-    $endif$
-    {\large
-     \lineskip .75em%
-      \begin{tabular}[t]{c}%
-       {\Huge $author$}
-      \end{tabular}\par}%
-      \rule{\linewidth}{1mm} \par
-      \vskip 1cm%
-    {\large BACHELOR'S THESIS $year$}\\[2cm]
-    {\normalsize PRUEFER}\par
-    {\large $supervisor$}\par
-    {\normalsize $department$}\par
-    \vspace{3cm}
-   \centering
-    \includegraphics[width=0.5\linewidth]{$university_logo$}
-   \end{flushleft}\par
-   \makeatother
+\begin{titlepage}
+  % if you want the titlepage to be centered, uncomment and fine-tune the line below (KOMA classes environment)
+  \begin{addmargin}[-1cm]{-3cm}
+    \begin{center}
+      \large
+      \hfill
+
+      \includegraphics[width=.75\textwidth]{$university_logo$} \\
+      \bigskip
+
+      $for(departments)$
+        $departments$\\ \medskip
+      $endfor$
+
+      \vfill
+
+      \Large
+      \spacedlowsmallcaps{Bachelorarbeit} \\
+      \bigskip
+
+      \begingroup
+        \LARGE
+        \color{Maroon}\spacedallcaps{$title$} \\
+        \bigskip
+      \endgroup
+      % $subtitle$ \\ \medskip
+
+      \Large
+      \spacedallcaps{$author$}
+
+      \vfill
+    \end{center}
+
+    \today \\
+    $degree$ \\
+    $for(supervisors)$
+      $supervisors$\\
+    $endfor$
+
+
+  \end{addmargin}
 \end{titlepage}
 
 \pagestyle{scrheadings}
@@ -372,9 +381,8 @@ $endfor$
 
     \vspace*{8ex}
     {% endif %}
-%   \newpage
+    \newpage
 
-    {% if table_of_contents.listings %}
     %*******************************************************
     % List of Listings
     %*******************************************************
@@ -385,7 +393,7 @@ $endfor$
     \lstlistoflistings
 
     \vspace*{8ex}
-    {% endif %}
+
 
 \endgroup
 

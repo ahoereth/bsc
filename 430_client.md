@@ -28,7 +28,10 @@ Um diese Schritte im Entwicklungsprozess zu automatisieren wird *Webpack* als so
 Offline available
 Im Rahmen dieser Arbeit fällt diese Entscheidung leicht: Gestarrte Gesetze.
 
-### Store & Module {#sec:redux}
+### React Komponenten {#sec:react}
+
+
+### Redux Store & Module {#sec:redux}
 Der in @sec:dataflow beschriebene Datenfluss wird zentral durch den Redux-Store gehandhabt, welcher sich aus 3 primären Bestandteilen zusammensetzt:
 
   1. Der Zustand (*state*)
@@ -71,6 +74,7 @@ digraph {
 
 * Komponenten Hierarchie
 * Virtual DOM
+* SSR
 
 ```{.dot caption="\textbf{Home} component layout" label="components_home"}
 digraph {

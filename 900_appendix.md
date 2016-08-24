@@ -46,6 +46,9 @@ JIT
   \acro{API}{Application Programming Interface}
   \acro{JIT}{Just-in-time-Kompilierung}
   \acro{AJAX}{asynchronous JavaScript}
+  \acro{PWA}{Progressive Web Application}
+  \acro{OOP}{object-oriented programming}
+  \acro{EGVP}{Elektronisches Gerichts- und Verwaltungspostfach}
 \end{acronym}
 
 
@@ -53,6 +56,7 @@ JIT
 # References
 \label{sec:references}
 
+<!-- \raggedright -->
 \setlength{\parindent}{0in}
 \setlength{\leftskip}{0in}
 \setlength{\parskip}{8pt}

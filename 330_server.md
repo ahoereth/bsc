@@ -35,4 +35,3 @@ server.listen(8080, () => {
   * Ausblick
   * Strukturelle Problematik bei multi-server setups.
 
-

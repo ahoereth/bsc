@@ -5,8 +5,8 @@ degree: Cognitive Science, Bachelor of Science
 departments:
   - Institut für Kognitionswissenschaft
   - Institut für Informatik
-  # - Department for Cognitive Science
-  # - Department for Computer Science
+  # - Department of Cognitive Science
+  # - Department of Computer Science
 university: Universität Osnabrück
   # University of Osnabrück
 title: Konzeptualisierung und Entwicklung einer Web-Applikation zur interaktiven Navigation deutscher Bundesgesetze
@@ -17,7 +17,7 @@ supervisors:
   - "Zweitprüfer: Dr. phil. Tobias Thelen"
   # - "Primary supervisor: Prof. Dr. Oliver Vornberger"
   # - "Secondary supervisor: Dr. phil. Tobias Thelen"
-university_logo: img/uos.png
+university_logo: img/uos2.eps
 
 documentclass: scrbook
 fontfamily: libertine

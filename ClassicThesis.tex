@@ -285,50 +285,6 @@ $endif$
 %*******************************************************
 
 
-\begin{titlepage}
-  % if you want the titlepage to be centered, uncomment and fine-tune the line below (KOMA classes environment)
-  \begin{addmargin}[-1cm]{-3cm}
-    \begin{center}
-      \large
-      \hfill
-
-      \includegraphics[width=\textwidth]{$university_logo$} \\
-      \bigskip
-
-      $for(departments)$
-        $departments$\\ \medskip
-      $endfor$
-
-      \vfill
-
-      \Large
-      \spacedlowsmallcaps{Bachelorarbeit} \\
-      \bigskip
-
-      \begingroup
-        \LARGE
-        \color{Maroon}\spacedallcaps{$title$} \\
-        \bigskip
-      \endgroup
-      % $subtitle$ \\ \medskip
-
-      \Large
-      \spacedallcaps{$author$}
-
-      \vfill
-      \vfill
-    \end{center}
-
-    \today \\
-    $degree$ \\
-    $for(supervisors)$
-      $supervisors$\\
-    $endfor$
-
-
-  \end{addmargin}
-\end{titlepage}
-
 \pagestyle{scrheadings}
 
 $for(include-before)$
@@ -394,7 +350,6 @@ $endfor$
     \lstlistoflistings
 
     \vspace*{8ex}
-
 
 \endgroup
 

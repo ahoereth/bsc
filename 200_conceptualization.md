@@ -47,7 +47,33 @@ Da die eigentlichen Normen eines Gesetzes, um möglichst viele Alltagssituatione
 
 
 
-
-## Software-as-a-Service
+## Software-as-a-Service {#sec:saas}
 
 \ac{SaaS}
+
+> Es gibt keinen Grund für den Staat sich auf diesem Gebiet wirtschaftlich zu betätigen. Er sollte Rechtsnormen und Urteile, die nicht dem Urheberrecht unterliegen, von einer gemeinnützigen Organisation digitalisieren lassen und jedermann kostenlos zur Verfügung stellen.
+> 
+> --- *Markus Reithwiesner, Geschäftsführer Rudolf-Haufe-Verlag*, @FAZ2009
+
+https://www.jurion.de/de/home/guest
+https://openlaws.com/
+
+
+
+## Rechtliche Grundlage {#sec:playbytherules}
+Die rechtliche Grundlage für die freie Verwendung von Gesetzen ist durch § 5  des Urheberrechts gegeben.
+
+> **(1)** Gesetze, Verordnungen, amtliche Erlasse und Bekanntmachungen sowie Entscheidungen und amtlich
+verfaßte Leitsätze zu Entscheidungen genießen keinen urheberrechtlichen Schutz.
+>
+> --- Urheberrechtsgesetz (UrhG), § 5
+
+---
+# \nocite{UrhG} hack. 
+# See: http://pandoc.org/MANUAL.html#citations
+nocite: |
+  @UrhG
+---
+
+[@LexxpressJuris2013]
+

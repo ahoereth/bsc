@@ -49,6 +49,8 @@ JIT
   \acro{PWA}{Progressive Web Application}
   \acro{OOP}{object-oriented programming}
   \acro{EGVP}{Elektronisches Gerichts- und Verwaltungspostfach}
+  \acro{BMJV}{Bundesministerium der Justiz und für Verbraucherschutz}
+  \acro{BGBL}{Bundesgesetzblatt}
 \end{acronym}
 
 

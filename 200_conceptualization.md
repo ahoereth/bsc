@@ -61,19 +61,43 @@ https://openlaws.com/
 
 
 ## Rechtliche Grundlage {#sec:playbytherules}
-Die rechtliche Grundlage für die freie Verwendung von Gesetzen ist durch § 5  des Urheberrechts gegeben.
+Die rechtliche Grundlage für die freie Verwendung von Gesetzen ist durch das deutsche Urheberrecht gegeben. Die so geartete Rechtslage wurde auch anwaltlich, speziell in Bezug auf eine eventuell auch kommerziellen Nutzung, umfassend bestätigt. Gleiches gilt auch für Rechtsprechungen durch öffentliche Gerichte. 
 
-> **(1)** Gesetze, Verordnungen, amtliche Erlasse und Bekanntmachungen sowie Entscheidungen und amtlich
-verfaßte Leitsätze zu Entscheidungen genießen keinen urheberrechtlichen Schutz.
->
+> (1) Gesetze, Verordnungen, amtliche Erlasse und Bekanntmachungen sowie Entscheidungen und amtlich verfaßte Leitsätze zu Entscheidungen genießen keinen urheberrechtlichen Schutz.
+> 
 > --- Urheberrechtsgesetz (UrhG), § 5
+
+Wo sich die Gesetzgebung auf den ersten Blick ganz im Sinne von Open Data und Creative Commons erst einmal hervorragend anhört, erweist sich auf den zweiten als nur unzureichend umgesetzt: Obwohl Gesetze und Urteile rechtlich frei von Urheberrechten sind, ist es nicht möglich diese ohne Umweg über private Anbieter mit eigenen wirtschaftlichen Interessen zu beziehen. 
+
+Als optimale Quelle würde man initial das vom \ac{BMJV} herausgegebene \ac{BGBL} annehmen. Es dient der verpflichtenden Verkündung aller Bundesgesetze, welche erst durch eben diese Veröffentlichung in Kraft treten können (Grundgesetz, Artikel 82). Zwar ist das \ac{BMJV} Herausgeber des \ac{BGBL}, allerdings wird der Vertrieb durch die 2006 vollständig privatisierte *Bundesanzeiger Verlag GmbH* vertrieben.[^privatanzeiger] Durch einen kostenpflichtigen Abonnentenzugang und den Vertrieb der Papierversion verdient der Verlag an dem Blatt. Die freie Weiterverwendung der veröffentlichen Gesetze schränkt der Verlag einmal im kostenlos zugänglichen *Bürgerzugang* durch technische Mittel[^saferpdf] und im *Abonnentenzugang*, mutmaßlich, durch seine AGB[^noopendata] ein. Eine Klärung der Tragweite der AGB und der Rechtmäßigkeit solcher Einschränkungen würde wohl einen größeren, dem Umfang dieser Arbeit unangemessenen, rechtlichen Aufwand mit sich bringen.
+
+Die zweite eng mit dem Bund verknüpfte mutmaßlich freie Quelle für Gesetze ist die Webseite *gesetze-im-internet.de*. Von der Juris GmbH betrieben, an welcher der Bund $50.1\%$ Anteile hält, gibt es hier die Möglichkeit die aktuelle Version der Gesetze einzusehen. Zusätzlich werden alle Gesetze auch im maschinell besser konsumierbaren XML-Dateiformat zur Verfügung gestellt. Nach Rücksprache mit dem \ac{BMJV} steht die Verwendung dieser Daten vollständig frei und ist auch für gegebenenfalls kommerzielle Unterfangen möglich. Problematisch ist, dass auch hier wiederum gilt, dass die Juris GmbH ein wirtschaftliches Unternehmen ist, und so zum Beispiel für den Zugriff auf alte Versionen der Gesetzestexte ein Abonnement (mit ungewissen Einschränkungen) notwendig ist. Allerdings: Für das konkrete Ziel dieser Arbeit sind über *gesetze-im-internet.de* alle notwendigen Daten verfügbar.
+
+[^privatanzeiger]: Der Spiegel: M. DuMont Schauberg Verlag schluckt Bundesanzeiger (2006), [spiegel.de/kultur/gesellschaft/a-448095.html](http://www.spiegel.de/kultur/gesellschaft/m-dumont-schauberg-koelner-verlag-schluckt-bundesanzeiger-a-448095.html); Abgerufen 08/2016
+
+[^noopendata]: Ausschnitt aus der AGB von [bgbl.de](http://www1.bgbl.de/fileadmin/Betrifft-Recht/Dokumente/BGBl/bgbl_agb_online.pdf):
+
+[^saferpdf]: Ausschnitt aus *Fragen & Antworten* von [bgbl.de](http://www1.bgbl.de/fragen-antworten/fragen-antworten.html#c46073):
+
+    > Wie dürfen die Daten aus BGBl. Online weiterverwendet werden?
+    > 
+    > Die Version im Bürgerzugang ist gegen Weiterverarbeitung geschützt. Die entgeltliche Version ermöglicht es Ihnen, Textausschnitte zu markieren und mittels „copy & paste“ in andere Programme einzufügen und entsprechend unserer AGB [...] für das Online-Abonnement weiter zu verarbeiten.
 
 ---
 # \nocite{UrhG} hack. 
 # See: http://pandoc.org/MANUAL.html#citations
 nocite: |
   @UrhG
+  @Grundgesetz
 ---
 
+
+<!-- CHAOS STARTS HERE -->
 [@LexxpressJuris2013]
 
+> Es gibt keinen Grund für den Staat sich auf diesem Gebiet wirtschaftlich zu betätigen. Er sollte Rechtsnormen und Urteile, die nicht dem Urheberrecht unterliegen, von einer gemeinnützigen Organisation digitalisieren lassen und jedermann kostenlos zur Verfügung stellen.
+> 
+> --- *Markus Reithwiesner, Geschäftsführer Rudolf-Haufe-Verlag*, @FAZ2009
+
+https://www.jurion.de/de/home/guest
+https://openlaws.com/

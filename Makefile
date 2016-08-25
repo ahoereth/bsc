@@ -10,6 +10,7 @@ all: thesis_skeleton.latex 000_abstract.latex
 		--filter=./scripts/.cabal-sandbox/bin/pandoc-crossref \
 		--filter=./scripts/.cabal-sandbox/bin/pandoc-citeproc \
 		--filter=./scripts/dot.py \
+		--filter=./scripts/marginnotes.py \
 		--listings \
 		-f markdown+definition_lists \
 		-o thesis.pdf

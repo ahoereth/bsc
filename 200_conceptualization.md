@@ -48,15 +48,25 @@ Da die eigentlichen Normen eines Gesetzes, um möglichst viele Alltagssituatione
 
 
 ## Software-as-a-Service {#sec:saas}
+Als initiales Produkt wird eine Plattform zum interaktiven Navigieren von deutschen Bundesgesetzen entwickelt. 
 
-\ac{SaaS}
+Zu den zentralen Funktionen dieser gehört neben einer...
 
-> Es gibt keinen Grund für den Staat sich auf diesem Gebiet wirtschaftlich zu betätigen. Er sollte Rechtsnormen und Urteile, die nicht dem Urheberrecht unterliegen, von einer gemeinnützigen Organisation digitalisieren lassen und jedermann kostenlos zur Verfügung stellen.
-> 
-> --- *Markus Reithwiesner, Geschäftsführer Rudolf-Haufe-Verlag*, @FAZ2009
+Zum testen des Marktes und weitere Investigation in was als technisch Machbar erachtet wird...
 
-https://www.jurion.de/de/home/guest
-https://openlaws.com/
+### Vorbereitungsphase
+
+1) Akkumulation der Bundesgesetze von gesetze-im-internet.de
+2) Übersetzung in ein einheitliches und leichter verarbeitbares Format
+3) Speicherung in der eigenen Datenbank in normalisierter Form
+
+#### Implementierungsphase
+
+* Applikation mit nativ-ähnlicher Performance
+* Auf allen Geräte-Formfaktoren gleichermaßen mit vollem Funktionsumfang einsetzbar
+* Offline Verwendbar: Index Übersicht und zuvor gespeicherte Gesetze
+* Volltext Suche, auch offline für die dort verfügbaren Daten
+* Gerüstet für eine Ausbruch aus dem Browser: iOS, Android und Desktop
 
 
 

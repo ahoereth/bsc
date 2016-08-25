@@ -48,6 +48,7 @@ $endif$
 \def\include{} % marginpar bug
 
 \definecolor{lightlightgray}{gray}{0.95}
+\definecolor{uos_red}{HTML}{AD1034}
 
 \usepackage[gen]{eurosym}
 
@@ -272,6 +273,11 @@ $endif$
 % GO!GO!GO! MOVE IT!
 %*******************************************************
 \begin{document}
+
+% Make un-wrappable words not span into the margins.
+% http://tex.stackexchange.com/a/165289
+\setlength\emergencystretch{1.5em}
+
 \frenchspacing
 \raggedbottom
 %\selectlanguage{american} % american ngerman

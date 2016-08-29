@@ -92,11 +92,40 @@ nocite: |
 ---
 
 
+
+
+## Software-as-a-Service {#sec:saas}
+Der Markt für elektronische Rechtsinformationen wird, ähnlich dem Markt für traditionelle Formate, von wenigen Akteuren dominiert. Zusätzlich liegt eine starke Überschneidung der großen Anbieter im digitalen mit den traditionellen Verlagen im analogen Bereich vor. Dies resultiert daraus, dass die meisten Anbieter auf die Verbindung von Gesetzestexten mit den in ihrem Verlagsrepertoire befindlichen ergänzenden Werken wie Gesetzeskommentare setzen, welche sie anderen Anbietern nicht verfügbar machen.
+
+Als Zielgruppe haben diese Systeme allesamt professionelle Anwender, welche zum Zahlen der teils immensen Gebühren gewillt sind. So kostet beispielsweise der Bezug des gesamten deutschen Bundesrechtes, welches, wie in Abschnitt @sec:resources beschrieben, Urheberrechtsfrei ist, ohne ergänzende Literatur 40€ monatlich [@Beck2011, Seite 13]. 
+
+Neben der Erweiterung des Angebots um Verlagseigene und eingekaufte Gesetzeskommentare wird stark auf die direkte Verknüpfung von Gesetzen zu Rechtsprechungen gesetzt. Auch dies bezüglich ist der vorhergehende Abschnitt @sec:resources zu benennen und insbesondere der aktuelle Trend in die Richtung auch solche stärker frei zugänglich zu machen.
+
 <!-- CHAOS STARTS HERE -->
 
-> Es gibt keinen Grund für den Staat sich auf diesem Gebiet wirtschaftlich zu betätigen. Er sollte Rechtsnormen und Urteile, die nicht dem Urheberrecht unterliegen, von einer gemeinnützigen Organisation digitalisieren lassen und jedermann kostenlos zur Verfügung stellen.
-> 
-> --- *Markus Reithwiesner, Geschäftsführer Rudolf-Haufe-Verlag*, @FAZ2009
+^[>\color{red}Konkretere Beispiele aus dem Markt]
 
-https://www.jurion.de/de/home/guest
-https://openlaws.com/
+<!-- https://www.jurion.de/de/home/guest
+https://openlaws.com/ -->
+
+
+
+
+## Lawly -- moderne Werkzeuge für Juristen
+^[>\color{red}Titel mehr auf freie Daten beziehen?]
+
+Als initiales Produkt wird eine Plattform zum interaktiven Navigieren von deutschen Bundesgesetzen entwickelt. In einem zweiten Schritt soll diese um Verknüpfungen mit Rechtsprechungen erweitert werden.
+
+Zentrale Aspekte der Plattform ist Open Data und Open Source. Der verfolgte Ansatz ist hierbei vielschichtig. Es gilt komplett auf frei verfügbare Daten (Open Data) zu setzen und die mithilfe von frei verfügbaren Technologien (Open Source) aufzubereiten. Einher geht damit zusätzlich auch selbst zu dieser Bewegung beizutragen und die Entwicklung der Plattform selbst offen zu gestaltet. So soll sie zum Start nicht nur als Plattform offen, sondern auch im Quelltext offen sein und im Idealfall dritte in die offene Entwicklung einbinden. Neben solchen ideellen Ansätzen gilt es zusätzlich, konkrete für den Endnutzbar spürbare Alleinstellungsmerkmale gegenüber bestehenden Angeboten zu schaffen.
+
+Hierbei steht im Vordergrund, dass aktuelle digitale Anbieter auf traditionelle Webseiten setzen. Daraus ergeben sich starke Einschränkungen für die Benutzererfahrung: Die Handhabung von Informationsmengen wie sie bei juristischen Informationen vorliegen muss interaktiv gestaltet sein. Unterbrechungen durch Ladezeiten beim wechseln zwischen einzelnen Normen, dem aufrufen verknüpfter Rechtsprechungen und das durchsuchen der verfügbaren Daten stört den Interaktionsfluss ^[>\color{red}Geht das so?]. 
+
+Zusätzlich spielt Portabilität heutzutage eine immer größere Rolle. Webseiten bestehender Anbietern sind zur Verwendung an eine bestehende und zuverlässige Internetverbindung gebunden. Genauso wie traditionelle Buchformate, welche aufgrund ihrer Größe und Masse nur schwer portabel sind, kommen sie so für den Einsatz unterwegs nicht in Frage.
+
+Es gilt also die Vorteile bestehender digitaler Angebote, Aktualität und Umfang, mit modernen Ansätzen der Portabilität zu verbinden. Um dies zu erreichen verfolgt der praktische Aspekt dieser Arbeit zwei Phasen.
+
+In der **Vorbereitungsphase** wird die Akkumulation der Bundesgesetze von *gesetze-im-internet.de* in möglichst automatisierter Form umgesetzt. Hierbei gilt es automatisiert die XML-Daten abzugreifen, in ein einheitliches leichter zu verarbeitendes Format zu übersetzen und in eine eigene Datenbank einzuspeisen. Außerhalb dieser Arbeit ist es nötig, einen automatisierten Prozess zu entwickeln, welcher die bei diesem Vorgang gesammelten Datensätze auf ähnlichem Weg tagesaktuell erneuert.
+
+Bei der **Implementierungsphase** wird auf Grundlage dieser Daten eine Applikation entwickelt, welche auf einer möglichst großen Auswahl an Geräten mit gleichermaßen vollen Funktionsumfang einsetzbar ist. Dabei ist es wichtig ein Nutzungserlebnis zu ermöglichen, welches für eine Plattform nativ entwickelten Programmen möglichst gleich kommt. Dies spiegelt sich nicht nur in der allgemeinen Performance der Applikation wieder, sondern auch in der Möglichkeit zentrale Teile der Applikation ohne bestehende oder mit nur unzuverlässiger Internetverbindung auch unterwegs nutzen zu können. Zu soll zum Beispiel die gesamt Übersicht der Daten und insbesondere vom Nutzer zuvor abgerufenen oder für die weitere Verwendung explizit vorgemerkte Datensätze immer verfügbar sein. Zusätzlich müssen diese Daten gleichermaßen online als auch offline durchsuchbar sein.
+
+Wobei sich die im Rahmen dieser Arbeit entwickelte Software auf eine Web-Applikation zum interaktiven navigieren deutscher Bundesgesetze beschränkt, wird bei der Implementation und den ihr vorhergehenden technischen Entscheidungen vorausschauend geplant: Neben der Integration von Rechtsprechungen wird auch die Möglichkeit der Erweiterung um native Applikationen für Desktop, iOS und Android bedacht.

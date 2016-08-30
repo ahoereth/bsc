@@ -177,7 +177,7 @@ Als drittes Standbein neben dem Uni-Direktionalen Datenfluss und der Komponenten
 
 Der verbreitetere und aus er objektorientierten Programmierung bekannte Ansatz ist es, mit Instanzen von Objekten zu arbeiten, welche während der Laufzeit eines Programms manipuliert werden. Sehr bekannt ist dieses Modell aus der objektorientierten Programmierung, bei welcher Objekte meist Methoden zur Verfügung stellen um ihren eigenen Zustand zu manipulieren. Das Problem hierbei ist, dass veränderbare Daten in nicht vorhersehbaren Zuständen resultieren können. In @lst:mutable_javascript ist Beispielhaft die Funktion `take` definiert, welche den Wert eines Attributes eines ihr übergebenen Objektes zurückgibt und den Wert des Attributes allerdings auch nachträglich verändert. Falls diese Funktion nicht vom sie einsetzenden Programmierer geschrieben wurde, könnte dies zu unvorhersehbaren Resultaten im weiteren Programmablauf führen.
 
-Interessant hierbei ist auch, dass die Variable `obj` als `const`, also Konstante, definiert wurde: Scheinbar unveränderbar, bedeutet dies hier allerdings nicht, dass der Wert des Objektes unverändert bleibt, sondern die in der Variable gespeicherte Referenz auf das Objekt. Die Variable `arr` beinhaltet also garantiert immer eine Referenz auf das selbe Objekt, dieses allerdings nicht die selben Werte. Obwohl dieses verhalten bei angehenden Programmierern oft für Verwirrung sorgt, ist es ein auch aus anderen Sprachen wie C++ oder Java (`final`) bekanntes Verhalten.
+Interessant hierbei ist auch, dass die Variable `obj` als `const`, also Konstante, definiert wurde: Konstant bedeutet hier allerdings nicht, dass der Wert des Objektes unverändert bleibt, sondern die in der Variable gespeicherte Referenz zu einem bestimmten Objekt. Das referenzierte Objekt ist allerdings veränderbar. Obwohl dieses verhalten bei angehenden Programmierern oft für Verwirrung sorgt, ist es ein auch aus anderen Sprachen wie C++ (`const`) oder Java (`final`) bekanntes Verhalten.
 
 Listing: Pass-by-reference und veränderbare Daten in JavaScript
 
@@ -208,21 +208,69 @@ const list2 = list1.push(4);
 // list2: [1, 2, 3, 4]
 ~~~
 
-Für ein besseres intuitives Verständnis kann man immutables statt als Objekte als individuelle Werte betrachten. Objekte sind Strukturen welche in ihren Attributen Referenzen auf Werte beinhalten. Diese Referenzen in einem Objekt können sich mit der Zeit wandeln, ohne dieses Objekt referenzierende Variablen zu ändern. Einzelne Werte wie der aus Java bekannte `String` oder `int` sind an sich unveränderbar.
+Für ein besseres Verständnis kann man *immutables* statt als Objekte als individuelle Werte betrachten. Objekte sind Strukturen welche in ihren Attributen Referenzen auf andere Objekte beinhalten. Der Wert von Attributen eines Objektes sind also Referenzen, welche verändert werden können, ohne das jeweilige referenzierte Objekt zu ändern. Einzelne Werte wie der aus Java bekannte `String` oder `int` sind an sich unveränderbar -- gleiches gilt für *immutables*. Wird also die Änderung eines Attributes einer unveränderbaren Datenstruktur beauftragt, wird ein neues unveränderbares Objekt zurück gegeben welches diese Änderung reflektiert.
+  
+Deep Copy
+:  Tiefe Kopie
+:  Bei einer tiefen Kopie eines Objektes werden sämtliche vom Objekt beinhaltete Objekte ihrerseits tief kopiert. Im Kontrast zur tiefen Kopie werden bei einer flachen Kopie (*shallow copy*) nur das eigentliche Objekt mit den in seinen Attributen gespeicherten Referenzen kopiert, wobei die Referenzen aber weiterhin auf die selben Objekte zeigen.^[>\color{red}Definitionen im Text wie hier oder nur in ein eigenes Verzeichnis?]
 
-<!-- Dadurch ergibt sich auch die Möglichkeit extrem performante Identitätsvergleiche einzusetzen, wie sie in Listing @lst:immutable_equality zu sehen sind. Um zwei Datenstrukturen zu vergleichen muss hierbei nicht mehr jedes möglicherweise verschachtelte Wertepaar der beiden Objekte miteinander verglichen werden, sondern nur  -->
+Um nicht bei jeder Mutation eine veränderte tiefe Kopie des originalen Objektes zu erstellen und damit unnötig Speicher zu belegen wird bei der verwendeten Bibliothek, *immutablejs*, für die interne Repräsentation unveränderbarer Objekte auf sogenannte gerichtete azyklische Graphen mit gemeinschaftlicher Nutzung (eng.: *directed azyclic graphs (DAG) with structural sharing*) gesetzt. In Abbildung @lst:dag_mutation wurde hierfür ein Beispiel visualisiert: Im originalen Graph mit Wurzel *a* soll der verschachtelte Kind-Knoten *g* verändert werden. Um dies mit möglichst wenig Aufwand zu erreichen und den ursprünglichen Graphen unverändert zu lassen, werden die hier gestrichelt dargestellten Knoten, *a*, *c* und *g* in Form der gestrichelten Knoten, respektive *a2*, *c2* und *g2*, kopiert. Die Mutation findet auf dem neu erstellten Knoten *g2* statt und der neue Graph mit Wurzel *a2* setzt sich so Speicher sparend im dargestellten Beispiel zu über 50% aus bereits existierende unveränderte Knoten zusammen (durchgezogene Umrandung).
 
-<!-- Listing: Equality Checks mit unveränderbaren Datenstrukturen
+Listing: Mutation eines gerichteten azyklischen Graphen mit gemeinschaftlicher Nutzung
+
+~~~{#lst:dag_mutation .dot format=png width=.8\\textwidth}
+digraph G {
+  node [shape=circle];
+  splines=false;
+  a -> {b c}
+  b -> {d e f}
+  c -> g
+  g -> h
+
+  a [style=dashed]
+  c [style=dashed]
+  g [style=dashed]
+  a2 [style=dotted]
+  c2 [style=dotted]
+  g2 [style="dotted,filled"]
+  a2 -> {b c2} [style=dotted]
+  c2 -> g2 [style=dotted]
+  g2 -> h [style=dotted]
+
+  // Formatting hacks
+  a -> a2 [style=invis]
+  b -> c [style=invis]
+  c -> c2 [style=invis]
+  g -> g2 [style=invis]
+  h2 [style=invis]
+  h -> h2 [style=invis]
+  g2 -> h2 [style=invis]
+  bc [style=invis]
+  b -> bc [style=invis]
+  {rank=same;a a2}
+  {rank=same;b bc c c2}
+  {rank=same;g g2}
+  {rank=same;h h2}
+}
+~~~
+
+Insgesamt ergibt sich aus der Verwendung von unveränderbaren Datenstrukturen so gleich mehrere Vorteile: Einerseits ist es, wie bereits erläutert, für Entwickler leichter über Veränderungen von Datenstrukturen zu urteilen. Zusätzlich ist es bei der internen Verwendung der oben beschriebenen \ac{DAG}s für unveränderbare Objekte möglich, Objekte per nur anhand ihrer Identität zu Vergleichen, was zu starken Performance Vorteilen führt: Bei traditionellen veränderbaren Datenstrukturen ist es nötig eine tiefen Vergleich (eng: *deep comparison*) durchzuführen, bei dem jedes Attribut-Paar der zu vergleichenden Datenstrukturen individuell miteinander, wiederum tief, verglichen werden muss.
+
+Listing: Identitätsvergleiche mit *immutablejs*
 
 ~~~{.javascript #lst:immutable_equality}
 import { Map } from 'immutable';
-const map1 = new Map({a:1, b:2, c:3});
+const map1 = new Map({ a: 1, b: 2, c: 3 });
 const map2 = map1.set('b', 2);
 const map3 = map1.set('b', 50);
-console.log(map1 === map2); // true
-console.log(map1 === map3); // false
-~~~ -->
+// map1 === map2
+// map1 !== map3
+~~~
 
+
+
+### Zusammenfassung
+^[>\color{red}Besserer Name, bessere Abschnitt-Strukturierung.]
 Zusammenfassend lässt sich der verfolgte Ansatz einer Komponenten-Hierarchie mit uni-direktionaler Datenfluss und unveränderbaren Datenstrukturen in einem ähnlichen Kontrast zu einem Model-View-Controller Ansatz beschreiben, wie funktionelle Programmierung zu objektorientierter Programmierung:
 
 Bei \ac{OOP} wird mit Instanzen von Objekten gearbeitet, welche jeweils ihren eigenen Zustand verwalten und durch Instanzmethoden die Manipulation von diesem ermöglichen. Referenzen auf Instanzen von Objekten werden vielfach an Funktionen übergeben welche die referenzierte Instanz manipulieren. Bei der funktionellen Programmierung hingegen werden Objekte als unveränderbar betrachtet. Der Aufruf einer Funktion verändert die ihm übergebenen Objekte nicht direkt, sondern gibt eine veränderte Kopie dieser zurück, welche solange benötigt in einem globalen Zustand gehalten werden.

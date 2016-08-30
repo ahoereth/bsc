@@ -282,8 +282,6 @@ $endif$
 %\selectlanguage{american} % american ngerman
 %\renewcommand*{\bibname}{new name}
 %\setbibpreamble{}
-\pagenumbering{roman}
-\pagestyle{plain}
 
 %********************************************************************
 % Frontmatter
@@ -297,6 +295,9 @@ $include-before$
 $endfor$
 
 \pagestyle{scrheadings}
+
+\pagenumbering{roman}
+\pagestyle{plain}
 
 {% if table_of_contents.contents %}
 

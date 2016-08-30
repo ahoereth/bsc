@@ -66,7 +66,7 @@ Beim Aufruf einer Funktion aus dem Skript diese gemeinsam mit ihren Parametern a
 
 Listing: Callstack-Ausschnitt \\#1 zu Listing \\ref{lst:js_script}
 
-~~~{#lst:js_callstack1 .dot format=png scale=.33}
+~~~{#lst:js_callstack1 .dot format=png scale=1}
 digraph structs {
   rankdir=LR;
   node [shape=record];
@@ -102,7 +102,7 @@ Während sich das umgebende System nun also mit dem Ausführen des Timeouts besc
 
 Listing: Callstack-Ausschnitt \\#2 zu Listing \\ref{lst:js_script}
 
-~~~{#lst:js_callstack2 .dot format=png scale=.33}
+~~~{#lst:js_callstack2 .dot format=png scale=.9}
 digraph structs {
   rankdir=LR;
   node [shape=record];
@@ -128,7 +128,7 @@ Sobald die eine native \ac{API} ihre Berechnungen beendet hat, reiht sie es inkl
 
 Listing: Callstack-Ausschnitt \\#3 zu Listing \\ref{lst:js_script}
 
-~~~{#lst:js_callstack3 .dot format=png scale=.33}
+~~~{#lst:js_callstack3 .dot format=png scale=.8}
 digraph structs {
   rankdir=LR;
   node [shape=record];

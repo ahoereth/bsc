@@ -8,7 +8,7 @@ def extract_keyval(keyvals, key, default=None):
   val = default
   rest = []
   for k, v in keyvals:
-    if k == key and val is not None:
+    if k == key:
       val = v
     else:
       rest.append([k, v]) # pandocfilters uses lists instead of tuples.
@@ -39,8 +39,9 @@ def dot(key, value, pandoctarget, _):
   targetformat = get_extension(pandoctarget, 'png', html='png', latex='tex')
   targetformat, keyvals = extract_keyval(keyvals, 'format', targetformat)
 
+  width, keyvals = extract_keyval(keyvals, 'width', '\\textwidth')
+
   if targetformat == 'tex':
-    width, keyvals = extract_keyval(keyvals, 'width', '\\columnwidth')
 
     p = Popen(['dot2tex', '-ftikz', '--codeonly'], stdout=PIPE, stdin=PIPE, stderr=PIPE)
     tikz, err = p.communicate(bytes(code, 'utf-8'))
@@ -63,6 +64,8 @@ def dot(key, value, pandoctarget, _):
 
   elif targetformat in ['png', 'pdf']:
     dst = get_filename4code('dot', code, targetformat)
+    scale, keyvals = extract_keyval(keyvals, 'scale')
+
 
     p = Popen(['dot', '-T' + targetformat, '-o', dst],
               stdout=PIPE, stdin=PIPE, stderr=PIPE)
@@ -70,10 +73,19 @@ def dot(key, value, pandoctarget, _):
     if len(err) != 0:
       raise ValueError(err.decode('utf-8'))
 
-    # This overwrites ident prefixes like lst to fig. Desired behavior?
-    return Para([Image([ident, [], keyvals],
-                       [RawInline('latex', caption)],
-                       [dst, 'fig:'])])
+    graphic = '\\resizebox{%s}{!}{\\includegraphics{%s}}' % (width, dst)
+    if scale is not None:
+      graphic = '\\scalebox{%s}{\\includegraphics{%s}}' % (scale, dst)
+
+    result = '''
+      \\begin{figure}[htbp]
+        \\centering
+        %s
+        \\caption{%s}
+        \\label{%s}
+      \\end{figure}
+    ''' % (graphic, caption, ident)
+    return RawBlock('latex', result);
 
 if __name__ == '__main__':
     toJSONFilter(dot)

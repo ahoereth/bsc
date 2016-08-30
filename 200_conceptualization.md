@@ -33,7 +33,7 @@ Neben der weiterhin fast ausschließlich Papier-gestützten rechtlichen Kommunik
 
 Die Zielgruppe für diesen Kassenschlager ist schlichtweg jeder, der mit dem Rechtswesen zu tun hat: Das bundesweit ca. 165.000 aktiven Rechtsanwälte [@BRAK_Mitglieder_2015], über 25.000 Richter und Staatsanwälte im öffentlichen Dienst [@BFJ_ZahlRichterStaatsanwaelte] und über 70.000 weitere Juristen, welche anderweitige juristische Tätigkeiten im öffentlichen Dienst und der freien Wirtschaft ausüben (vrgl. Abbildung @fig:juristischeberufe aus @BFA_2012_Chancen, Seite 76). Außerdem gibt es aktuell über 100.000 Jura-Studenten [@Wissenschaftsrat2012, Seite 80]. In all diesen Bereichen ist die Tendenz weiterhin steigend [@BFA_2012_Chancen, Seite 75-78].
 
-![Erwerbstätige juristischer Ausbildung](assets/berufschancen_rechtswissenschaften.png){#fig:juristischeberufe}
+![Erwerbstätige mit juristischer Ausbildung](assets/berufschancen_rechtswissenschaften.png){#fig:juristischeberufe}
 
 Beispielhaft ergeben sich aus diesen Zahlen alleine durch die von Land und Bund beschäftigten Richter und Anwälte jährliche Kosten von über 1 Millionen Euro für den öffentlichen Dienst. Dabei ist wichtig zu bemerken, dass die für diese Schätzung angenommenen Werte, pro Jurist eine Gesetzessammlung mit je drei Ergänzungslieferungen pro Jahr zu je 15€, niedrig angesetzt sind.[^ergaenzungshop] Ausübende Juristen sind meist auf drei oder mehr solcher Werke angewiesen.
 

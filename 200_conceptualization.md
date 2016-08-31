@@ -111,7 +111,7 @@ https://openlaws.com/ -->
 
 
 
-## Lawly -- moderne Werkzeuge für Juristen
+## Lawly -- moderne Werkzeuge für Juristen {#sec:lawly}
 ^[>\color{red}Titel mehr auf freie Daten beziehen?]
 
 Als initiales Produkt wird eine Plattform zum interaktiven Navigieren von deutschen Bundesgesetzen entwickelt. In einem zweiten Schritt soll diese um Verknüpfungen mit Rechtsprechungen erweitert werden.

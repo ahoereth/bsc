@@ -53,6 +53,9 @@ JIT
   \acro{BGBL}{Bundesgesetzblatt}
   \acro{HTTP}{Hypertext Transfer Protocol}
   \acro{HTTPS}{Hypertext Transfer Protocol Secure}
+  \acro{AWS}{Amazon Web Services}
+  \acro{EC2}{Elastic Cloud Computing}
+  \acro{RDS}{Relational Database Service}
 \end{acronym}
 
 

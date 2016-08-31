@@ -49,7 +49,7 @@ Eine bei Webservern verbreitete Art der Umsetzung von Concurrency ist es, jede A
 
 TODO: Andere Arten von *echter* Concurrency.
 
-#### Event-Loop
+#### Event-Loop {#sec:concurrency:event}
 Eine alternative Herangehensweise ist einer Art der gewissermaßen simulierten Nebenläufigkeit: Mithilfe von asynchronen I/O-Operationen und eines Event Loops wird dem Anwender eine Art Parallelität vorgegaukelt, obwohl der Programmcode weiterhin nur auf einem einzelnen Thread ausgeführt wird.
 
 Diese Herangehensweise ist einer der essentiellen Bestandteile von JavaScript. Dies gilt nicht nur Serverseitig innerhalb von Node.js, sondern insbesondere auch Clientseitig im Browser. Browser sind traditionell Programme welche nur in einem einzelnen Prozess ausgeführt wurden. Dadurch, dass sie im allgemeinen gewissermaßen die Laufzeitumgebung von clientseitigen JavaScript-Programmen darstellen, sind auch diese an den gleichen, einzelnen Prozess gebunden. Zwar setzen moderne Browser auf einzelne Prozesse für individuelle Tabs, allerdings jedes Tab weiterhin nur auf einen einzelnen. Auch in solchen modernen Browsern ist die Problematik dieser Einschränkung noch immer leicht provozierbar: Wenn ein auf einer Webseite ausgeführtes Script viele sequentielle Operationen durchführt, ist schnell merklich, dass die Interaktion mit der Webseite eingeschränkt ist. Ein Beispiel hierfür ist eine einfache unbedingter Schleife, `while(true);`.[^killthistabnow] Klicks auf Links führen in einer solchen Situation zum Beispiel nicht mehr zu einem Seitenwechsel. Erst sobald die Berechnungen abgeschlossen sind, werden die angestauten Aktionen abgearbeitet. Mehr dazu in Abschnitt @sec:js:runtime, JavaScript Runtime.

@@ -40,25 +40,6 @@ Der in @sec:dataflow beschriebene Datenfluss wird zentral durch den Redux-Store 
 
 Der State ist ein einzelnes JavaScript Objekt, welches den gesamten Zustand der Applikation beinhaltet. React Komponenten lösen actions aus, welche mithilfe der reducer den Zustand beeinflussen.
 
-Listing: Uni-direktionaler Datenfluss
-
-```{.dot #lst:dataflow}
-digraph {
-  rankdir=TB
-  node [shape=none]
-  S [label="State"]
-  A [label="Component A"]
-  B [label="Component B"]
-  C [label="Component C"]
-  {rank=same;A B C}
-  S -> A [label="partial state"]
-  A -> B [label="partial state"]
-  B -> C [label="partial state"]
-  A -> S [label="action" style=dashed];
-  B -> S [label="action" style=dashed];
-  C -> S [label="action" style=dashed];
-}
-```
 
 * Redux
 * Zentraler Store

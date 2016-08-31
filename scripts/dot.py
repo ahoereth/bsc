@@ -66,7 +66,6 @@ def dot(key, value, pandoctarget, _):
     dst = get_filename4code('dot', code, targetformat)
     scale, keyvals = extract_keyval(keyvals, 'scale')
 
-
     p = Popen(['dot', '-T' + targetformat, '-o', dst],
               stdout=PIPE, stdin=PIPE, stderr=PIPE)
     _, err = p.communicate(bytes(code, 'utf-8'))
@@ -74,7 +73,9 @@ def dot(key, value, pandoctarget, _):
       raise ValueError(err.decode('utf-8'))
 
     graphic = '\\resizebox{%s}{!}{\\includegraphics{%s}}' % (width, dst)
-    if scale is not None:
+    if scale == '!':
+      graphic = '\\includegraphics{%s}' % dst
+    elif scale is not None:
       graphic = '\\scalebox{%s}{\\includegraphics{%s}}' % (scale, dst)
 
     result = '''

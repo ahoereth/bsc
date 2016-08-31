@@ -14,16 +14,17 @@ Traditionell wird bei dem Aufruf einer Webseite ein einzelnes HTML-Dokument vom 
 
 In Abbildung @lst:website wird dieser Kreislauf beispielhaft durchnummeriert dargestellt: Nach einer initialen Anfrage an den Server (1) antwortet dieser mit einer Webseite (2) mit welcher der Nutzer interagiert (3). Diese Interaktion löst eine Anfrage an den Server aus (4) welcher anhand dieser eine neue Webseite bereitstellt (5). Diese neue Webseite kann sich zwar inhaltlich mit der alten überschneiden, muss aber vom Clienten komplett neu dargestellt werden. An dieser Stelle beginnt der Kreislauf erneut: Der Nutzer interagiert mit der Seite (6), was in einer Anfrage an den Server resultiert (7) und so weiter.
 
-Listing: Server-/Client-Kommunikation einer traditionellen Webseite
+Listing: Client-/Server-Kommunikation einer traditionellen Webseite
 
-```{.dot #lst:website}
-digraph {
-  node [shape=none];
+```{#lst:website .dot}
+digraph G {
+  node [shape=rect];
   SERV [label="Server"];
   APP1 [label="Website"];
   APP2 [label="Website"];
-  APP3 [label="[...]"];
+  APP3 [label="[...]" shape=none];
   USER [label="User"];
+  VOID [style=invis]
 
   VOID -> SERV [label="(1) initial req."]
   SERV:sw -> APP1 [label="(2) res."];
@@ -34,6 +35,9 @@ digraph {
   APP2 -> SERV [label="(7) req."]
   SERV -> APP3 [style=dashed];
   USER -> APP3 [style=dashed];
+
+  APP1 -> APP2 [style=dotted]
+  APP2 -> APP3 [style=dotted]
 
   // Formatting hacks.
   VOID [label=""]
@@ -51,12 +55,12 @@ Eine erste Erweiterung dieses Ansatzes liegt in dem Einsatz von interaktiven Jav
 
 \ac{AJAX} ist auch zentraler Teil von \ac{SPA}: Anstatt nur einzelne Elemente der Webseite mit Hilfe von JavaScript interaktiv zu gestalten, werden alle Interaktionen des Nutzers mit der Webseite durch JavaScript behandelt. Dieses Modell wird in Abbildung @lst:spa dargestellt: Ähnlich wie in Abbildung @lst:website stellt der Nutzer eine initiale Anfrage an den Server (1) woraufhin dieser die Webseite mit allen benötigten Skripts zur Verfügung stellt (2). Interaktionen des Nutzers mit der Applikation (3+) werden von nun an von dem vorgeladenen JavaScript-Code behandelt und resultieren, wenn nötig in für den Nutzer unsichtbaren \ac{AJAX}-Anfragen an den Server (4+) welcher mit den benötigten Daten antwortet (5+). Meist stellt der Server keine strukturellen Informationen sondern nur noch die rohen Daten zur Verfügung, welche dann auf Client-Seite strukturiert und dargestellt werden. Die gestrichelten Kanten sind von nun an also der neue Kreislauf ohne einen Austausch der eigentlichen Webseite.
 
-Listing: Single-Page-Webapplikation Client-/Server-Kommunikation
+Listing: Client-/Server-Kommunikation einer SPA
 
 ```{.dot #lst:spa}
-digraph {
+digraph G {
   rankdir=BT
-  node [shape=none];
+  node [shape=rect];
   USER [label="User"];
   SERV [label="Content-Server"];
   API [label="API-Server"];
@@ -64,11 +68,11 @@ digraph {
   {rank=same;SERV API};
   {rank=same;USER APP};
 
-  USER -> SERV [label="(1) initial request"];
-  SERV -> APP [label="(2) response"];
-  USER -> APP [label="(3+) interactions" style=dashed];
-  APP  -> API [label="(4+) requests" style=dashed];
-  API  -> APP [label="(5+) responses" style=dashed];
+  USER -> SERV [label="(1) initial req."];
+  SERV -> APP [label="(2) res.   "];
+  USER -> APP [label="(3+) actions" style=dashed];
+  APP  -> API [label="(4+) req.   " style=dashed];
+  API  -> APP [label="(5+) res." style=dashed];
 }
 ```
 
@@ -142,13 +146,13 @@ Eine weitere Problematik ist, dass traditionell jeder Baustein einer Applikation
 
 Bei strengem Befolgen dieses Ansatzes wird der gesamte Zustand der Applikation, also auch wenn er nur für einzelne Komponenten relevant ist, zentral verwaltet und entlang der zuvor beschriebenen Komponenten-Hierarchie vererbt. Die Vererbung findet partiell statt, so dass jede Komponente nur den Teil des gesamt Zustandes kennt, die für sie beziehungsweise für ihr untergeordnete Komponenten relevant ist. Im gesamten Prozess beeinflusst keine Komponente den ihr übergebenen Zustand direkt, sondern greift hierfür auf zentral definierte Funktionen, sogenannte Aktionen, zurück. Durch diese Zentralisierung von Zustand und Zustand-manipulierenden Aktionen wird die Applikation und insbesondere Zustandsveränderungen innerhalb der Applikation leichter durchschaubar. Zusätzlich entsteht die Möglichkeit den Zustand persistent für zukünftige Aufrufe der Applikation zu speichern, einzelne Aktionen zu simulieren und gegebenenfalls rückgängig zu machen.
 
-Listing: Uni-direktionaler Datenfluss mit zentralem globalen Zustand, partieller Zustandsvererbung und Aktions-basierter Zustandsmanipulation.
+Listing: Uni-direktionaler Datenfluss
 
 ```{.dot #lst:dataflow}
-digraph {
+digraph G {
   rankdir=TB
-  node [shape=none]
-  S [label="State"]
+  node [shape=rect]
+  S [label="State" shape=ellipse]
   A [label="Component A"]
   B [label="Component B"]
   C [label="Component C"]
@@ -209,12 +213,6 @@ const list2 = list1.push(4);
 ~~~
 
 Für ein besseres Verständnis kann man *immutables* statt als Objekte als individuelle Werte betrachten. Objekte sind Strukturen welche in ihren Attributen Referenzen auf andere Objekte beinhalten. Der Wert von Attributen eines Objektes sind also Referenzen, welche verändert werden können, ohne das jeweilige referenzierte Objekt zu ändern. Einzelne Werte wie der aus Java bekannte `String` oder `int` sind an sich unveränderbar -- gleiches gilt für *immutables*. Wird also die Änderung eines Attributes einer unveränderbaren Datenstruktur beauftragt, wird ein neues unveränderbares Objekt zurück gegeben welches diese Änderung reflektiert.
-  
-Deep Copy
-:  Tiefe Kopie
-:  Bei einer tiefen Kopie eines Objektes werden sämtliche vom Objekt beinhaltete Objekte ihrerseits tief kopiert. Im Kontrast zur tiefen Kopie werden bei einer flachen Kopie (*shallow copy*) nur das eigentliche Objekt mit den in seinen Attributen gespeicherten Referenzen kopiert, wobei die Referenzen aber weiterhin auf die selben Objekte zeigen.^[>\color{red}Definitionen im Text wie hier oder nur in ein eigenes Verzeichnis?]
-
-Um nicht bei jeder Mutation eine veränderte tiefe Kopie des originalen Objektes zu erstellen und damit unnötig Speicher zu belegen wird bei der verwendeten Bibliothek, *immutablejs*, für die interne Repräsentation unveränderbarer Objekte auf sogenannte gerichtete azyklische Graphen mit gemeinschaftlicher Nutzung (eng.: *directed azyclic graphs (DAG) with structural sharing*) gesetzt. In Abbildung @lst:dag_mutation wurde hierfür ein Beispiel visualisiert: Im originalen Graph mit Wurzel *a* soll der verschachtelte Kind-Knoten *g* verändert werden. Um dies mit möglichst wenig Aufwand zu erreichen und den ursprünglichen Graphen unverändert zu lassen, werden die hier gestrichelt dargestellten Knoten, *a*, *c* und *g* in Form der gestrichelten Knoten, respektive *a2*, *c2* und *g2*, kopiert. Die Mutation findet auf dem neu erstellten Knoten *g2* statt und der neue Graph mit Wurzel *a2* setzt sich so Speicher sparend im dargestellten Beispiel zu über 50% aus bereits existierende unveränderte Knoten zusammen (durchgezogene Umrandung).
 
 Listing: Mutation eines gerichteten azyklischen Graphen mit gemeinschaftlicher Nutzung
 
@@ -254,6 +252,12 @@ digraph G {
 }
 ~~~
 
+Um nicht bei jeder Mutation eine veränderte tiefe Kopie des originalen Objektes zu erstellen und damit unnötig Speicher zu belegen wird bei der verwendeten Bibliothek, *immutablejs*, für die interne Repräsentation unveränderbarer Objekte auf sogenannte gerichtete azyklische Graphen mit gemeinschaftlicher Nutzung (eng.: *directed azyclic graphs (DAG) with structural sharing*) gesetzt. In Abbildung @lst:dag_mutation wurde hierfür ein Beispiel visualisiert: Im originalen Graph mit Wurzel *a* soll der verschachtelte Kind-Knoten *g* verändert werden. Um dies mit möglichst wenig Aufwand zu erreichen und den ursprünglichen Graphen unverändert zu lassen, werden die hier gestrichelt dargestellten Knoten, *a*, *c* und *g* in Form der gestrichelten Knoten, respektive *a2*, *c2* und *g2*, kopiert. Die Mutation findet auf dem neu erstellten Knoten *g2* statt und der neue Graph mit Wurzel *a2* setzt sich so Speicher sparend im dargestellten Beispiel zu über 50% aus bereits existierende unveränderte Knoten zusammen (durchgezogene Umrandung).
+
+Deep Copy
+:  Tiefe Kopie
+:  Bei einer tiefen Kopie eines Objektes werden sämtliche vom Objekt beinhaltete Objekte ihrerseits tief kopiert. Im Kontrast zur tiefen Kopie werden bei einer flachen Kopie (*shallow copy*) nur das eigentliche Objekt mit den in seinen Attributen gespeicherten Referenzen kopiert, wobei die Referenzen aber weiterhin auf die selben Objekte zeigen.^[>\color{red}Definitionen im Text wie hier oder nur in ein eigenes Verzeichnis?]
+
 Insgesamt ergibt sich aus der Verwendung von unveränderbaren Datenstrukturen so gleich mehrere Vorteile: Einerseits ist es, wie bereits erläutert, für Entwickler leichter über Veränderungen von Datenstrukturen zu urteilen. Zusätzlich ist es bei der internen Verwendung der oben beschriebenen \ac{DAG}s für unveränderbare Objekte möglich, Objekte per nur anhand ihrer Identität zu Vergleichen, was zu starken Performance Vorteilen führt: Bei traditionellen veränderbaren Datenstrukturen ist es nötig eine tiefen Vergleich (eng: *deep comparison*) durchzuführen, bei dem jedes Attribut-Paar der zu vergleichenden Datenstrukturen individuell miteinander, wiederum tief, verglichen werden muss.
 
 Listing: Identitätsvergleiche mit *immutablejs*
@@ -278,3 +282,6 @@ Bei \ac{OOP} wird mit Instanzen von Objekten gearbeitet, welche jeweils ihren ei
 Vergleichbar stellt ein \ac{MVC}-Triplet eine Instanz dar, welche ihren eigenen Zustand hält und diesen von sich aus und über von ihr zur Verfügung gestellte Methoden verändert. Im von uns verfolgten Ansatz hingegen sind einzelne Komponenten funktional und hängen nur von ihrem Input ab. Da alle Komponenten von einem gemeinsamen Zustand abhängen, ist der Zustand der gesamten Applikation allein durch diesen zu jedem Zeitpunkt klar definiert.
 
 
+### React Native
+
+* Interface & Computational thread

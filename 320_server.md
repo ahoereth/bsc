@@ -7,6 +7,8 @@ Aus dieser Unabhängigkeit ergibt sich die Möglichkeit serverseitige Logik wie 
 
 In Bezug auf eine Web-Applikation ergibt sich zusätzlich der Vorteil, dass die API und die eigentliche für den Nutzer zur Verfügung gestellte Applikation auf unabhängigen Servern bereitgestellt werden können. So ist es Möglich flexibel auf Lastspitzen durch Skalierung des jeweils betroffenen zu reagieren.
 
+
+
 ### Application Programming Interface {#sec:api}
 Für das geplante Produkt gibt es zwei Konzepte die für den API-Server interessant sind:
 
@@ -70,10 +72,11 @@ server.listen(8080, () => {
 ~~~
 
 
-### Database
+
+### Database {#sec:database}
 Im folgenden wird knapp auf die zentrale Unterscheidung zwischen normalisierten SQL- und denomalisierten Dokument-basierten Datenbanken eingegangen -- breiteres Vorwissen wird hier allerdings vorausgesetzt. Primär wird der durch neuere Versionen der Open Source Datenbank PostgreSQL ermöglichte Hybrid-Ansatz erläutert.
 
-Als Datenbank kommen Grundlegend zwei verschiedene Ansätze in Frage: Traditionellere SQL- und in den letzten Jahren aufgekommene NoSQL- bzw. Dokument-Datenbanken. Besonders für schnell wachsende und im großen Stil Daten anhäufende Anwendungen haben sich in den letzten Jahren NoSQL-Datenbanken durchgesetzt. Sie basieren auf der Grundidee einzelne nicht direkt voneinander abhängige Dokumente zu speichern. Ähnlich wie bei dem Ansatz eines Zustandslosen API-Servers, beschrieben zu Beginn von Abschnitt @sec:server, ist es so möglich die Datenbank horizontal durch hinzufügen neuer Instanzen zu skalieren.
+Als Datenbank kommen Grundlegend zwei verschiedene Ansätze in Frage: Traditionellere SQL- und in den letzten Jahren aufgekommene NoSQL- bzw. Dokument-Datenbanken. Besonders für schnell wachsende und im großen Stil Daten anhäufende Anwendungen haben sich in den letzten Jahren NoSQL-Datenbanken durchgesetzt. Sie basieren auf der Grundidee einzelne nicht direkt voneinander abhängige Dokumente zu speichern. Ähnlich wie bei dem verfolgten Ansatz eines Zustandslosen API-Servers, beschrieben zu Beginn von Abschnitt @sec:server, ist es so möglich die Datenbank horizontal durch hinzufügen neuer Instanzen zu skalieren.
 
 Ein zentraler Aspekt von SQL-Datenbanken ist im Kontrast dazu eine meiste eingesetzte *normalisierte* Struktur: Bei strenger Einhaltung werden dabei Informationen niemals redundant abgespeichert. In dem Fall, das ein Nutzer ein bestimmtes Gesetz vorgemerkt hat, würden sich so zwei gegensätzliche Herangehensweisen ergeben: In einer Dokument-basierten Datenbank würde der Titel dieses Gesetzes direkt in dem dem Nutzer zugeordneten Dokument abgespeichert werden, so dass bei Zugriff auf dieses direkt alle von ihm vorgemerkten Gesetze verfügbar sind. In einer normalisierten SQL-Datenbank hingegen würde stattdessen ein neuer Eintrag erstellt werden, welcher auf die eindeutigen Identifikationsnummern des Nutzers und des Gesetzes verweist. Beim Abrufen der Nutzerinformation würde dann der Nutzer über solche *one-to-many* Beziehungen mit den vorgemerkten Gesetzen in Verbindung gebracht werden.
 

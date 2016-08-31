@@ -1,9 +1,9 @@
-# coding: utf-8
 import jinja2
 env = jinja2.Environment()
 env.loader = jinja2.FileSystemLoader('.')
 template = env.get_template('ClassicThesis.tex')
 
+# TODO: Use config.yaml here
 config = {
   'fontsize': '11pt',
   'paper': 'a4', #'b5',
@@ -12,8 +12,9 @@ config = {
   'crop': False, #'a4',
   'table_of_contents': {
     'contents': True,
-    'figures': False,
-    'listings': False
+    'figures': True,
+    'tables': False,
+    'listings': True
   },
 }
 

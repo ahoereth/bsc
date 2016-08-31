@@ -318,45 +318,46 @@ $endfor$
 \clearpage
 
 \begingroup
-    \let\clearpage\relax
-    \let\cleardoublepage\relax
-    \let\cleardoublepage\relax
-    %*******************************************************
-    % List of Figures
-    %*******************************************************
+  \let\clearpage\relax
+  \let\cleardoublepage\relax
+  \let\cleardoublepage\relax
+  %*******************************************************
+  % List of Figures
+  %*******************************************************
+  {% if table_of_contents.figures %}
     %\phantomsection
     \refstepcounter{dummy}
     %\addcontentsline{toc}{chapter}{\listfigurename}
     \pdfbookmark[1]{\listfigurename}{lof}
     \listoffigures
-
     \vspace*{8ex}
+  {% endif %}
 
-    {% if table_of_contents.tables %}
-    %*******************************************************
-    % List of Tables
-    %*******************************************************
+  %*******************************************************
+  % List of Tables
+  %*******************************************************
+  {% if table_of_contents.tables %}
+    \newpage
     %\phantomsection
     \refstepcounter{dummy}
     %\addcontentsline{toc}{chapter}{\listtablename}
     \pdfbookmark[1]{\listtablename}{lot}
     \listoftables
-
     \vspace*{8ex}
-    {% endif %}
-    \newpage
+  {% endif %}
 
-    %*******************************************************
-    % List of Listings
-    %*******************************************************
-	  %\phantomsection
+  %*******************************************************
+  % List of Listings
+  %*******************************************************
+  {% if table_of_contents.listings %}
+    \newpage
+    %\phantomsection
     \refstepcounter{dummy}
     %\addcontentsline{toc}{chapter}{\lstlistlistingname}
     \pdfbookmark[1]{\lstlistlistingname}{lol}
     \lstlistoflistings
-
     \vspace*{8ex}
-
+  {% endif %}
 \endgroup
 
 \cleardoublepage

@@ -1,5 +1,5 @@
 ## Server {#sec:server}
-Im folgenden wird zu Beginn auf diese Entscheidung Server und Client strukturell vollständig voneinander zu trennen und dann in Abschnitt @sec:rest und @sec:database auf die eingesetzte Server- und, respektive, Datenbank-Architektur eingegangen.
+Im folgenden wird zu Beginn auf die Entscheidung eingegangen, Server und Client strukturell vollständig voneinander zu trennen. In den Abschnitten @sec:api und @sec:database wird dann, respektive, die eingesetzte Server- und Datenbank-Architektur diskutiert.
 
 Auf Grund der Anforderung einer in Zukunft flexibel auf weitere Plattformen erweiterbaren Applikation kommt nur eine klare Trennung von Server und Client in Frage. Bei der Entwicklung eines reinen \ac{API}-Servers ist es wichtig, dass dieser Daten in einer von ihrer für den Endnutzer endgültigen Repräsentation unabhängigen, leicht zu verarbeiteten Form zur Verfügung stellt. Allerdings ist es gleichermaßen wichtig, die bereitgestellten Schnittstellen nicht zu abstrakt zu gestalten sondern Daten sinnvoll zu bündeln, um unnötig viele Anfragen durch die Client-Applikationen zu vermeiden.
 
@@ -7,7 +7,7 @@ Aus dieser Unabhängigkeit ergibt sich die Möglichkeit serverseitige Logik wie 
 
 In Bezug auf eine Web-Applikation ergibt sich zusätzlich der Vorteil, dass die API und die eigentliche für den Nutzer zur Verfügung gestellte Applikation auf unabhängigen Servern bereitgestellt werden können. So ist es Möglich flexibel auf Lastspitzen durch Skalierung des jeweils betroffenen zu reagieren.
 
-### Application Programming Interface
+### Application Programming Interface {#sec:api}
 Für das geplante Produkt gibt es zwei Konzepte die für den API-Server interessant sind:
 
   1. Eine REST-API, über welche primär statische Daten wie Gesetzesdokumente zur Verfügung gestellt werden, und
@@ -19,31 +19,55 @@ Im Gegensatz dazu muss sich bei der Verwendung von WebSockets der Client nur fü
 
 [^longpolling]: Für bessere Kompatibilität mit älteren Browsern ist auch möglich, sogenanntes *long-polling* einzusetzen. Hierbei erfolgt der Verbindungsaufbau wie bei einer Rest-API, allerdings wird die ankommende Anfrage nicht sofort beantwortet. Der Server hält die Verbindung offen und antwortet erst zu einem späteren Zeitpunkt auf die Anfrage. Sobald der Client eine Antwort erhält sendet er unmittelbar eine erneute Anfrage um dem Server wieder die Möglichkeit zu eröffnen ihm gewissermaßen ungefragt Daten zu übermitteln.
 
-\color{red}{Stateful/stateless...}
 
-  * representational state transfer
-  * HTTP verbs
-  * stateless
-  * Ausblick für sockets
-  * Strukturelle Problematik bei multi-server setups.
+#### HTTP & REST
+Aus diesen Erläuterungen geht ein für die Implementierung zentrales Unterscheidungsmerkmal hervor: Nur bei verfolgen des Rest-Prinzips ist es möglich, vollständig zustandslose Schnittstellen zu entwickeln. Der Server hält so keine Informationen über vorhergehende Anfragen vor, wodurch die Infrastruktur, wenn notwendig, horizontal skaliert (*horizontal scaling*) werden kann. Um dies zu erreichen, ist es notwendig, dass jede Anfrage auch relevante Authentifizierungsinformationen mitliefert. Siehe hierzu Abschnitt @sec:security.
 
-Im Rahmen dieser Arbeit wird nur Punkt 1, die REST-API, umgesetzt. Websockets 
+Horizontal Scaling
+:  Horizontale Skalierung
+:  Bei der horizontalen Skalierung werden, je nach Notwendigkeit, unterschiedlich viele Maschinen in einem Pool zusammengeschaltet. Ein zentraler Schnittpunkt, der sogenannte *Load-Balancer*, verteilt in diesem Fall die Anfragen auf die einzelnen Server für eine gleichmäßige Lastverteilung. Im Gegensatz zur horizontalen steht die vertikale Skalierung: Ein einzelner Server wird, um mit erhöhter Last umgehen zu können, mit leistungsfähigeren Komponenten, also mehr Arbeitsspeicher, besserem Prozessor uws., ausgestattet.
 
-Wie zuvor dargestellt ist eine zentrale und für viele Neulinge verwirrende Eigenschaft von JavaScript die Ereignisschleife bzw. der Event Loop. Bei beispielsweise in PHP geschriebenen Servern wird bei jeder eintreffenden Netzwerkanfrage eine Instanz gestartet in welcher der komplette Quelltext ausgeführt wird. Im Falle eines Node.js-Servers hingegen wird die Applikation initial einmalig komplett interpretiert und lauscht von nun an auf Ereignisse bzw. Events. Ein solches Event ist wäre im Fall eines Servers zum Beispiel das Eintreffen einer Netzwerkanfrage. Der Server lauscht auf dieses `connection` Ereignis und behandelt es mit Hilfe einer vordefinierten Funktion, einen sogenannten Handlers. Dieser Handler ist nichts anderes als ein Callback für eine asynchrone Funktion, wie in Kapitel @sec:concurrency beschrieben.
+  * \color{red}{representational state transfer}
+  * \color{red}{HTTP verbs}
+  * \color{red}{Ausblick für sockets}
+  * \color{red}{Strukturelle Problematik bei multi-server setups.}
 
-~~~{#lst:js:server_listen}
+#### Express
+Wie zuvor in Abschnitt #sec:concurrency:event ist eine zentrale und für viele Neulinge verwirrende Eigenschaft von JavaScript der Event Loop. Bei beispielsweise in PHP geschriebenen Servern wird bei jeder eintreffenden Netzwerkanfrage eine Instanz gestartet in welcher der komplette Quelltext ausgeführt wird. Im Falle eines Node.js-Servers hingegen wird die Applikation initial einmalig gestartet und lauscht von nun an auf auftretende Ereignisse. Ein solches Event ist im Fall eines Rest-API-Servers zum Beispiel das Eintreffen einer Netzwerkanfrage. Wie in Listing @lst:server:simple dargestellt, lauscht der Server auf ein solches `request` Event und behandelt es mithilfe einer vordefinierten Funktion, eines sogenannten Handlers. Dieser Handler ist nichts anderes als ein Callback für eine asynchrone Funktion, wie in Abschnitt @sec:js:runtime erläutert.
+
+Listing: Einfacher Node.js Server
+
+~~~{#lst:server:simple}
 import http from 'http';
 const server = http.createServer();
-
 server.on('request', (request, response) => {
-  response.end(`Received a request at ${request.url}!`);
+  response.end(`Received request at ${request.url}!`);
 });
-
 server.listen(8080, () => {
   console.log('Listening on port 8080');
 });
 ~~~
 
+Um leichter dem Rest-Prinzip folgen zu können wird bei der Applikation auf das Express-Framework gesetzt. Wie in Listing @lst:server:express filtert die eintreffenden HTTP-Anfragen und verteilt sie auf klar definierte Handler für einzelne HTTP-Verben und Pfade.
+
+Listing: Node.js Server mit Express
+
+~~~{#lst:server:express}
+import { Server }  from 'http';
+import express from 'express';
+const app = express();
+const server = Server(app);
+app.get('/obj', (request, response) => {
+  response.end(`Received GET request at /obj!`);
+});
+app.put('/obj/:id', (request, response) => {
+  const { id } = request.params;
+  response.end(`Received PUT request at /obj/${id}!`);
+});
+server.listen(8080, () => {
+  console.log('Listening on port 8080');
+});
+~~~
 
 
 ### Database

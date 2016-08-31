@@ -51,6 +51,8 @@ JIT
   \acro{EGVP}{Elektronisches Gerichts- und Verwaltungspostfach}
   \acro{BMJV}{Bundesministerium der Justiz und für Verbraucherschutz}
   \acro{BGBL}{Bundesgesetzblatt}
+  \acro{HTTP}{Hypertext Transfer Protocol}
+  \acro{HTTPS}{Hypertext Transfer Protocol Secure}
 \end{acronym}
 
 

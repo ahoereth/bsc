@@ -14,7 +14,7 @@ Traditionell wird bei dem Aufruf einer Webseite ein einzelnes HTML-Dokument vom 
 
 In Abbildung @lst:website wird dieser Kreislauf beispielhaft durchnummeriert dargestellt: Nach einer initialen Anfrage an den Server (1) antwortet dieser mit einer Webseite (2) mit welcher der Nutzer interagiert (3). Diese Interaktion löst eine Anfrage an den Server aus (4) welcher anhand dieser eine neue Webseite bereitstellt (5). Diese neue Webseite kann sich zwar inhaltlich mit der alten überschneiden, muss aber vom Clienten komplett neu dargestellt werden. An dieser Stelle beginnt der Kreislauf erneut: Der Nutzer interagiert mit der Seite (6), was in einer Anfrage an den Server resultiert (7) und so weiter.
 
-Listing: Client-/Server-Kommunikation einer traditionellen Webseite
+Listing: Synchrone Client-/Server-Kommunikation
 
 ```{#lst:website .dot}
 digraph G {
@@ -55,7 +55,7 @@ Eine erste Erweiterung dieses Ansatzes liegt in dem Einsatz von interaktiven Jav
 
 \ac{AJAX} ist auch zentraler Teil von \ac{SPA}: Anstatt nur einzelne Elemente der Webseite mit Hilfe von JavaScript interaktiv zu gestalten, werden alle Interaktionen des Nutzers mit der Webseite durch JavaScript behandelt. Dieses Modell wird in Abbildung @lst:spa dargestellt: Ähnlich wie in Abbildung @lst:website stellt der Nutzer eine initiale Anfrage an den Server (1) woraufhin dieser die Webseite mit allen benötigten Skripts zur Verfügung stellt (2). Interaktionen des Nutzers mit der Applikation (3+) werden von nun an von dem vorgeladenen JavaScript-Code behandelt und resultieren, wenn nötig in für den Nutzer unsichtbaren \ac{AJAX}-Anfragen an den Server (4+) welcher mit den benötigten Daten antwortet (5+). Meist stellt der Server keine strukturellen Informationen sondern nur noch die rohen Daten zur Verfügung, welche dann auf Client-Seite strukturiert und dargestellt werden. Die gestrichelten Kanten sind von nun an also der neue Kreislauf ohne einen Austausch der eigentlichen Webseite.
 
-Listing: Client-/Server-Kommunikation einer SPA
+Listing: Asynchrone Client-/Server-Kommunikation
 
 ```{.dot #lst:spa}
 digraph G {

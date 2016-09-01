@@ -1,6 +1,7 @@
 # Diskussion
 \label{sec:discussion}
 
+## Rückblick
 
 vue.js
 Typescript
@@ -14,6 +15,7 @@ too much tooling
 * Visuelle Anpassungsmöglichkeiten durch den Nutzer, bekannt aus Pocket uÄ
   * Schriftgröße, Schriftart
   * Mehrspaltig
+* \color{red}{Ausblick für sockets}
 
 iPad/iOS App
 

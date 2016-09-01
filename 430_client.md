@@ -1,6 +1,7 @@
 ## Client Architektur {#sec:client-architecture}
 Ähnlich dem @sec:server-architecture setzt auch die Client Applikation im Sinne einer besseren Übersichtlichkeit und Testbarkeit auf stark modularen Code. Im folgenden wird auf die einzelnen Bestandteile und auf den Buildprozess, also der Schritt von rohem Quelltext zu für die Auslieferung vorbereiteten Paket, eingegangen.
 
+### Struktur
 Listing: Vereinfachte Ordnerstruktur der Client-Applikation
 
 ~~~{#lst:folders}
@@ -28,10 +29,10 @@ Um diese Schritte im Entwicklungsprozess zu automatisieren wird *Webpack* als so
 Offline available
 Im Rahmen dieser Arbeit fällt diese Entscheidung leicht: Gestarrte Gesetze.
 
-### React Komponenten {#sec:react}
+**React Komponenten {#sec:react}**
 
 
-### Redux Store & Module {#sec:redux}
+**Redux Store & Module {#sec:redux}**
 Der in @sec:dataflow beschriebene Datenfluss wird zentral durch den Redux-Store gehandhabt, welcher sich aus 3 primären Bestandteilen zusammensetzt:
 
   1. Der Zustand (*state*)
@@ -45,13 +46,11 @@ Der State ist ein einzelnes JavaScript Objekt, welches den gesamten Zustand der 
 * Zentraler Store
 * Linearer Datenstrom
 
-#### Actions
+* Actions
+* Reducers
+* Store
 
-#### Reducers
-
-#### Store
-
-### React
+**React**
 
 * Komponenten Hierarchie
 * Virtual DOM
@@ -66,11 +65,11 @@ digraph {
 }
 ```
 
-#### Container
+**Container**
 
 * Interaktion mit Redux
 
-#### Components
+**Components**
 
 * *Dumme* Komponenten
 * Weiß nichts von Redux --> leicht zu testen

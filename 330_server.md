@@ -1,4 +1,4 @@
-## Server {#sec:server}
+## Server {#sec:server-theory}
 Im folgenden wird zu Beginn auf die Entscheidung eingegangen, Server und Client strukturell vollständig voneinander zu trennen. In den Abschnitten @sec:api und @sec:database wird dann, respektive, die eingesetzte Server- und Datenbank-Architektur diskutiert.
 
 Auf Grund der Anforderung einer in Zukunft flexibel auf weitere Plattformen erweiterbaren Applikation kommt nur eine klare Trennung von Server und Client in Frage. Bei der Entwicklung eines reinen \ac{API}-Servers ist es wichtig, dass dieser Daten in einer von ihrer für den Endnutzer endgültigen Repräsentation unabhängigen, leicht zu verarbeiteten Form zur Verfügung stellt. Allerdings ist es gleichermaßen wichtig, die bereitgestellten Schnittstellen nicht zu abstrakt zu gestalten sondern Daten sinnvoll zu bündeln, um unnötig viele Anfragen durch die Client-Applikationen zu vermeiden.
@@ -25,7 +25,7 @@ Für das initiale Produkt wird auf reine HTTP-Schnittstellen gesetzt. Im geplant
 
 
 #### HTTP & REST
-Ein wichtiger Punkt, welcher beim Einsatz von WebSockets für einen stark erhöhten Implementierungsaufwand sorgen würde, ist, dass ein WebSocket-Server niemals Zustandslos sein kann. Er muss nach einer initialen Anfrage eines Clienten die Verbindung zu diesem aufrecht erhalten um im weiteren Verlauf mit ihm kommunizieren zu können. Im Gegensatz dazu kann bei einer HTTP-API der Server so implementiert werden, dass er keinerlei Informationen über vorhergehende Anfragen vorhält, wodurch die Infrastruktur, wenn notwendig, horizontal skaliert (*horizontal scaling*) werden kann. 
+Ein wichtiger Punkt, welcher beim Einsatz von WebSockets für einen stark erhöhten Implementierungsaufwand sorgen würde, ist, dass ein WebSocket-Server niemals zustandslos sein kann. Er muss nach einer initialen Anfrage eines Clienten die Verbindung zu diesem aufrecht erhalten um im weiteren Verlauf mit ihm kommunizieren zu können. Im Gegensatz dazu kann bei einer HTTP-API der Server so implementiert werden, dass er keinerlei Informationen über vorhergehende Anfragen vorhält, wodurch die Infrastruktur, wenn notwendig, horizontal skaliert (*horizontal scaling*) werden kann. 
 
 Horizontal and vertical scaling
 :  Horizontale und vertikale Skalierung
@@ -35,7 +35,7 @@ Um dies zu ermöglichen, ist es notwendig, dass jede Anfrage alle für ihre Bean
 
 Durch die Orientierung an einem *RESTful Resource-Oriented Architecture* Ansatz, ergibt sich die Entwicklung einer intuitiv verständlichen API. Anfragen werden so anhand ihres \ac{URI} an eine bestimmte Ressource gerichtet und mithilfe der \ac{HTTP}-Methode (*GET*, *POST*, *PUT* etc.) die gewünschte Aktion spezifiziert. Daraus ergibt sich, dass aus der ersten Zeile der \ac{HTTP}-Anfrage bereits intuitiv hervorgeht, was der Client zu erreichen gedenkt. Eine solche erste Zeile sieht in der entwickelten Anwendung zum Beispiel wie folgt aus: `GET /laws/BGB HTTP/1.1` -- der Client erwartet ein Gesetz, welches durch *BGB* eindeutig identifizierbar ist, als Antwort zu erhalten. [@Richardson2007, s. 13]
 
-Um auch geschützte Ressourcen verfügbar zu machen bietet \ac{HTTP} und das in der entwickelten Applikation eingesetzte, nach initialer Verbindung gleich zu verwendende, \ac{HTTPS} den sogenannten `Authorization`-Header. Über diesen wird der alle für die Autorisation notwendigen Informationen enthaltende Authorizationtoken (siehe @sec:security) bei jeder Anfrage nach der initialen Anmeldung eines Nutzers übertragen.
+Um auch geschützte Ressourcen verfügbar zu machen bietet \ac{HTTP} und das in der entwickelten Applikation eingesetzte, nach initialer Verbindung gleich zu verwendende, \ac{HTTPS} den sogenannten `Authorization`-Header. Über diesen wird der alle für die Autorisation notwendigen Informationen enthaltende Authorizationtoken (siehe Abschnitt @sec:security) bei jeder Anfrage nach der initialen Anmeldung eines Nutzers übertragen.
 
 
 #### Express
@@ -80,7 +80,7 @@ server.listen(8080, () => {
 ### Database {#sec:database}
 Im folgenden wird knapp auf die zentrale Unterscheidung zwischen normalisierten SQL- und denomalisierten Dokument-basierten Datenbanken eingegangen -- breiteres Vorwissen wird hier allerdings vorausgesetzt. Primär wird der durch neuere Versionen der Open Source Datenbank PostgreSQL ermöglichte Hybrid-Ansatz erläutert.
 
-Als Datenbank kommen Grundlegend zwei verschiedene Ansätze in Frage: Traditionellere SQL- und in den letzten Jahren aufgekommene NoSQL- bzw. Dokument-Datenbanken. Besonders für schnell wachsende und im großen Stil Daten anhäufende Anwendungen haben sich in den letzten Jahren NoSQL-Datenbanken durchgesetzt. Sie basieren auf der Grundidee einzelne nicht direkt voneinander abhängige Dokumente zu speichern. Ähnlich wie bei dem verfolgten Ansatz eines Zustandslosen API-Servers, beschrieben zu Beginn von Abschnitt @sec:server, ist es so möglich die Datenbank horizontal durch hinzufügen neuer Instanzen zu skalieren.
+Als Datenbank kommen Grundlegend zwei verschiedene Ansätze in Frage: Traditionellere SQL- und in den letzten Jahren aufgekommene NoSQL- bzw. Dokument-Datenbanken. Besonders für schnell wachsende und im großen Stil Daten anhäufende Anwendungen haben sich in den letzten Jahren NoSQL-Datenbanken durchgesetzt. Sie basieren auf der Grundidee einzelne nicht direkt voneinander abhängige Dokumente zu speichern. Ähnlich wie bei dem verfolgten Ansatz eines zustandslosen API-Servers, beschrieben in Abschnitt @sec:server-theory, ist es so möglich die Datenbank horizontal durch hinzufügen neuer Instanzen zu skalieren.
 
 Ein zentraler Aspekt von SQL-Datenbanken ist im Kontrast dazu eine meiste eingesetzte *normalisierte* Struktur: Bei strenger Einhaltung werden dabei Informationen niemals redundant abgespeichert. In dem Fall, das ein Nutzer ein bestimmtes Gesetz vorgemerkt hat, würden sich so zwei gegensätzliche Herangehensweisen ergeben: In einer Dokument-basierten Datenbank würde der Titel dieses Gesetzes direkt in dem dem Nutzer zugeordneten Dokument abgespeichert werden, so dass bei Zugriff auf dieses direkt alle von ihm vorgemerkten Gesetze verfügbar sind. In einer normalisierten SQL-Datenbank hingegen würde stattdessen ein neuer Eintrag erstellt werden, welcher auf die eindeutigen Identifikationsnummern des Nutzers und des Gesetzes verweist. Beim Abrufen der Nutzerinformation würde dann der Nutzer über solche *one-to-many* Beziehungen mit den vorgemerkten Gesetzen in Verbindung gebracht werden.
 

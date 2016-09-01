@@ -1,5 +1,5 @@
 ## Client Architektur {#sec:client-architecture}
-Ähnlich dem @sec:server-architecture setzt auch die Client Applikation im Sinne einer besseren Übersichtlichkeit und Testbarkeit auf stark modularen Code. Im folgenden wird auf die einzelnen Bestandteile und auf den Buildprozess, also der Schritt von rohem Quelltext zu für die Auslieferung vorbereiteten Paket, eingegangen.
+Ähnlich dem Abschnitt @sec:server-architecture setzt auch die Client Applikation im Sinne einer besseren Übersichtlichkeit und Testbarkeit auf stark modularen Code. Im folgenden wird auf die einzelnen Bestandteile und auf den Buildprozess, also der Schritt von rohem Quelltext zu für die Auslieferung vorbereiteten Paket, eingegangen.
 
 ### Struktur
 Listing: Vereinfachte Ordnerstruktur der Client-Applikation

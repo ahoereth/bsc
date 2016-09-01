@@ -56,6 +56,9 @@ JIT
   \acro{AWS}{Amazon Web Services}
   \acro{EC2}{Elastic Cloud Computing}
   \acro{RDS}{Relational Database Service}
+  \acro{URI}{Uniform Resource Identifier}
+  \acro{JWT}{JSON Web Token}
+  \acro{UX}{User Experience}
 \end{acronym}
 
 

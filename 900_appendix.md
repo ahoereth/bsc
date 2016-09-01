@@ -59,6 +59,9 @@ JIT
   \acro{URI}{Uniform Resource Identifier}
   \acro{JWT}{JSON Web Token}
   \acro{UX}{User Experience}
+  \acro{CA}{Certificate Authority}
+  \acro{VPC}{Virtual Private Network}
+  \acro{AMP}{Accelerated Mobile Pages}
 \end{acronym}
 
 

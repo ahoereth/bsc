@@ -1,23 +1,20 @@
-# Diskussion
-\label{sec:discussion}
+# Diskussion {#sec:discussion}
+Zum Zeitpunkt des Verfassens sind beide Endpunkte, Client und API-Server, noch Zugriffsbeschränkt. Der API-Server erlaubt so aktuell nur Anfragen von der auf der offiziellen Domain betriebenen Web-Applikation und die Web-Applikation benötigt eine zusätzliche Authentifizierung. Dies soll möglichst bald, soweit das weitere vorgehen geklärt ist und insbesondere eine Landingpage als Einführung für neue Nutzer erstellt wurde, geändert werden. Gleichermaßen ist es für diesen Zeitpunkt auch geplant den Code vollständig unter eine Open Source Lizenz zu veröffentlichen.
 
-## Rückblick
+Aktuell wird der Code bereits auf GitHub verwaltet. Zusätzlich zu der zu diesem Dokument beigelegten CD kann auf Anfrage auch schon vorzeitig hierauf Zugriff gewehrt werden.
 
-vue.js
-Typescript
-too much tooling
+## Rückblick {#sec:discussion:backward}
+Rückblickend bin ich mit dem entstandenen Produkt, entsprechend dem, dass die vorher grob festgelegte Zielsetzung erreicht wurde, zufrieden. Allerdings wurde für den erreichten Rahmen gefühlt zu viel Arbeit investiert. Beispielsweise hat sich der von mir als großer Vorteil des React-Ecosystems gegenüber dem von Angular.js (mit welchem ich durch anderen Projekte Erfahrung habe) als ein viel Zeit verlangendes Unterfangen erwiesen. Dadurch, dass React selbst zwar eine sehr viel kleinere API zur Verfügung stellt, ist es zwar leichter zu erlernen und gewissermaßen zu bändigen, benötigt aber viele zusätzliche Bibliotheken um umfänglichen Funktionsumfang für eine SPA zu erreichen. Zusätzlich hat sich die während der Entwicklung sehr Hilfreichen von der React-Community geschaffenen Entwickler-Werkzeuge als Zeitfressend erwiesen. Zwar ist das Endprodukt grandios, allerdings müssen dafür erst viele Schrauben richtig angepasst werden. Zu Beginn der Entwicklung gab es nicht die Möglichkeit ein *batteries-included* Paket herunterzuladen und wenige Minuten später ein fertiges Applikationsbundle zu bauen -- allerdings hat sich dies seit dem sehr gebessert.
 
-## Ausblick
-\label{sec:perspective}
+Auf das gesamte Projekt bezogen ist in den letzten Wochen dieser Arbeit ein österreichischer Spieler aufgetreten, welcher sehr vieles richtig macht. *openlaws.com* setzt ähnlich wie Lawly darauf Open Data aufzubereiten und zu Verknüpfen, hat allerdings einen über zweijährigen Entwicklungsvorsprung und bereits Fördergelder durch die Europäischen Union erhalten. Obwohl dies für mich initial frustrierend war, bestätigt es auch die Notwendigkeit eines solchen Services. *openlaws.com* geht außerdem nur den halben Weg, was in Anbetracht der Fördergelder durch die EU, welche in Zusammenhang zu ihrer Verpflichtung stehen Gesetze und ähnliches allen ihren Bürgern zugänglich zu machen, erstaunlich ist. So ist einerseits auch hier der vollständige Funktionsumfang, ähnlich wie bei den großen auf Verlage gestützten Anbietern, nur mit einem kostenpflichtigen Abonnement möglich. Anderseits wird zwar Open Data beworben, allerdings nur konsumiert und nicht zur Verfügung gestellt -- weder ist die Plattform selbst Open Source, noch bietet sie öffentlich zugängliche Schnittstellen auf ihre Datensätze an. Beides Dinge, welche für Lawly zum Konzept gehören.
 
-* Animationen für gefühlte Performance
-* Entry pages using AMP, generate using react ssr
-* Visuelle Anpassungsmöglichkeiten durch den Nutzer, bekannt aus Pocket uÄ
-  * Schriftgröße, Schriftart
-  * Mehrspaltig
-* \color{red}{Ausblick für sockets}
 
-iPad/iOS App
 
-  * Funding
-  * Prototypefund
+## Ausblick {#sec:discussion:forward}
+Obwohl der Rückblick etwas dämpft, ist der Ausblick positiv. Die Wahl der Plattformen schätze ich nach ersten Gehversuchen mit React Native als sehr richtig ein. Die Entwicklung nativer Applikationen für Android und iOS steht so nichts im Wege und ist auch noch als Einzelperson stemmbar -- wobei Aufgrund des immer noch damit verbundenen Mehraufwandes nicht kurzfristig erstrebenswert. Nur eine speziell für iPads optimierte Applikation ist Aufgrund von Gesprächen mit Anwälten auch schon kurzfristig erstrebenswert.
+
+In Bezug auf die Webapplikation gilt es vorerst die Performance weiter zu optimieren. Dazu gehört insbesondere auch die *gefühlte Performance*, welche die geschickte Verwendung von Animationen erfordert. Außerdem ist es geplant mithilfe des bereits implementierten Codes zur Generierung von statischen App Shells und \ac{SSR} auch \ac{AMP} zur Verfügung zu stellen. Hierdurch wird ein Ranking-Vorteil bei Google als dem größten Suchmaschinenanbieter erhofft -- dort werden im Ranking \ac{AMP} Seiten offiziell bevorzugt.
+
+Außerdem erfordert auch die Ansicht für die eigentlichen Gesetzestexte noch weitere Aufmerksamkeit, da sie die Seite ist, auf der Nutzer voraussichtlich die meiste Zeit verbringen. Von verbreiteten Anbieter für Lesedienste (readability.com, getpocket.com) sind so zum Beispiel die Möglichkeiten zur Anpassung von Schriftart und -größe oder auch das einstellen Mehrspaltiger Layout bekannt.
+
+Nach der Entwicklung einer Landungsseite für neue Nutzer müssen außerdem Möglichkeiten der Finanzierung erwogen werden. Auf Grundlage der in Abschnitt @sec:concept vorgestellten Ideale kommt es nicht in Frage die Applikation in ihrer Funktionalität einzuschränken. Aktuell angedacht sind Finanzierungsmöglichkeiten über Plattformen wie patreon.com -- dort kann auf freiwilliger Basis eine regelmäßige Spende an ein Projekt gezahlt werden, woraus sich für die mit diesem Beschäftigten Entwickler ein Einkommen ergibt. Zusätzlich steht der Prototypefund aus. Dieser ist eine Initiative um in Deutschland Open Source Projekte von öffentlichem Interesse voranzutreiben und dafür ein nicht geringes sechsmonatiges Einkommen für einen einzelnen Entwickler in Aussicht stellt.

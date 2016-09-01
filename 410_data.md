@@ -6,11 +6,17 @@ Ohne viel Magie wird dabei ein zweistufiger Prozess eingesetzt:
   1. Download der Rohdaten in ein temporäres Verzeichnis
   2. Normalisieren der Daten und eintragen in der Datenbank
 
-Für Schritt 1 gilt es zuerst das direkt als XML-Text zur Verfügung gestellte Inhaltsverzeichnis zu verarbeiten. Um mit solchen rohen XML-Dokumenten arbeiten zu können wird libxml als Parser und die XPath als Query-Sprache eingesetzt. Aus dem Inhaltsverzeichnis werden alle Links zu einzelnen Gesetzen extrahiert. Diese, zum Zeitpunkt des Verfassens, 6456 Links verweisen auf ZIP Dokumente welche ihrerseits wieder XML-Dateien enthalten welche jeweils die für ein Gesetz notwendigen Normen auflisten.
+Für Schritt 1 gilt es zuerst das direkt als XML-Text zur Verfügung gestellte Inhaltsverzeichnis zu verarbeiten.[^code:fetch] Um mit solchen rohen XML-Dokumenten arbeiten zu können wird libxml als Parser und die XPath als Query-Sprache eingesetzt. Aus dem Inhaltsverzeichnis werden alle Links zu einzelnen Gesetzen extrahiert. Diese, zum Zeitpunkt des Verfassens, 6456 Links verweisen auf ZIP Dokumente welche ihrerseits wieder XML-Dateien enthalten welche jeweils die für ein Gesetz notwendigen Normen auflisten.
 
 Um den \ac{GII}-Server nicht zu überlasten oder dazu zu verleiten Anfragen des Skriptes zu blockieren, wird im folgenden nur eine Datei pro 50 Millisekunden angefordert. Die geladene Datei wird in einen Buffer geladen, entpackt und, für die weitere Verarbeitung, das enthaltene XML-Dokument in einen temporären Order auf dem System geschrieben.
 
-Sobald alle XML-Dokumente in ihrer aktuellen Form auf dem System zwischen gespeichert sind, werden diese sequentiell weiter verarbeitet. Eine Datei wird zuerst in den Speicher eingelesen und ihr Inhalt mithilfe der `GiiParser`-Klasse verarbeitet. Diese verarbeitet den XML-Baum und gleicht zum Beispiel unnötige Unregelmäßigkeiten in Knoten-Bezeichnungen aus um eine über alle Normen hinweg gleichmäßige Datenstruktur zu erhalten. Der Text individueller Normen wird zusätzlich von der verwendeten Auszeichnungssprache, einer Mischung aus HTML und XML, zu Markdown übersetzt -- auch hierbei steht wieder eine Normalisierung über verschiedene zum Einsatz kommende Strukturen im Vordergrund.
+Sobald alle XML-Dokumente in ihrer aktuellen Form auf dem System zwischen gespeichert sind, werden diese sequentiell weiter verarbeitet.[^code:parse] Eine Datei wird zuerst in den Speicher eingelesen und ihr Inhalt mithilfe der `GiiParser`-Klasse[^code:parser] verarbeitet. Diese verarbeitet den XML-Baum und gleicht zum Beispiel unnötige Unregelmäßigkeiten in Knoten-Bezeichnungen aus um eine über alle Normen hinweg gleichmäßige Datenstruktur zu erhalten. Der Text individueller Normen wird zusätzlich von der verwendeten Auszeichnungssprache, einer Mischung aus HTML und XML, zu Markdown übersetzt -- auch hierbei steht wieder eine Normalisierung über verschiedene zum Einsatz kommende Strukturen im Vordergrund.
+
+[^code:fetch]: */scripts/fetchGiiXmls.js*
+
+[^code:parse]: */scripts/parseGiiXmls.js*
+
+[^code:parser]: */scripts/GiiParser.js*
 
 Listing: Sequentielles aggregieren der Rohdaten
 

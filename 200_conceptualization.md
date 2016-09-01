@@ -129,3 +129,10 @@ In der **Vorbereitungsphase** wird die Akkumulation der Bundesgesetze von *geset
 Bei der **Implementierungsphase** wird auf Grundlage dieser Daten eine Applikation entwickelt, welche auf einer möglichst großen Auswahl an Geräten mit gleichermaßen vollen Funktionsumfang einsetzbar ist. Dabei ist es wichtig ein Nutzungserlebnis zu ermöglichen, welches für eine Plattform nativ entwickelten Programmen möglichst gleich kommt. Dies spiegelt sich nicht nur in der allgemeinen Performance der Applikation wieder, sondern auch in der Möglichkeit zentrale Teile der Applikation ohne bestehende oder mit nur unzuverlässiger Internetverbindung auch unterwegs nutzen zu können. Zu soll zum Beispiel die gesamt Übersicht der Daten und insbesondere vom Nutzer zuvor abgerufenen oder für die weitere Verwendung explizit vorgemerkte Datensätze immer verfügbar sein. Zusätzlich müssen diese Daten gleichermaßen online als auch offline durchsuchbar sein.
 
 Wobei sich die im Rahmen dieser Arbeit entwickelte Software auf eine Web-Applikation zum interaktiven navigieren deutscher Bundesgesetze beschränkt, wird bei der Implementation und den ihr vorhergehenden technischen Entscheidungen vorausschauend geplant: Neben der Integration von Rechtsprechungen wird auch die Möglichkeit der Erweiterung um native Applikationen für Desktop, iOS und Android bedacht.
+
+Neben den oben benannten technischen Anforderungen soll die initiale Plattform für den Nutzer die folgenden konkreten Ansichten und Funktionen bieten: 
+
+  * Eine Ansicht, auf welcher eine nach Sammlung (zum Beispiel *Schönfelder*, das zuvor angesprochene Buch), Kürzel und Titel filterbare Gesetzesübersicht dargestellt wird.
+  * Eine Ansicht, auf welcher individuelle Gesetze in ihrem gesamten Umfang betrachten werden und mithilfe einer Inhaltsübersicht navigiert werden können.
+  * Einer Volltextsuche die sowohl online als auch offline während der Eingabe in Echtzeit Ergebnisse liefert.
+  * Der Möglichkeit sich als Nutzer zu registrieren, Gesetze zu speichern und diese auch ohne Internetverbindung zu betrachten und durchsuchen.

@@ -148,8 +148,6 @@ Durch diese Zentralisierung von Zustand und Zustand-manipulierenden Aktionen wer
 
 Initial wurde dieser Ansatz 2014 von Facebook unter dem Namen *flux* präsentiert.[^flux] Seitdem wurde das Konzept von der JavaScript-Gemeinschaft intensiv aufgegriffen und hat sich in einer weniger komplexen Form durch die *Redux*-Bibliothek[^redux] durchgesetzt und in diesem Projekt eingesetzt wird.
 
-Durch die Kombination einer modularen Komponenten-Hierarchie mit uni-direktionalen Datenfluss und zentral verwalteten globalen Zustand ergibt sich ein der funktionellen Programmierung ähnliche Einfachheit: Einerseits generieren Komponenten deterministisch gegeben dem gleichen Zustand, unabhängig vom Rest der Applikation testbar, das gleiche Resultat. Außerdem wird bei Zustandsveränderungen nie der aktuelle Zustand verändert, sondern ein neuer erstellt. Komponenten, welche diese Eigenschaft erfüllen, werden im folgenden auch *reine Komponenten* oder *pure components* genannt.
-
 [^flux]: https://facebook.github.io/flux/docs/overview.html
 
 [^redux]: http://redux.js.org/
@@ -235,18 +233,3 @@ digraph G {
 ~~~
 
 Insgesamt ergibt sich aus der Verwendung von unveränderbaren Datenstrukturen so gleich mehrere Vorteile: Einerseits ist es, wie bereits erläutert, für Entwickler leichter über Veränderungen von Datenstrukturen zu urteilen. Außerdem ermöglichen unveränderbare Datenstrukturen es, effizient zu prüfen ob die Aktualisierung einer Komponente bei Veränderung des globalen Zustands überhaupt notwendig ist -- wenn sich also der übergebene Zustand in seiner Identität gleich ist, hat er sich nicht verändert. Bei traditionellen Objekten wäre es hier notwendig einen tiefen Vergleich jedes Attributes durchzuführen.
-
-
-
-### Zusammenfassung
-^[>\color{red}Besserer Name, bessere Abschnitt-Strukturierung.]
-Zusammenfassend lässt sich der verfolgte Ansatz einer Komponenten-Hierarchie mit uni-direktionaler Datenfluss und unveränderbaren Datenstrukturen in einem ähnlichen Kontrast zu einem Model-View-Controller Ansatz beschreiben, wie funktionelle Programmierung zu objektorientierter Programmierung:
-
-Bei \ac{OOP} wird mit Instanzen von Objekten gearbeitet, welche jeweils ihren eigenen Zustand verwalten und durch Instanzmethoden die Manipulation von diesem ermöglichen. Referenzen auf Instanzen von Objekten werden vielfach an Funktionen übergeben welche die referenzierte Instanz manipulieren. Bei der funktionellen Programmierung hingegen werden Objekte als unveränderbar betrachtet. Der Aufruf einer Funktion verändert die ihm übergebenen Objekte nicht direkt, sondern gibt eine veränderte Kopie dieser zurück, welche solange benötigt in einem globalen Zustand gehalten werden.
-
-Vergleichbar stellt ein \ac{MVC}-Triplet eine Instanz dar, welche ihren eigenen Zustand hält und diesen von sich aus und über von ihr zur Verfügung gestellte Methoden verändert. Im von uns verfolgten Ansatz hingegen sind einzelne Komponenten funktional und hängen nur von ihrem Input ab. Da alle Komponenten von einem gemeinsamen Zustand abhängen, ist der Zustand der gesamten Applikation allein durch diesen zu jedem Zeitpunkt klar definiert.
-
-
-### React Native
-
-* Interface & Computational thread

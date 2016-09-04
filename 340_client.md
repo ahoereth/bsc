@@ -128,7 +128,7 @@ Listing: Uni-direktionaler Datenfluss
 
 ```{.dot #lst:dataflow}
 digraph G {
-  rankdir=TB
+  rankdir=LR
   node [shape=rect]
   S [label="Store" shape=ellipse]
   A [label="Component A"]
@@ -136,11 +136,11 @@ digraph G {
   C [label="Component C"]
   {rank=same;A B C}
   S -> A [label="state & action creators"]
-  A -> B [label="state & action creators"]
-  B -> C [label="state & action creators"]
+  A -> B [xlabel="state & action creators"]
+  B -> C [xlabel="state & action creators"]
   A -> S [label="action" style=dashed]
   B -> S [label="action" style=dashed]
-  C -> S [label="action" style=dashed]
+  C:w -> S:s [label="action" style=dashed]
 }
 ```
 

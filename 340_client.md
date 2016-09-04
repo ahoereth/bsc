@@ -101,44 +101,28 @@ Beim Aufbau einer diesen Paradigmen folgenden Applikation ist es von Interesse e
 
 
 
-### Komponenten-Hierarchien {#sec:components}
-Software Projekte aller Art leiden ab einer gewissen Größe unter ihrem eigenen Funktionsumfang -- der zu Grunde liegende Code läuft Gefahr mit wachsendem Umfang unübersichtlich zu werden. Um dies zu vermeiden ist eine klare Codestruktur notwendig. Für user-facing applications hat sich diesbezüglich für lange Zeit das \ac{MVC} Prinzip etabliert. Dieses beschreibt den Ansatz jede einzelne Ansicht der Applikation in drei miteinander interagierenden Teilen zu beschreiben: Der *View* für die Visualisierung der durch das *Model* beschrieben und mithilfe des *Controllers* zur Verfügung gestellten Daten. 
+### Modularisierung
+Software Projekte aller Art leiden ab einer gewissen Größe unter ihrem eigenen Funktionsumfang -- der zu Grunde liegende Code läuft Gefahr mit wachsendem Umfang unübersichtlich zu werden. Um dies zu vermeiden ist eine klare Codestruktur notwendig. Für Endnutzer-Applikationen hat sich diesbezüglich das \ac{MVC} Prinzip etabliert. Dieses beschreibt den Ansatz jede einzelne Ansicht einer Applikation durch drei ineinander verankerte Einzelteile zu beschreiben. Knapp zusammenfassend steht dabei der *Controller* als Verantwortlicher für das durchführen von Aktionen und verarbeiten von Daten im Mittelpunkt. Dabei stellt er dem *View*, welcher für die Visualisierung zuständig ist, Informationen und Aktionen bereit. Das *Model* liegt gewissermaßen im Hintergrund und stellt dem Controller eine Schnittstelle zu den Rohdaten zur Verfügung.
 
-Mit dem Trend zu immer dynamischeren Applikationen hat sich dieser Ansatz allerdings als sehr grob herausgestellt. Es ist nicht länger der Fall, dass eine einzelne Funktionalität nur in einer bestimmten Ansicht dargestellt und damit nur von einem bestimmten \ac{MVC}-Baustein beschrieben werden kann. Einzelne Bestandteile einer Applikation interagieren immer stärker miteinander was nach dem bisherigen Prinzip schnell in sich wiederholenden Code und unübersichtlichen Datenfluss zwischen einzelnen Komponenten resultieren kann. 
+Mit der fortschreitenden Entwicklung zu dynamischeren und stärker in ihren Ansichten ineinander verzahnten Applikationen hat sich dieser Ansatz allerdings als problematisch erwiesen. Es ist nicht länger der Fall, dass eine einzelne Funktionalität nur in einer bestimmten Ansicht dargestellt wird. Einzelne Bestandteile einer Applikation interagieren immer stärker miteinander, wobei es notwendig ist, alle vom gleichen Datensatz abhängige Modelle synchron zu halten.
 
-Um diese Probleme anzugehen hat sich speziell in der Web\hyp{}Entwicklung in den letzten Jahren ein neuer Trend zu einer sehr viel stärkeren Modularisierung von Applikationen durchgesetzt. Eine Web-Applikation besteht nicht länger aus $n$ \ac{MVC}-Bausteinen, wobei $n$ der Anzahl von Applikations-*seiten* entspricht, sondern aus einer Vielzahl einzelner möglichst einfacher Module welche durch flexibel Kombination ein dynamisches Interface ergeben. Ein einzelnes Modul ist hiernach ein möglichst in sich geschlossenes System welches sein Umfeld nicht beeinflusst und nur von einem klar definierten von außen gegebenen Zustand abhängt. Module können komplexere Funktionalität durch mithilfe von hierarchischer Vererbung an andere Module implementieren und bleiben so in sich selbst überschaubar. Dieses Prinzip basiert auf der Idee, dass es zu bevorzugen ist, Code zu schreiben welcher eine klar definierte atomare Aufgabe erfüllt, da er dadurch auch für andere Entwickler leichter zu verstehen und auch leichter zu [maintainen](#glossary) ist.
-
-In Abbildung @lst:todo_hierarchy wird exemplarisch die Komponenten-Hierarchie einer fiktiven Applikation zur Aufgabenverwaltung dargestellt. Die Applikation besteht aus einer Liste aktueller Aufgaben, einem Eingabefeld um neue Aufgaben hinzuzufügen und der Möglichkeit erfüllte Aufgaben zu löschen. Die allen übergeordnete Komponente `TodoApp`, die sogenannte Wurzel, vererbt an die `TodoList`- und `TodoInput`-Komponenten. `TodoList` vererbt an die `TodoEntry`-Komponente um mithilfe dieser eine Liste aller vorhandenen Aufgaben darzustellen.
-
-Listing: Aufgabenverwaltungs-Applikation
-
-~~~{#lst:todo_hierarchy .dot width=!}
-digraph G {
-  node [shape=none];
-  TodoApp -> {TodoList TodoInput};
-  TodoList -> TodoEntry;
-  {rank=same;TodoEntry TodoInput};
-}
-~~~
-
-~~~{#lst:law_index_components .dot}
-digraph G {
-  node [shape=none];
-  LawIndex -> {LawInitialChooser LawCollectionChooser LawIndexLead LawList};
-  {rank=same; LawInitialChooser LawCollectionChooser LawIndexLead LawList};
-  LawList -> {Pagination DataTable};
-  {LawInitialChooser LawCollectionChooser Pagination} -> Button
-}
-~~~
-
-<!-- TODO: Add visual outline of TodoApp -->
+Um dieses Problem anzugehen hat sich speziell in der Web\hyp{}Entwicklung in den letzten Jahren ein neuer Trend zu einer sehr viel stärkeren Modularisierung von Applikationen hervor getan. Die Vielzahl an Models, Views und Controllers werden dabei respektive durch einen Applikationsweiten Zustand, eine Komponenten-Hierarchie und zentral definierte Aktionen abgelöst. In den folgenden Abschnitten wird auf diese Ansätze und die für ihre Anwendung verwendeten Technologien eingegangen.
 
 
 
-### Uni-Direktionaler Datenfluss {#sec:dataflow}
-Eine weitere Problematik ist, dass traditionell jeder Baustein einer Applikation über einen eigenen selbstverwalteten Zustand verfügt, welchen er selbst über einen Controller und Interaktionen mit dem View manipuliert und gegebenenfalls über das Model an den wie auch immer gearteten persistenten Zustand (wie z.B. die Datenbank oder API) weitergibt. Hieraus resultiert wieder die Schwierigkeit, dass der Zustand von mehreren Teilen der Applikation benötigt und auch von mehreren manipuliert werden könnte. Bei komplexen Applikationen kann hierdurch das Verständnis von über sich durch verschiedene Aktionen ergebende Ereignisse und Zustandsänderungen schnell schwer werden. Die moderne Lösung hierfür liegt in einem uni-direktionalem Datenfluss mit einem zentral verwalteten und nur über klar definierte Funktionen beeinflussbaren Zustand. 
+#### Komponenten-Hierarchien {#sec:components}
+Dabei besteht Web\hyp{}Applikation aus einer Vielzahl einzelner, möglichst einfacher Komponenten, welche durch flexibel Kombination ein dynamisches Interface ergeben. Eine einzelne Komponente ist dabei ein möglichst in sich geschlossenes System, welches sein Umfeld nicht beeinflusst und nur von einem klar definierten, von außen übergebenen, Zustand abhängt. Einzelne Komponenten können komplexere Funktionalität durch hierarchische Vererbung an andere Komponenten umsetzen und bleiben so in sich selbst überschaubar. Dieses Prinzip basiert auf der Idee, dass es zu bevorzugen ist, Code zu schreiben, welcher eine klar definierte atomare Aufgabe erfüllt, da er dadurch leichter zu testen, für andere Entwickler leichter zu verstehen und dadurch langfristig leichter zu pflegen ist.
 
-Bei strengem Befolgen dieses Ansatzes wird der gesamte Zustand der Applikation, also auch wenn er nur für einzelne Komponenten relevant ist, zentral verwaltet und entlang der zuvor beschriebenen Komponenten-Hierarchie vererbt. Die Vererbung findet partiell statt, so dass jede Komponente nur den Teil des gesamt Zustandes kennt, die für sie beziehungsweise für ihr untergeordnete Komponenten relevant ist. Im gesamten Prozess beeinflusst keine Komponente den ihr übergebenen Zustand direkt, sondern greift hierfür auf zentral definierte Funktionen, sogenannte Aktionen, zurück. Durch diese Zentralisierung von Zustand und Zustand-manipulierenden Aktionen wird die Applikation und insbesondere Zustandsveränderungen innerhalb der Applikation leichter durchschaubar. Zusätzlich entsteht die Möglichkeit den Zustand persistent für zukünftige Aufrufe der Applikation zu speichern, einzelne Aktionen zu simulieren und gegebenenfalls rückgängig zu machen.
+Die verbreitetste Plattform, welches diesen Ansatz gewissermaßen massentauglich machte, ist das JavaScript Framework React. Da die Entwickler bei Facebook, die Firma hinter React, so überzeugt von diesem Ansatz sind, wurde zusätzlich React Native entwickelt. React Native überträgt dabei die gleichen Prinzipien auf die Android und iOS Entwicklung.
+
+
+
+#### Uni-Direktionaler Datenfluss {#sec:dataflow}
+Um Komponenten leicht testbar und auch bei starker Verzahnung möglichst unabhängig voneinander zu gestalten, ist es notwendig, den Zustand auszulagern. Hierbei verfolgen wir das Prinzip eines uni-direktionalen Datenflusses. Dabei verfügt die Applikation über einen globalen Zustand (**state** gespeichert im **store**), welcher über die Komponenten-Hierarchie in angebrachten Teilmengen vererbt wird.
+
+Anstatt, dass wie beim \ac{MVC} Prinzip jede Komponente nun den ihr zugeordneten Teil des Zustandes manipuliert, werden solche Veränderungen global ausgeführt; der lokale Zustand ist unveränderbar. Über die gleiche Vererbungsstruktur werden hierfür nicht nur die Daten selbst, sondern auch Funktionen vererbt (sogenannte **action creators**), welche als einzige Einfluss auf den globalen Zustand nehmen können.
+
+Eine von einer solchen Funktion erstellte Aktion (**action**) ist dabei ein einfaches, serialisierbares, Objekt mit klar spezifizierten Typ und Struktur. Wird so eine Aktion auf den store angewendet, transformiert dieser auf ihrer Grundlage den Zustand und vererbt den neuen Zustand wiederum durch die Komponenten-Hierarchie. Durch diese zentrale Aktualisierung und Vererbung wird die Integrität der zur Darstellung einer Komponente dienenden Daten zu jedem Zeitpunkt garantiert.
 
 Listing: Uni-direktionaler Datenfluss
 
@@ -146,23 +130,25 @@ Listing: Uni-direktionaler Datenfluss
 digraph G {
   rankdir=TB
   node [shape=rect]
-  S [label="State" shape=ellipse]
+  S [label="Store" shape=ellipse]
   A [label="Component A"]
   B [label="Component B"]
   C [label="Component C"]
   {rank=same;A B C}
-  S -> A [label="partial state"]
-  A -> B [label="partial state"]
-  B -> C [label="partial state"]
-  A -> S [label="action" style=dashed];
-  B -> S [label="action" style=dashed];
-  C -> S [label="action" style=dashed];
+  S -> A [label="state & action creators"]
+  A -> B [label="state & action creators"]
+  B -> C [label="state & action creators"]
+  A -> S [label="action" style=dashed]
+  B -> S [label="action" style=dashed]
+  C -> S [label="action" style=dashed]
 }
 ```
 
-Durch die Kombination einer modularen Komponenten-Hierarchie mit uni-direktionalen Datenfluss und zentral verwalteten globalen Zustand ergibt sich ein dem funktionellen Programmieren ähnlichen Einfachheit: Atomare Bestandteile der Applikation generieren deterministisch gegeben dem gleichen Zustand unabhängig vom Rest der Applikation testbar das gleiche Resultat. Komponenten, welche diese Eigenschaft erfüllen, werden im folgenden auch *reine Komponenten* oder *pure components* genannt.
+Durch diese Zentralisierung von Zustand und Zustand-manipulierenden Aktionen werden die Applikation und insbesondere Zustandsveränderungen innerhalb der Applikation leichter durchschaubar. Zusätzlich entsteht die Möglichkeit den Zustand persistent für zukünftige Aufrufe der Applikation zu speichern, einzelne Aktionen zu simulieren und, da der Zustand niemals direkt verändert sondern nur in einen neuen transformiert wird, gegebenenfalls rückgängig zu machen.
 
-Initial wurde dieser Ansatz 2014 von Facebook unter dem Namen *flux* präsentiert.[^flux] Seitdem wurde das Konzept von der JavaScript Gemeinschaft aufgegriffen und hat sich in einer weniger komplexen Form durch die *Redux* Bibliothek[^redux] durchgesetzt und in diesem Projekt eingesetzt wird.
+Initial wurde dieser Ansatz 2014 von Facebook unter dem Namen *flux* präsentiert.[^flux] Seitdem wurde das Konzept von der JavaScript-Gemeinschaft intensiv aufgegriffen und hat sich in einer weniger komplexen Form durch die *Redux*-Bibliothek[^redux] durchgesetzt und in diesem Projekt eingesetzt wird.
+
+Durch die Kombination einer modularen Komponenten-Hierarchie mit uni-direktionalen Datenfluss und zentral verwalteten globalen Zustand ergibt sich ein der funktionellen Programmierung ähnliche Einfachheit: Einerseits generieren Komponenten deterministisch gegeben dem gleichen Zustand, unabhängig vom Rest der Applikation testbar, das gleiche Resultat. Außerdem wird bei Zustandsveränderungen nie der aktuelle Zustand verändert, sondern ein neuer erstellt. Komponenten, welche diese Eigenschaft erfüllen, werden im folgenden auch *reine Komponenten* oder *pure components* genannt.
 
 [^flux]: https://facebook.github.io/flux/docs/overview.html
 
@@ -170,7 +156,7 @@ Initial wurde dieser Ansatz 2014 von Facebook unter dem Namen *flux* präsentier
 
 
 
-### Unveränderbare Daten {#sec:immutable}
+#### Unveränderbare Daten {#sec:immutable}
 Als drittes Standbein neben dem Uni-Direktionalen Datenfluss und der Komponenten Hierarchie dienen in der entwickelten Anwendung unveränderbare Objekte, sogenannte *immutable objects* oder *immutables*.
 
 Der verbreitetere und aus er objektorientierten Programmierung bekannte Ansatz ist es, mit Instanzen von Objekten zu arbeiten, welche während der Laufzeit eines Programms manipuliert werden. Sehr bekannt ist dieses Modell aus der objektorientierten Programmierung, bei welcher Objekte meist Methoden zur Verfügung stellen um ihren eigenen Zustand zu manipulieren. Das Problem hierbei ist, dass veränderbare Daten in nicht vorhersehbaren Zuständen resultieren können. In @lst:mutable_javascript ist Beispielhaft die Funktion `take` definiert, welche den Wert eines Attributes eines ihr übergebenen Objektes zurückgibt und den Wert des Attributes allerdings auch nachträglich verändert. Falls diese Funktion nicht vom sie einsetzenden Programmierer geschrieben wurde, könnte dies zu unvorhersehbaren Resultaten im weiteren Programmablauf führen.

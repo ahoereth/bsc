@@ -157,13 +157,13 @@ Durch die Kombination einer modularen Komponenten-Hierarchie mit uni-direktional
 
 
 #### Unveränderbare Daten {#sec:immutable}
-Als drittes Standbein neben dem Uni-Direktionalen Datenfluss und der Komponenten Hierarchie dienen in der entwickelten Anwendung unveränderbare Objekte, sogenannte *immutable objects* oder *immutables*.
+Zur effizienten und konsequenten Umsetzung der beiden zuvor beschrieben Prinzipien wird auf sogenannte unveränderbare Datenstrukturen gesetzt. Dies ergibt Sinn, da der globale Zustand wie zuvor erläutert niemals direkt verändert werden darf.
 
-Der verbreitetere und aus er objektorientierten Programmierung bekannte Ansatz ist es, mit Instanzen von Objekten zu arbeiten, welche während der Laufzeit eines Programms manipuliert werden. Sehr bekannt ist dieses Modell aus der objektorientierten Programmierung, bei welcher Objekte meist Methoden zur Verfügung stellen um ihren eigenen Zustand zu manipulieren. Das Problem hierbei ist, dass veränderbare Daten in nicht vorhersehbaren Zuständen resultieren können. In @lst:mutable_javascript ist Beispielhaft die Funktion `take` definiert, welche den Wert eines Attributes eines ihr übergebenen Objektes zurückgibt und den Wert des Attributes allerdings auch nachträglich verändert. Falls diese Funktion nicht vom sie einsetzenden Programmierer geschrieben wurde, könnte dies zu unvorhersehbaren Resultaten im weiteren Programmablauf führen.
+Der verbreitetere und aus er objektorientierten Programmierung bekannte Ansatz ist es, mit Instanzen von Objekten zu arbeiten, welche während der Laufzeit eines Programms manipuliert werden. Sehr bekannt ist dieses Modell aus der objektorientierten Programmierung, bei welcher Objekte meist Methoden zur Verfügung stellen, über welche ihr Zustand manipuliert werden kann. Das Problem hierbei ist, dass solche Entwicklungsmuster in nicht vorhersehbaren Zuständen resultieren können. In @lst:mutable_javascript ist Beispielhaft die Funktion `take` definiert, welche den Wert eines Attributes eines ihr übergebenen Objektes zurückgibt. Nachträglich verändert sie allerdings den eigentlichen Wert innerhalb des Objektes.[^const] Falls diese Funktion nicht vom sie einsetzenden Programmierer geschrieben auch nur grade nicht direkt vorliegt, könnte dies zu unvorhersehbaren Resultaten im weiteren Programmablauf führen.
 
-Interessant hierbei ist auch, dass die Variable `obj` als `const`, also Konstante, definiert wurde: Konstant bedeutet hier allerdings nicht, dass der Wert des Objektes unverändert bleibt, sondern die in der Variable gespeicherte Referenz zu einem bestimmten Objekt. Das referenzierte Objekt ist allerdings veränderbar. Obwohl dieses verhalten bei angehenden Programmierern oft für Verwirrung sorgt, ist es ein auch aus anderen Sprachen wie C++ (`const`) oder Java (`final`) bekanntes Verhalten.
+[^const]: Interessant hierbei ist auch, dass die Variable \texttt{obj} als \texttt{const}, also Konstante, definiert wurde: Konstant bedeutet hier allerdings nicht, dass der Wert des Objektes unverändert bleibt, sondern die in der Variable gespeicherte Referenz zu einem bestimmten Objekt. Das referenzierte Objekt ist allerdings veränderbar. Obwohl dieses Verhalten bei angehenden Programmierern oft für Verwirrung sorgt, ist es ein auch aus anderen Sprachen wie C++ (\texttt{const}) oder Java (\texttt{final}) bekanntes Verhalten. Unveränderbare Datenstrukturen lösen dies.
 
-Listing: Pass-by-reference und veränderbare Daten in JavaScript
+Listing: Pass-by-reference und mutierbare Objekte in JavaScript
 
 ~~~{.javascript #lst:mutable_javascript}
 function take(ref, key) {
@@ -175,7 +175,7 @@ const foo = take(obj, 'foo');
 // foo: 42
 ~~~
 
-Unveränderbare Datenstrukturen lösen dieses Problem, indem jede auf ihnen ausgeführte Operation ein neues Objekt zurückgibt, anstatt das alte direkt zu manipulieren (siehe Listing @lst:immutable_list).
+Unveränderbare Datenstrukturen lösen dieses Problem, indem jede auf ihnen ausgeführte Operation ein neues Objekt zurückgibt, anstatt das alte direkt zu verändern (siehe Listing @lst:immutable_list).
 
 Listing: Veränderbares Array und unveränderbare Liste in JavaScript
 
@@ -192,7 +192,9 @@ const list2 = list1.push(4);
 // list2: [1, 2, 3, 4]
 ~~~
 
-Für ein besseres Verständnis kann man *immutables* statt als Objekte als individuelle Werte betrachten. Objekte sind Strukturen welche in ihren Attributen Referenzen auf andere Objekte beinhalten. Der Wert von Attributen eines Objektes sind also Referenzen, welche verändert werden können, ohne das jeweilige referenzierte Objekt zu ändern. Einzelne Werte wie der aus Java bekannte `String` oder `int` sind an sich unveränderbar -- gleiches gilt für *immutables*. Wird also die Änderung eines Attributes einer unveränderbaren Datenstruktur beauftragt, wird ein neues unveränderbares Objekt zurück gegeben welches diese Änderung reflektiert.
+Für ein besseres Verständnis kann man *immutables* statt als Objekte als individuelle Werte betrachten. Werte sind in den meisten Programmiersprachen einfache Dinge wie Integer oder Strings. Werden diese verändert, wird immer ein neuer Wert zurück gegeben, niemals der eigentlich mutiert. Objekte hingegen traditionell eher eine Art Sammlung von Referenzen und Werten, welche verändert werden können, ohne das eigentliche Objekt zu ändern. Wird nun auf unveränderbare Datenstrukturen gesetzt, sind auch Objekte als solche Werte zu behandeln: Veränderungen erzeugen einen neuen Wert, ohne den alten direkt zu mutieren. 
+
+Um nun nicht bei jeder Mutation eine veränderte tiefe Kopie des originalen Objektes zu erstellen und damit unnötig Speicher zu belegen, wird bei der verwendeten Bibliothek, *immutablejs*, für die interne Repräsentation unveränderbarer Objekte auf sogenannte gerichtete azyklische Graphen mit gemeinschaftlicher Nutzung (eng.: *directed azyclic graphs (DAG) with structural sharing*) gesetzt. In Abbildung @lst:dag_mutation wurde hierfür ein Beispiel visualisiert: Im originalen Graph mit Wurzel *a* soll der verschachtelte Kind-Knoten *g* manipuliert werden. Um dies mit möglichst wenig Aufwand zu erreichen und den ursprünglichen Graphen unverändert zu lassen, werden die hier gestrichelt dargestellten Knoten, *a*, *c* und *g*, in Form der gepunkteten Knoten, respektive *a2*, *c2* und *g2*, kopiert. Die Mutation findet auf dem neu erstellten Knoten *g2* statt und der neue Graph mit Wurzel *a2* setzt sich so Speicher sparend im dargestellten Beispiel zu über 50% aus bereits existierende unveränderte Knoten zusammen (durchgezogene Umrandungen).
 
 Listing: Mutation eines gerichteten azyklischen Graphen mit gemeinschaftlicher Nutzung
 
@@ -232,24 +234,7 @@ digraph G {
 }
 ~~~
 
-Um nicht bei jeder Mutation eine veränderte tiefe Kopie des originalen Objektes zu erstellen und damit unnötig Speicher zu belegen wird bei der verwendeten Bibliothek, *immutablejs*, für die interne Repräsentation unveränderbarer Objekte auf sogenannte gerichtete azyklische Graphen mit gemeinschaftlicher Nutzung (eng.: *directed azyclic graphs (DAG) with structural sharing*) gesetzt. In Abbildung @lst:dag_mutation wurde hierfür ein Beispiel visualisiert: Im originalen Graph mit Wurzel *a* soll der verschachtelte Kind-Knoten *g* verändert werden. Um dies mit möglichst wenig Aufwand zu erreichen und den ursprünglichen Graphen unverändert zu lassen, werden die hier gestrichelt dargestellten Knoten, *a*, *c* und *g* in Form der gestrichelten Knoten, respektive *a2*, *c2* und *g2*, kopiert. Die Mutation findet auf dem neu erstellten Knoten *g2* statt und der neue Graph mit Wurzel *a2* setzt sich so Speicher sparend im dargestellten Beispiel zu über 50% aus bereits existierende unveränderte Knoten zusammen (durchgezogene Umrandung).
-
-Deep Copy
-:  Tiefe Kopie
-:  Bei einer tiefen Kopie eines Objektes werden sämtliche vom Objekt beinhaltete Objekte ihrerseits tief kopiert. Im Kontrast zur tiefen Kopie werden bei einer flachen Kopie (*shallow copy*) nur das eigentliche Objekt mit den in seinen Attributen gespeicherten Referenzen kopiert, wobei die Referenzen aber weiterhin auf die selben Objekte zeigen.^[>\color{red}Definitionen im Text wie hier oder nur in ein eigenes Verzeichnis?]
-
-Insgesamt ergibt sich aus der Verwendung von unveränderbaren Datenstrukturen so gleich mehrere Vorteile: Einerseits ist es, wie bereits erläutert, für Entwickler leichter über Veränderungen von Datenstrukturen zu urteilen. Zusätzlich ist es bei der internen Verwendung der oben beschriebenen \ac{DAG}s für unveränderbare Objekte möglich, Objekte per nur anhand ihrer Identität zu Vergleichen, was zu starken Performance Vorteilen führt: Bei traditionellen veränderbaren Datenstrukturen ist es nötig eine tiefen Vergleich (eng: *deep comparison*) durchzuführen, bei dem jedes Attribut-Paar der zu vergleichenden Datenstrukturen individuell miteinander, wiederum tief, verglichen werden muss.
-
-Listing: Identitätsvergleiche mit *immutablejs*
-
-~~~{.javascript #lst:immutable_equality}
-import { Map } from 'immutable';
-const map1 = new Map({ a: 1, b: 2, c: 3 });
-const map2 = map1.set('b', 2);
-const map3 = map1.set('b', 50);
-// map1 === map2
-// map1 !== map3
-~~~
+Insgesamt ergibt sich aus der Verwendung von unveränderbaren Datenstrukturen so gleich mehrere Vorteile: Einerseits ist es, wie bereits erläutert, für Entwickler leichter über Veränderungen von Datenstrukturen zu urteilen. Außerdem ermöglichen unveränderbare Datenstrukturen es, effizient zu prüfen ob die Aktualisierung einer Komponente bei Veränderung des globalen Zustands überhaupt notwendig ist -- wenn sich also der übergebene Zustand in seiner Identität gleich ist, hat er sich nicht verändert. Bei traditionellen Objekten wäre es hier notwendig einen tiefen Vergleich jedes Attributes durchzuführen.
 
 
 

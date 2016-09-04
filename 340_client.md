@@ -18,67 +18,62 @@ Listing: Synchrone Client-/Server-Kommunikation
 
 ```{#lst:website .dot}
 digraph G {
-  node [shape=rect];
-  SERV [label="Server"];
-  APP1 [label="Website"];
-  APP2 [label="Website"];
-  APP3 [label="[...]" shape=none];
-  USER [label="User"];
+  node [shape=rect]
+  SERV [label="Server"]
+  APP1 [label="Website"]
+  APP2 [label="Website"]
+  APP3 [label="[...]" shape=none]
+  USER [label="User"]
   VOID [style=invis]
 
   VOID -> SERV [label="(1) initial req."]
-  SERV:sw -> APP1 [label="(2) res."];
-  USER -> APP1 [label="(3) action"];
+  SERV:sw -> APP1 [label="(2) res."]
+  USER -> APP1 [label="(3) action"]
   APP1 -> SERV:s [label="(4) req."]
-  SERV -> APP2:nw [label="(5) res."];
-  USER -> APP2 [label="(6) action"];
+  SERV -> APP2:nw [label="(5) res."]
+  USER -> APP2 [label="(6) action"]
   APP2 -> SERV [label="(7) req."]
-  SERV -> APP3 [style=dashed];
-  USER -> APP3 [style=dashed];
-
+  SERV -> APP3 [style=dashed]
   APP1 -> APP2 [style=dotted]
   APP2 -> APP3 [style=dotted]
 
   // Formatting hacks.
+  USER -> APP3 [style=invis]
   VOID [label=""]
   VOID -> USER [style=invis]
-  APP1 -> APP2 [style=invis];
-  APP2 -> APP3 [style=invis];
   {rank=min;SERV}
-  {rank=same;APP1 APP2 APP3};
+  {rank=same;APP1 APP2 APP3}
   {rank=same;VOID USER}
   {rank=max;USER}
 }
 ```
 
-Eine erste Erweiterung dieses Ansatzes liegt in dem Einsatz von interaktiven JavaScript-Elementen: Interaktive Elemente sind in diesem Fall solche Teile der Webseite, welche Interaktionen ohne einen Neuladen der Seite zur Verfügung stellen. Weit verbreitet ist dies zum Beispiel für Foto-Galerien auf Nachrichten Seiten, in welchen zu jedem Zeitpunkt nur ein Bild dargestellt wird, das Anzeigen eines weiteren aber nicht eine neue Webseite lädt sondern nur das alte Bild-Element mit dem neuen austauscht. Zusätzlich ist es mit Hilfe von \ac{AJAX} möglich an solche Interaktionen Anfragen an den Server zu koppeln und weitere Informationen, wie zum Beispiel die URL und Beschreibung des nächsten Bildes, nachzuladen.
+Nachdem dieser Ansatz zu Beginn der Verbreitung von \ac{AJAX} vielmals mit einzelnen interaktiven Elementen erweitert wurde, wird bei einer \ac{SPA} der Rundtrip vollständig abgelöst. Dieses Modell wird in Abbildung @lst:spa dargestellt. Hierbei wird initial wieder eine initiale Anfrage an den Server gestellt (1) woraufhin dieser die Webseite mit allen benötigten Skripts zur Verfügung stellt (2). Im Kontrast zur normalen Webseite schaltet sich nun die JavaScript-Applikation zwischen Nutzerinteraktionen und Server (gestrichelte Kanten). Über Reaktionen auf Nutzerinteraktionen wird hierbei also direkt von der Applikation selbst, anstatt durch den Server geurteilt (3+). Hierbei ist nun der JavaScript-Code dafür verantwortlich, eventuell notwendige Serveranfragen zu stellen (4+) und die dargestellte Ansicht entsprechend ankommender Daten (5+) zu aktualisieren. Serveranfragen in Folge von Nutzeraktionen sind von nun an allerdings oftmals optional, da nicht für jede Änderung der Ansicht neue Daten notwendig sind.
 
-\ac{AJAX} ist auch zentraler Teil von \ac{SPA}: Anstatt nur einzelne Elemente der Webseite mit Hilfe von JavaScript interaktiv zu gestalten, werden alle Interaktionen des Nutzers mit der Webseite durch JavaScript behandelt. Dieses Modell wird in Abbildung @lst:spa dargestellt: Ähnlich wie in Abbildung @lst:website stellt der Nutzer eine initiale Anfrage an den Server (1) woraufhin dieser die Webseite mit allen benötigten Skripts zur Verfügung stellt (2). Interaktionen des Nutzers mit der Applikation (3+) werden von nun an von dem vorgeladenen JavaScript-Code behandelt und resultieren, wenn nötig in für den Nutzer unsichtbaren \ac{AJAX}-Anfragen an den Server (4+) welcher mit den benötigten Daten antwortet (5+). Meist stellt der Server keine strukturellen Informationen sondern nur noch die rohen Daten zur Verfügung, welche dann auf Client-Seite strukturiert und dargestellt werden. Die gestrichelten Kanten sind von nun an also der neue Kreislauf ohne einen Austausch der eigentlichen Webseite.
+Die Abbildung stellt den Content- und \ac{API}-Server bereits als zwei strukturell unabhängige Instanzen dar. Obwohl diese Trennung optional ist, ist sie oft erstrebenswert. Siehe hierzu Abschnitt @sec:server, Server.
 
 Listing: Asynchrone Client-/Server-Kommunikation
 
 ```{.dot #lst:spa}
 digraph G {
   rankdir=BT
-  node [shape=rect];
-  USER [label="User"];
-  SERV [label="Content-Server"];
-  API [label="API-Server"];
-  APP [label="Single-Page-Application"];
-  {rank=same;SERV API};
-  {rank=same;USER APP};
+  node [shape=rect]
+  USER [label="User"]
+  SERV [label="Content-Server"]
+  API [label="API-Server"]
+  APP [label="Single-Page-Application"]
+  {rank=same;SERV API}
+  {rank=same;USER APP}
 
-  USER -> SERV [label="(1) initial req."];
-  SERV -> APP [label="(2) res.   "];
-  USER -> APP [label="(3+) actions" style=dashed];
-  APP  -> API [label="(4+) req.   " style=dashed];
-  API  -> APP [label="(5+) res." style=dashed];
+  USER -> SERV [label="(1) initial req."]
+  SERV -> APP [label="(2) res.   "]
+  USER -> APP [label="(3+) actions" style=dashed]
+  APP  -> API [label="(4+) req.   " style=dashed]
+  API  -> APP [label="(5+) res." style=dashed]
 }
 ```
 
-Verbreitet und auch in Abbildung @lst:spa dargestellt ist der Ansatz Content- und API-Server zu trennen. Der Content-Server ist für das zur Verfügung stellen von statischen Dateien wie den HTML- und JavaScript-Dokumenten oder auch Bilder verantwortlich. Der API-Server steht in Verbindung zur Datenbank und stellt die eigentlichen inhaltlichen Daten zur Verfügung: Sämtliche Texte oder auch die URLs von darzustellenden Bildern hält er vor.
-
-Durch die zentrale Anforderung an die im Rahmen dieser Arbeit entwickelten Applikation, sich ähnlich nativer Software zu verhalten, ist die Entwicklung einer \ac{SPA} unabdingbar. Durch den Einsatz einer \ac{SPA} ist es Möglich Interaktionen sehr viel flüssiger zu behandeln: Ladezeiten können durch das vorladen von Daten im Hintergrund und die, durch die fehlende Notwendigkeit strukturelle Informationen zu übertragen, kleinere Größe der benötigten Daten verringert werden. TODO: Moar.
+Durch die zentrale Anforderung an die im Rahmen dieser Arbeit entwickelten Applikation, sich ähnlich nativer Software zu verhalten, ist die Entwicklung einer \ac{SPA} unabdingbar. Durch den Einsatz einer \ac{SPA} ist es Möglich Interaktionen sehr viel flüssiger zu behandeln: Ladezeiten können durch das Vorladen von Daten im Hintergrund und die, durch die fehlende Notwendigkeit strukturelle Informationen zu übertragen, kleinere Größe der benötigten Daten verringert werden. Außerdem ist es möglich durch visuelle Anpassungen wie Animationen ein flüssigeres Nutzungserlebnis zu simulieren, wo bei traditionellen Webseiten eine von Stillstand geprägte Wartezeit zu finden war.
 
 ### Offline-First {#offline-first}
 Ein zentraler Teil der Nutzererfahrung von Mobil- und Desktopanwendungen ist, dass sie auch ohne aktive Internetverbindung nutzbar sind, wenn eventuell auch eingeschränkt. Der zuvor beschrieben Ansatz der \ac{SPA} birgt bereits die Grundlage um offline Funktionalität auch für eine Web-Applikation möglich zu machen: Nach dem initialen laden der Seite werden alle Interaktionen des Nutzers mit der Webseite von dem vorgeladene JavaScript gehandhabt. Interaktionen, für welche die Applikation keine weiteren Anfragen an den Server stellen muss, sind so also schon ohne eine Internetverbindung möglich. Bei einem erneuten Aufruf der Seite und bei Verwendung von Teilen der Applikation welche auf Serveranfragen angewiesen sind ist allerdings eine bestehende Verbindung zum Internet notwendig.

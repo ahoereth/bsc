@@ -1,7 +1,4 @@
 # Konzeptualisierung {#sec:concept}
-
-**Lawly^[Arbeitstitel] gibt Juristen moderne Mittel an die Hand.**
-
 In diesem Kapitel^[>\color{red}Alles Abschnitte oder Kapitel mit Abschnitten?] wird der Zustand des Marktes allgemein für Softwaredienstleistungen für Juristen[^gender] und im speziellen für ein digitales Konkurrenzprodukt zu klassischen Gesetzbüchern analysiert.^[>\color{red}Vielleicht doch lieber überall die Genderformulierungen verwenden? Was ist heutzutage eher angebracht? Das hier scheint das Problem nur zu umgehen.] Abschnitt @sec:digitalrevolution geht dabei auf den sich im Rechtswesen generell anbahnenden digitalen Umschwung und die sich dadurch ergebende Chance und Notwendigkeit für moderne Softwarelösungen ein. Anschließend beschäftigt sich Abschnitt @sec:market mit dem konkreten traditionellen Markt für Gesetzestexte und -kommentare, bevor in Abschnitt @sec:saas der aktuelle Zustand des digitalen Marktes für rechtliche Dienstleistungen ^[>\color{red}Nur Gesetzestexte?] und die in ihm bereits etablierten und aktuell aufkommenden Konkurrenzprodukte betrachtet werden. Zum Abschluss dieses Kapitels wird zu guter Letzt in Abschnitt @sec:goal die Zielsetzung für eine neue digitale Dienstleistung in diesem Bereich dargelegt und der Rahmen des als Teil dieser Arbeit entstandene Softwareprojektes konkretisiert.
 
 ^[>\color{red}Beispiele für Lawtec Firmen in den USA - maybe?]
@@ -38,11 +35,11 @@ Beispielhaft ergeben sich aus diesen Zahlen alleine durch die von Land und Bund 
 
 Da die eigentlichen Normen eines Gesetzes, um möglichst viele Alltagssituationen abzudecken, meist abstrakt gehalten sind, ist ihre Auslegung für Juristen oft schwierig. Um diesem Problem entgegen zu wirken, haben sich bereits früh sogenannte Gesetzeskommentare etabliert und nehmen großen Einfluss auf das Rechtswesen [@Henne2006]. Sie beschäftigen sich mit der Erläuterung und Interpretation der eigentlichen Gesetze in Bezug auf konkrete Gegebenheiten und verwenden gerichtliche Entscheidungen und dem Gesetz vorhergegangene Regierungsentwürfen als Referenzen. In ihrem Umfang übersteigen diese meist die Gesetze, zu welchen sie Stellung beziehen, und sind für kaum einen Juristen vernachlässigbar [@Spiegel1981].
 
-[^buecherliebe]: Quelle: Artikel im Beck Blog, *Das Leben mit Loseblattwerken – eine erfüllte Liebesbeziehung*, [blog.beck-shop.de/?p=18760](http://blog.beck-shop.de/wirtschaft/leben-mit-loseblattwerken/); Abgerufen 01/2016
+[^buecherliebe]: Quelle: Artikel im Beck Blog, *Das Leben mit Loseblattwerken – eine erfüllte Liebesbeziehung*, [blog.beck-shop.de/?p=18760](http://blog.beck-shop.de/wirtschaft/leben-mit-loseblattwerken/), abgerufen 01/2016.
 
-[^schoenfeldershop]: Quelle: *Schönfelder* im Beck Shop, [beck-shop.de/productview.aspx?product=2205](http://beck-shop.de/Schoenfelder-Deutsche-Gesetze/productview.aspx?product=2205); Abgerufen 01/2016
+[^schoenfeldershop]: Quelle: *Schönfelder* im Beck Shop, [beck-shop.de/productview.aspx?product=2205](http://beck-shop.de/Schoenfelder-Deutsche-Gesetze/productview.aspx?product=2205), abgerufen 01/2016.
 
-[^ergaenzungshop]: Quelle: Verschiedene *Ergänzungslieferungen* gelistet im Beck Shop, z.B. Stand 08/2016, [beck-shop.de/productview.aspx?product=16454788](http://www.beck-shop.de/Schoenfelder-Deutsche-Gesetze-165-Ergaenzungslieferung-Stand-08-2016/productview.aspx?product=16454788); Abgerufen 08/2016
+[^ergaenzungshop]: Quelle: Verschiedene *Ergänzungslieferungen* gelistet im Beck Shop, z.B. Stand 08/2016, [beck-shop.de/productview.aspx?product=16454788](http://www.beck-shop.de/Schoenfelder-Deutsche-Gesetze-165-Ergaenzungslieferung-Stand-08-2016/productview.aspx?product=16454788), abgerufen 08/2016.
 
 
 
@@ -68,19 +65,19 @@ Hierbei kritisch, aber in den letzten Jahren rechtlich ins Wanken gekommen, sind
 > --- Markus Reithwiesner, Geschäftsführer Rudolf-Haufe-Verlag [@FAZ2009]
 
 
-[^privatanzeiger]: Der Spiegel: M. DuMont Schauberg Verlag schluckt Bundesanzeiger (2006), [spiegel.de/kultur/gesellschaft/a-448095.html](http://www.spiegel.de/kultur/gesellschaft/m-dumont-schauberg-koelner-verlag-schluckt-bundesanzeiger-a-448095.html); abgerufen 08/2016
+[^privatanzeiger]: Der Spiegel: M. DuMont Schauberg Verlag schluckt Bundesanzeiger (2006), [spiegel.de/kultur/gesellschaft/a-448095.html](http://www.spiegel.de/kultur/gesellschaft/m-dumont-schauberg-koelner-verlag-schluckt-bundesanzeiger-a-448095.html), abgerufen 08/2016.
 
-[^noopendata]: Ausschnitt aus der AGB von [bgbl.de](http://www1.bgbl.de/fileadmin/Betrifft-Recht/Dokumente/BGBl/bgbl_agb_online.pdf):
+[^noopendata]: Ausschnitt aus der AGB von [bgbl.de](http://www1.bgbl.de/fileadmin/Betrifft-Recht/Dokumente/BGBl/bgbl_agb_online.pdf), abgerufen 08/2016.
 
-[^saferpdf]: Ausschnitt aus *Fragen & Antworten* von [bgbl.de](http://www1.bgbl.de/fragen-antworten/fragen-antworten.html#c46073):
+[^saferpdf]: Ausschnitt aus *Fragen & Antworten* von [bgbl.de](http://www1.bgbl.de/fragen-antworten/fragen-antworten.html#c46073), abgerufen 08/2016:
 
     > Wie dürfen die Daten aus BGBl. Online weiterverwendet werden?
     >
     > Die Version im Bürgerzugang ist gegen Weiterverarbeitung geschützt. Die entgeltliche Version ermöglicht es Ihnen, Textausschnitte zu markieren und mittels „copy & paste“ in andere Programme einzufügen und entsprechend unserer AGB [...] für das Online-Abonnement weiter zu verarbeiten.
 
-[^RII]: Quelle und Zitat: [rechtsprechung-im-internet.de](https://www.rechtsprechung-im-internet.de); Abgerufen 08/2016
+[^RII]: Quelle und Zitat: [rechtsprechung-im-internet.de](https://www.rechtsprechung-im-internet.de), abgerufen 08/2016
 
-[^nrwrechtsprechungen]: Beispiel einer solchen Regelung in NRW und Zitat von: [justiz.nrw.de/BS/nrwe2/gewerbl_nutzer/index.php](https://www.justiz.nrw.de/BS/nrwe2/gewerbl_nutzer/index.php); Abgerufen 08/2016
+[^nrwrechtsprechungen]: Beispiel einer solchen Regelung in NRW und Zitat von: [justiz.nrw.de/BS/nrwe2/gewerbl_nutzer/index.php](https://www.justiz.nrw.de/BS/nrwe2/gewerbl_nutzer/index.php), abgerufen 08/2016
 
 ---
 # \nocite{UrhG} hack.
@@ -94,24 +91,19 @@ nocite: |
 
 
 ## Software-as-a-Service {#sec:saas}
-Der Markt für elektronische Rechtsinformationen wird, ähnlich dem Markt für traditionelle Formate, von wenigen Akteuren dominiert. Zusätzlich liegt eine starke Überschneidung der großen Anbieter im digitalen mit den traditionellen Verlagen im analogen Bereich vor. Dies resultiert daraus, dass die meisten Anbieter auf die Verbindung von Gesetzestexten mit den in ihrem Verlagsrepertoire befindlichen ergänzenden Werken wie Gesetzeskommentare setzen, welche sie anderen Anbietern nicht verfügbar machen.
+Der Markt für elektronische Rechtsinformationen wird, ähnlich dem Markt für traditionelle Formate, von wenigen Akteuren dominiert. Zusätzlich liegt eine starke Überschneidung der großen Anbieter im digitalen mit den traditionellen Verlagen im analogen Bereich vor. Dies resultiert daraus, dass die meisten Anbieter auf die Verbindung von Gesetzestexten mit den in ihrem Verlagsrepertoire befindlichen ergänzenden Werken wie Gesetzeskommentare setzen. Neben der Erweiterung des Angebots um verlagseigene und eingekaufte Gesetzeskommentare wird stark auf die direkte Verknüpfung von Gesetzen zu Rechtsprechungen gesetzt.
 
-Als Zielgruppe haben diese Systeme allesamt professionelle Anwender, welche zum Zahlen der teils immensen Gebühren gewillt sind. So kostet beispielsweise der Bezug des gesamten deutschen Bundesrechtes, welches, wie in Abschnitt @sec:resources beschrieben, urheberrechtsfrei ist, ohne ergänzende Literatur 40€ monatlich [@Beck2011, s. 13].
+Als Zielgruppe haben diese Systeme allesamt professionelle Anwender, welche zum Zahlen der teils immensen Gebühren gewillt sind. So kostet beispielsweise der Bezug des gesamten deutschen Bundesrechtes, welches, wie in Abschnitt @sec:resources beschrieben, urheberrechtsfrei ist, ohne ergänzende Literatur 40 € monatlich [@Beck2011, s. 13].
 
-Neben der Erweiterung des Angebots um verlagseigene und eingekaufte Gesetzeskommentare wird stark auf die direkte Verknüpfung von Gesetzen zu Rechtsprechungen gesetzt. Auch dies bezüglich ist der vorhergehende Abschnitt @sec:resources zu benennen und insbesondere der aktuelle Trend in die Richtung auch solche stärker frei zugänglich zu machen.
-
-<!-- CHAOS STARTS HERE -->
-
-^[>\color{red}Konkretere Beispiele aus dem Markt]
-
-<!-- https://www.jurion.de/de/home/guest
-https://openlaws.com/ -->
+Stark mangeln tut es den bestehenden Anbietern an digitaler Innovation. So bieten sie beispielsweise keine umfassenden Mobillösungen an -- außer einige Nischenprodukte sind die elektronischen Rechtsinformationssysteme allesamt schwergewichtige Webseiten. Neben dem Ideal, freie Daten jedermann zugänglich zumachen, ist dies, wo Lawly einsetzt.
 
 
 
+## Lawly -- Freies Recht {#sec:lawly}
 
-## Lawly -- moderne Werkzeuge für Juristen {#sec:lawly}
-^[>\color{red}Titel mehr auf freie Daten beziehen?]
+***Lawly -- moderne Werkzeuge für Juristen***
+
+***Lawly gibt Juristen moderne Mittel an die Hand.***
 
 Als initiales Produkt wird eine Plattform zum interaktiven Navigieren von deutschen Bundesgesetzen entwickelt. In einem zweiten Schritt soll diese um Verknüpfungen mit Rechtsprechungen erweitert werden.
 

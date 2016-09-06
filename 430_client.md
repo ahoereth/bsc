@@ -1,5 +1,5 @@
 ## Client Architektur {#sec:client-architecture}
-Ähnlich dem Abschnitt @sec:server-architecture setzt auch die Client Applikation im Sinne einer besseren Übersichtlichkeit und Testbarkeit auf stark modularen Code. Im folgenden wird auf die einzelnen Bestandteile und auf den Buildprozess, also der Schritt von rohem Quelltext zu für die Auslieferung vorbereiteten Paket, eingegangen.
+Ähnlich dem Abschnitt @sec:server-architecture setzt auch die Client Applikation im Sinne einer besseren Übersichtlichkeit und Testbarkeit auf stark modularen Code. Da eine komplette Analyse des Applikationsquelltextes bei rund 6000 Zeilen Code den Rahmen dieser Arbeit sprengen würde, wird im folgenden Beispielhaft anhand der Gesetzesübersicht die konkrete Implementation erläutert. Zusätzlich wird die offline Suchfunktion, ein sich in der Umsetzung als sehr anspruchsvoll erwiesener Teil der Applikation, analysiert. Da das Ziel der Implementation ein nicht nur theoretisch, sondern auch praktisch an Browser auslieferbares Paket sein soll, wird zu guter letzt der Buildprozess besprochen.
 
 ### Struktur
 Listing: Vereinfachte Ordnerstruktur der Client-Applikation
@@ -24,6 +24,11 @@ Hinter den oben aufgeführten Ordnern befinden sich die reinen React-Komponenten
 Wie in @sec:javascript beschrieben werden bei der Entwicklung der Single-Page-Webapplikation auf moderne, noch nicht in allen gängigen Browsern verfügbare JavaScript Funktionalitäten eingesetzt. Um trotzdem eine möglichst große Bandbreite an Browsern unterstützen zu können wird hierbei auf Transkompilierung gesetzt. Zusätzlich ist es von Interesse den benötigten Quelltext in einer Einzeldatei zu bündeln, um beim initialen Seitenaufruf möglichst wenige HTTP-Anfragen durchführen zu müssen. Bei jeder HTTP-Anfrage kommt es zu Wartezeiten zwischen Anfrage und Beginn des Antworterhalts, so dass das Übertragen von vielen Einzeldateien mehr Zeit in Anspruch nehmen würde als einer einzelnen welche alle vereinigt. Um die Dateigröße weiter zu verringern ist es wichtig, nur Code in das endgültige Paket zu übernehmen, welcher wirklich notwendig ist. Dies ist besonders beim einsetzen externer Bibliotheken nicht trivial, da diese oft unübersichtlich verschachtelt sind. Durch den Einsatz von \ac{ES6} Modulen und dem Ansatz von einem Einstiegspunkt aus den Modul-Baum zu traversieren ergibt sich die Möglichkeit nur eingesetzen Code zu übernehmen.
 
 Um diese Schritte im Entwicklungsprozess zu automatisieren wird *Webpack* als sogenannter Bundler eingesetzt: Webpack traversiert von einem Einstiegspunkt aus den Modul-Baum und lädt die einzelnen Module mit Hilfe von verschiedenen Erweiterungen. Als eine dieser Erweiterungen wird *Babel* eingesetzt. Babel übersetzt zu ladenden JavaScript-Code von \ac{ES6} in eine Version mit breiter Unterstützung und rüstet je nach Anforderung Funktionen mithilfe von Polyfills nach.
+
+### Beispielhaft: Die Gesetzesübersicht
+In Abbildung @lst:lawindex wird die Modulehierarchie dargestellt, an der sich die folgende Beschreibung orientiert.
+
+![lawindex](assets/lawindex.png){.shadow caption="Gesetzesübersicht, \url{https://web.lawly.org/gesetze}"}
 
 
 Offline available

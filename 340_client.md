@@ -179,31 +179,30 @@ Listing: Veränderbares Array und unveränderbare Liste in JavaScript
 
 ~~~{.javascript #lst:immutable_list}
 import { List } from 'immutable';
-
 const arr = [1, 2, 3];
-arr.push(4);
+arr.push(4); 
 // arr: [1, 2, 3, 4]
-
 const list1 = List([1, 2, 3]);
 const list2 = list1.push(4);
-// list1: [1, 2, 3]
-// list2: [1, 2, 3, 4]
+// list1: [1, 2, 3]; list2: [1, 2, 3, 4]
 ~~~
 
 Für ein besseres Verständnis kann man *immutables* statt als Objekte als individuelle Werte betrachten. Werte sind in den meisten Programmiersprachen einfache Dinge wie Integer oder Strings. Werden diese verändert, wird immer ein neuer Wert zurück gegeben, niemals der eigentlich mutiert. Objekte hingegen traditionell eher eine Art Sammlung von Referenzen und Werten, welche verändert werden können, ohne das eigentliche Objekt zu ändern. Wird nun auf unveränderbare Datenstrukturen gesetzt, sind auch Objekte als solche Werte zu behandeln: Veränderungen erzeugen einen neuen Wert, ohne den alten direkt zu mutieren. 
 
-Um nun nicht bei jeder Mutation eine veränderte tiefe Kopie des originalen Objektes zu erstellen und damit unnötig Speicher zu belegen, wird bei der verwendeten Bibliothek, *immutablejs*, für die interne Repräsentation unveränderbarer Objekte auf sogenannte gerichtete azyklische Graphen mit gemeinschaftlicher Nutzung (eng.: *directed azyclic graphs (DAG) with structural sharing*) gesetzt. In Abbildung @lst:dag_mutation wurde hierfür ein Beispiel visualisiert: Im originalen Graph mit Wurzel *a* soll der verschachtelte Kind-Knoten *g* manipuliert werden. Um dies mit möglichst wenig Aufwand zu erreichen und den ursprünglichen Graphen unverändert zu lassen, werden die hier gestrichelt dargestellten Knoten, *a*, *c* und *g*, in Form der gepunkteten Knoten, respektive *a2*, *c2* und *g2*, kopiert. Die Mutation findet auf dem neu erstellten Knoten *g2* statt und der neue Graph mit Wurzel *a2* setzt sich so Speicher sparend im dargestellten Beispiel zu über 50% aus bereits existierende unveränderte Knoten zusammen (durchgezogene Umrandungen).
+Um nun nicht bei jeder Mutation eine veränderte tiefe Kopie des originalen Objektes zu erstellen und damit unnötig Speicher zu belegen, wird bei der verwendeten Bibliothek, *immutablejs*, für die interne Repräsentation unveränderbarer Objekte auf sogenannte gerichtete azyklische Graphen mit gemeinschaftlicher Nutzung (eng.: *directed azyclic graphs (DAG) with structural sharing*) gesetzt. In Abbildung @lst:dag_mutation wird dies visualisiert: Im originalen Graph mit Wurzel *a* soll der verschachtelte Kind-Knoten *g* manipuliert werden. Um dies mit möglichst wenig Aufwand zu erreichen und den ursprünglichen Graphen unverändert zu lassen, werden die hier gestrichelt dargestellten Knoten, *a*, *c* und *g*, in Form der gepunkteten Knoten, respektive *a2*, *c2* und *g2*, kopiert. Die Mutation findet auf dem neu erstellten Knoten *g2* statt und der neue Graph mit Wurzel *a2* setzt sich so speichersparend aus, im dargestellten Beispiel zu über 50%, bereits existierende unveränderte Knoten zusammen (durchgezogene Umrandungen). Falls nirgendwo im System mehr eine Referenz auf den Ursprungsgraphen *a* besteht, werden die gestrichelten Knoten automatisch von der Speicherbereinigung endgültig gelöscht.[^leebyron]
+
+[^leebyron]: Beispiel aus Lee Byron's Talk "Immutable Data and React". Quelle: [youtu.be/I7IdS-PbEgI](https://youtu.be/I7IdS-PbEgI), abgerufen 08/2016.
 
 Listing: Mutation eines gerichteten azyklischen Graphen mit gemeinschaftlicher Nutzung
 
-~~~{#lst:dag_mutation .dot format=png width=.8\\textwidth}
+~~~{#lst:dag_mutation .dot format=png width=.7\\textwidth}
 digraph G {
   node [shape=circle];
   splines=false;
-  a -> {b c}
+  a -> {b c} [style=dashed]
   b -> {d e f}
-  c -> g
-  g -> h
+  c -> g [style=dashed]
+  g -> h [style=dashed]
 
   a [style=dashed]
   c [style=dashed]

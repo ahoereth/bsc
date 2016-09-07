@@ -65,11 +65,10 @@ import { Server }  from 'http';
 import express from 'express';
 const app = express();
 app.get('/obj', (request, response) => {
-  response.end(`Received GET request at /obj!`);
+  response.end(`GET at 2!`);
 });
 app.put('/obj/:id', (request, response) => {
-  const { id } = request.params;
-  response.end(`Received PUT request at /obj/${id}!`);
+  response.end(`PUT at /obj/${request.params.id}!`);
 });
 Server(app).listen(8080, () => {
   console.log('Listening on port 8080');

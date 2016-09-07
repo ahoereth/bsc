@@ -94,10 +94,10 @@ Da die Umsetzung solcher lokaler Speicher in den verschiedenen Browser sehr vari
 
 
 
+<!--
 ### Mobile First {#sec:mobile-first}
-
-<!-- 
-Beim Aufbau einer diesen Paradigmen folgenden Applikation ist es von Interesse einem "offline-first" Ansatz zu folgen. Ähnlich wie es bereits Standard ist sich beim Webdesign an "mobile-first" zu orientieren, betrachtet man quasi das schwächste beziehungsweise eingeschränkteste Glied der Kette als den Standard: Im optimalen Fall ist alles, was auf diesem Gerät nicht funktioniert, optional. Bei "mobile-first" ist so das Smartphone-Display meist der Maßstab für den gestaltet wird. An größere Displays passt sich das Layout dann möglichst durch relativ definierte Größen von Schriften und Containern und dynamisches fließen der Elemente, so dass je nach verfügbarer Fläche mehr oder weniger Container nebeneinander angezeigt werden, an.  -->
+Beim Aufbau einer diesen Paradigmen folgenden Applikation ist es von Interesse einem "offline-first" Ansatz zu folgen. Ähnlich wie es bereits Standard ist sich beim Webdesign an "mobile-first" zu orientieren, betrachtet man quasi das schwächste beziehungsweise eingeschränkteste Glied der Kette als den Standard: Im optimalen Fall ist alles, was auf diesem Gerät nicht funktioniert, optional. Bei "mobile-first" ist so das Smartphone-Display meist der Maßstab für den gestaltet wird. An größere Displays passt sich das Layout dann möglichst durch relativ definierte Größen von Schriften und Containern und dynamisches fließen der Elemente, so dass je nach verfügbarer Fläche mehr oder weniger Container nebeneinander angezeigt werden, an.  
+-->
 
 
 
@@ -114,6 +114,8 @@ Um dieses Problem anzugehen hat sich speziell in der Web\hyp{}Entwicklung in den
 Dabei besteht Web\hyp{}Applikation aus einer Vielzahl einzelner, möglichst einfacher Komponenten, welche durch flexible Kombination ein dynamisches Interface ergeben. Eine einzelne Komponente ist dabei ein möglichst in sich geschlossenes System, welches sein Umfeld nicht beeinflusst und nur von einem klar definierten, von außen übergebenen, Zustand abhängt. Also eine direkte Abbildung von einem übergebenen Zustand zu einer Darstellung: `(state) => view`. Durch hierarchische Vererbung an andere Komponenten können so in einer sich ergebenden Baumstruktur komplexe Interfaces umgesetzt werden, in welcher Zustand von oben nach unten vererbt wird. Einzelne Komponenten bleiben so in sich selbst leicht verständlich und gut testbar.
 
 Die verbreitetste Plattform, welche diesen Ansatz gewissermaßen massentauglich machte, ist das JavaScript Framework React. Da die Entwickler bei Facebook, die Firma hinter React, so überzeugt von diesem Ansatz sind, wurde zusätzlich React Native entwickelt, welches die gleichen Prinzipien auf die Entwicklung von nativen Android- und iOS-Applikationen überträgt. Bei der Verwendung von React Native wird die zwar weiterhin in JavaScript entwickelt, allerdings für die Darstellung exklusiv native Komponenten eingesetzt. Während der Kompilierung einer solchen Applikation wird die *Geschäftslogik* von der *Darstellungslogik* getrennt und auf dem Endgerät, anders als im Browser, in zwei sich gegenseitig nicht blockierenden Threads ausgeführt. Da diese Möglichkeit, native Applikationen in JavaScript ohne erlernen weiterer Paradigmen zu entwickeln, ein vollständiges Alleinstellungsmerkmal des React-Ökosystems ist, wurde es als zentrale Bibliothek für die Entwicklung von Lawly gewählt.
+
+Da Änderungen des \acs{DOM} rechenintensiv sind und alle Operationen einer Webseite, wie in Abschnitt @sec:javascript erläutert, nur in einem einzelnen Thread ausgeführt wird, kümmert sich React darum, solche Änderungen zu bündeln. Dafür hält React eine virtuelle Representation des DOMs vor, sammelt in dieser entstehende Änderungen durch innerhalb der Komponenten-Hierarchie und wendet sie gebündelt auf die eigentliche Darstellung im Browser an. Die beiden folgenden verfolgten Ansätze, uni-direktionaler Datenfluss und unveränderbare Datenstrukturen, helfen, diesen Vorgang noch effizienter zu gestalten.
 
 
 

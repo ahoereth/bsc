@@ -5,7 +5,7 @@ Auf Grund der Anforderung einer in Zukunft flexibel auf weitere Plattformen erwe
 
 Aus dieser Unabhängigkeit ergibt sich die Möglichkeit serverseitige Logik, wie zum Beispiel Datenbankanfragen und Nutzer-Authentifizierung, wiederzuverwenden. Im besten Fall wird für eine bestimmte Aufgabe, wie zum Beispiel die Registrierung eines neuen Nutzers, die serverseitige Logik nur ein einziges mal implementiert, so dass beliebige darauf angewiesene clientseitige Applikationen in Zukunft nur noch eine einmalig standardisierte Anfrage an den Server stellen müssen. Dadurch ist es nicht Notwendig bei der Erstellung zusätzlicher Apps mit ähnlichem Funktionsumfang wie dem initialen Produkt Änderungen am Server vorzunehmen. Auch bei der Implementierung neuer Funktionalität auf allen Plattformen muss so nur einmalig eine neue \ac{API}-Schnittstelle hinzugefügt werden.
 
-In Bezug auf eine Web-Applikation ergibt sich zusätzlich der Vorteil, dass die \ac{API} und die eigentliche für den Nutzer zur Verfügung gestellte Applikation auf unabhängigen Servern bereitgestellt werden können. So ist es möglich, flexibel auf Lastspitzen durch Skalierung der jeweils stärker betroffenen Hardware zu reagieren.
+In Bezug auf eine Webapplikation ergibt sich zusätzlich der Vorteil, dass die \ac{API} und die eigentliche für den Nutzer zur Verfügung gestellte Applikation auf unabhängigen Servern bereitgestellt werden können. So ist es möglich, flexibel auf Lastspitzen durch Skalierung der jeweils stärker betroffenen Hardware zu reagieren.
 
 
 
@@ -15,7 +15,7 @@ Grundlegend gibt es aktuell zwei für den Einsatz als \acp{API} interessante Kon
   1. Eine \ac{HTTP}-\ac{REST}-\ac{API}, über welche primär statische Daten wie Gesetzesdokumente zur Verfügung gestellt werden, und
   2. Websockets, welche für die Synchronisierung von atomaren Interaktionen der Nutzer mit der Applikation zwischen Datenbank und über mehrere Geräte hinweg zuständig sind.
 
-Die zentrale Unterscheidung zwischen den beiden ist das `pull/push`-Prinzip. Bei einer \ac{REST}-API werden mithilfe von sogenannten HTTP-Verben einzelne Anfragen an den Server gestellt, worauf hin eine Antwort erwartet wird. Diese Anfragen sind im besten Fall für den Server komplett voneinander unabhängig und nicht auf einen gewissen serverseitig vorgehaltenen Zustand angewiesen. Bildlich werden per Anfrage also Daten vom Server *gepulled*. Ein Übertragen von Daten an den Clienten ist hierbei immer nur als Antwort auf eine von diesem initiierte Anfrage möglich.
+Die zentrale Unterscheidung zwischen den beiden ist das `pull/push`-Prinzip. Bei einer \ac{REST}-API werden mithilfe von sogenannten HTTP-Verben einzelne Anfragen an den Server gestellt, worauf hin eine Antwort erwartet wird. Diese Anfragen sind im besten Fall für den Server komplett voneinander unabhängig und nicht auf einen gewissen serverseitig vorgehaltenen Zustand angewiesen. Bildlich werden per Anfrage also Daten vom Server *gepulled*. Ein Übertragen von Daten an den Client ist hierbei immer nur als Antwort auf eine von diesem initiierte Anfrage möglich.
 
 Im Gegensatz dazu muss sich bei der Verwendung von WebSockets der Client nur für einen initialen Verbindungsaufbau beim Server anmelden. Ab diesem Zeitpunkt wird eine Verbindung zwischen Server und Client aufrechterhalten, an die beide, wann immer aktualisierte Informationen vorhanden sind, Daten *pushen* und auf erhaltene Daten reagieren können. Hierbei wird nicht mehr von einzelnen Anfragen, sondern von Ereignissen, auf welche die Teilnehmer reagieren, gesprochen.[^longpolling]
 
@@ -26,7 +26,7 @@ Für das initiale Produkt wird auf eine reine \ac{HTTP}-Schnittstellen gesetzt. 
 
 
 #### HTTP & REST
-Ein wichtiger Punkt, welcher beim Einsatz von WebSockets für einen stark erhöhten Implementierungsaufwand sorgen würde, ist, dass ein WebSocket-Server niemals zustandslos sein kann. Er muss nach einer initialen Anfrage eines Clienten die Verbindung zu diesem aufrecht erhalten um im weiteren Verlauf mit ihm kommunizieren zu können. Im Gegensatz dazu kann bei einer \ac{HTTP}-\ac{API} der Server so implementiert werden, dass er keinerlei Informationen über vorhergehende Anfragen vorhält, wodurch die Infrastruktur, wenn notwendig, horizontal skaliert (*horizontal scaling*) werden kann. 
+Ein wichtiger Punkt, welcher beim Einsatz von WebSockets für einen stark erhöhten Implementierungsaufwand sorgen würde, ist, dass ein WebSocket-Server niemals zustandslos sein kann. Er muss nach einer initialen Anfrage eines Clients die Verbindung zu diesem aufrecht erhalten um im weiteren Verlauf mit ihm kommunizieren zu können. Im Gegensatz dazu kann bei einer \ac{HTTP}-\ac{API} der Server so implementiert werden, dass er keinerlei Informationen über vorhergehende Anfragen vorhält, wodurch die Infrastruktur, wenn notwendig, horizontal skaliert (*horizontal scaling*) werden kann.
 
 Horizontal and vertical scaling
 :  Horizontale und vertikale Skalierung
@@ -64,7 +64,6 @@ Listing: Node.js Server mit Express
 import { Server }  from 'http';
 import express from 'express';
 const app = express();
-const server = Server(app);
 app.get('/obj', (request, response) => {
   response.end(`Received GET request at /obj!`);
 });
@@ -72,14 +71,14 @@ app.put('/obj/:id', (request, response) => {
   const { id } = request.params;
   response.end(`Received PUT request at /obj/${id}!`);
 });
-server.listen(8080, () => {
+Server(app).listen(8080, () => {
   console.log('Listening on port 8080');
 });
 ~~~
 
 
 
-### Database {#sec:database}
+### Datenbank {#sec:database}
 Im folgenden wird knapp auf die zentrale Unterscheidung zwischen normalisierten SQL- und denomalisierten Dokument-basierten Datenbanken eingegangen -- breiteres Vorwissen wird hier allerdings vorausgesetzt. Primär wird der durch neuere Versionen der Open Source Datenbank PostgreSQL ermöglichte Hybrid-Ansatz erläutert.
 
 Als Datenbank kommen grundlegend zwei verschiedene Ansätze in Frage: Traditionellere SQL- und in den letzten Jahren aufgekommene NoSQL- bzw. Dokument-Datenbanken. Besonders für schnell wachsende und im großen Stil Daten anhäufende Anwendungen haben sich die NoSQL-Datenbanken bewiesen, müssen sich aber in ihrer Ausdauer noch im Vergleich zu den jahrzehntelang gehärteten SQL-Systemen beweisen. Sie basieren auf der Grundidee einzelne, nicht direkt voneinander abhängige Dokumente zu speichern. Ähnlich wie bei dem verfolgten Ansatz eines zustandslosen API-Servers, beschrieben in Abschnitt @sec:server-theory, ist es so möglich die Datenbank horizontal durch hinzufügen neuer Instanzen zu skalieren.

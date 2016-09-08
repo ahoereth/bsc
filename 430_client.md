@@ -186,6 +186,24 @@ Obwohl die `LawInitialChooser`-Komponente ist ein Blattknoten des Graphen aus Ab
 
 
 
+### Problematisch: Lokale Suche {#sec:localsearch}
+Als ein Teil der zentralen Funktionalität der Applikation gilt es die Volltextsuche auch ohne Internetverbindung zur Verfügung zu stellen. Das Problem hierbei: Volltextsuche ist auf nicht dafür dedizierten Systemen sehr rechenintensiv.
+
+![search](assets/search.png){#fig:search .shadow caption="Volltextsuche (mobil, horizontal)" width=.7\\textwidth}
+
+Für die Gesetzesübersicht, beschrieben im vorhergehenden Abschnitt, wird das Filtern durch die Anwendung von regulären Ausdrücken in einer Schleife über die Gesetze realisiert. Da die Zahl dieser nur bei ungefähr 7000 liegt und nur nach Kürzel und Bezeichnung gefiltert wird, ist dies noch durch die beschriebene Memorisierung performant umsetzbar. Bei der Volltextsuche gilt es allerdings auch die individuellen Normen und insbesondere deren Textkörper zu durchsuchen. Hierbei wächst die Datenmenge mit der Nutzung der Applikation durch den individuellen Nutzer -- speichert er mehr Gesetze für die offline Verwendung ab, gilt es auch mehr Gesetze zu durchsuchen.
+
+Anders als bei anderen Teilen der Applikation wird hierbei standardmäßig solange eine Internetverbindung verfügbar ist nicht auf die lokale Implementation gesetzt. Stattdessen wird um umfassende Ergebnisse über den gesamten Corpus von ca. 113.000 Normen zu liefern eine Suche durch die Serverseitige PostgresSQL Datenbank bevorzugt.
+
+Falls der API-Server nicht verfügbar ist wird lokal gesucht. Hierbei hat sich als sehr problematisch erwiesen, dass eine Webapplikation inklusive der Darstellung nur in einem einzelnen Thread ausgeführt wird. Blockiert also das JavaScript durch sequentielle Operationen diesen Thread, ist auch die dargestellte Webseite nicht reaktionsfähig. So wäre es zum Beispiel während einer Suche nicht möglich die Suchanfrage im Eingabefeld zu verfeinern. Zusätzlich ist nicht nur die eigentliche Suche sondern auch das erstellen des notwendigen Suchindexes sehr rechenintensiv und würde wenn im gleichen Thread ausgeführt das Starten der Applikation massiv verlangsamen. Um dies zu umgehen wird ein *Web Worker* eingesetzt.
+
+Web Worker sind eine in neueren Browsern[^caniwebwork] zur Verfügung gestellte Funktionalität zum Auslagern von JavaScript-Operationen in einen gesonderten Prozess. Dabei wird zwischen dem Hauptprozess und dem Web Worker ähnlich wie auf Serverseite beim Eintreffen von Anfragen über Ereignisse kommuniziert. Um dies auf Clientseite zu abstrahieren wurden zwei Klassen entwickelt: `LocalSearch` und `LocalSearchWorker`. Erstere wird von der zentralen API-Abstraktion (siehe @sec:offline-first) auf ähnliche Weise wie der \ac{API}-Server angesprochen und Antworten asynchron verarbeitet. `LocalSearch` überträgt Anfragen zusammen mit einem eindeutigen Hash an den Worker und lauscht auf das durch den Hash identifizierbare Ergebnis auf diese spezielle Anfrage.
+
+[^caniwebwork]: http://caniuse.com/#search=webworker
+
+
+
+
 ### Transkompilierung & Bundling {#sec:bundler}
 Wie in @sec:javascript beschrieben werden bei der Entwicklung der Single-Page-Webapplikation moderne noch nicht in allen gängigen Browsern verfügbare JavaScript-Funktionalitäten eingesetzt. Um trotzdem eine möglichst große Bandbreite an Browsern unterstützen zu können wird dieser Code mithilfe von [Transkompilierung](#sec:glossary) zu einer älteren Version der Sprache übersetzt. Zusätzlich ist es von Interesse den benötigten Quelltext in einer Einzeldatei zu bündeln, um beim initialen Seitenaufruf möglichst wenige HTTP-Anfragen durchführen zu müssen. Bei jeder HTTP-Anfrage kommt es zu Wartezeiten zwischen Anfrage und Beginn des Antworterhalts, so dass das Übertragen von vielen Einzeldateien mehr Zeit in Anspruch nehmen würde als einer einzelnen größeren. Um die Ladezeit weiter zu verringern ist es wichtig, nur Code in das endgültige Paket zu übernehmen, welcher auch aktiv Verwendung findet. Dies ist besonders beim einsetzen externer Bibliotheken nicht trivial, da diese oft unübersichtlich verschachtelt sind. Durch den Einsatz von \ac{ES6}-Modulen ist es möglich von einem Einstiegspunkt aus den Modulbaum zu traversieren und durch sogenanntes *tree-shaking* nur genutzten Code aus jedem Modul in das endgültige Paket zu übernehmen.
 

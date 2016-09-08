@@ -62,6 +62,7 @@ JIT
   \acro{CA}{Certificate Authority}
   \acro{VPC}{Virtual Private Network}
   \acro{AMP}{Accelerated Mobile Pages}
+  \acro{SSR}{Server Side Rendering}
 \end{acronym}
 
 

@@ -20,10 +20,41 @@ Hinter den oben aufgeführten Ordnern befinden sich die reinen React-Komponenten
 
 
 
-### Transkompilierung & Bundling {#sec:bundler}
-Wie in @sec:javascript beschrieben werden bei der Entwicklung der Single-Page-Webapplikation auf moderne, noch nicht in allen gängigen Browsern verfügbare JavaScript Funktionalitäten eingesetzt. Um trotzdem eine möglichst große Bandbreite an Browsern unterstützen zu können wird hierbei auf Transkompilierung gesetzt. Zusätzlich ist es von Interesse den benötigten Quelltext in einer Einzeldatei zu bündeln, um beim initialen Seitenaufruf möglichst wenige HTTP-Anfragen durchführen zu müssen. Bei jeder HTTP-Anfrage kommt es zu Wartezeiten zwischen Anfrage und Beginn des Antworterhalts, so dass das Übertragen von vielen Einzeldateien mehr Zeit in Anspruch nehmen würde als einer einzelnen welche alle vereinigt. Um die Dateigröße weiter zu verringern ist es wichtig, nur Code in das endgültige Paket zu übernehmen, welcher wirklich notwendig ist. Dies ist besonders beim einsetzen externer Bibliotheken nicht trivial, da diese oft unübersichtlich verschachtelt sind. Durch den Einsatz von \ac{ES6} Modulen und dem Ansatz von einem Einstiegspunkt aus den Modul-Baum zu traversieren ergibt sich die Möglichkeit nur eingesetzen Code zu übernehmen.
+### Offline-Funktionalität {#sec:offline}
+Wie zuvor dargelegt, ist die Funktionalität der Applikation auch ohne Internetverbindung zu gewährleisten. Um dies zu erreichen werden mehrere Aspekte umgesetzt.
 
-Um diese Schritte im Entwicklungsprozess zu automatisieren wird *Webpack* als sogenannter Bundler eingesetzt: Webpack traversiert von einem Einstiegspunkt aus den Modul-Baum und lädt die einzelnen Module mit Hilfe von verschiedenen Erweiterungen. Als eine dieser Erweiterungen wird *Babel* eingesetzt. Babel übersetzt zu ladenden JavaScript-Code von \ac{ES6} in eine Version mit breiter Unterstützung und rüstet je nach Anforderung Funktionen mithilfe von Polyfills nach.
+<!-- TODO: Create wrapfigure pandoc filter. -->
+\begin{wrapfigure}{R}{0.45\textwidth}
+  \tikz\node[blur shadow={shadow blur steps=5}, style={inner sep=0, outer sep=0}]{
+    \includegraphics[width=0.45\textwidth, frame, right]{assets/newversion}
+  };
+  \caption{Aktualisierung (mobil, vertikal)}
+  \label{fig:newversion}
+\end{wrapfigure}
+
+Einerseits wird beim Bundling der Applikation (siehe Abschnitt @sec:bundler) ein Cache Manifest erstellt, welches Informationen über vom *Application Cache* (siehe Abschnitt @sec:offline-first) vorzuhaltende Dateien beinhaltet. Sobald diese einmal geladen wurden werden alle zukünftigen Anfragen aus dem Cache beantwortet und der Server nur nach einem geänderten Manifest befragt. Ändert sich das Manifest, wird der Cache im Hintergrund und die Webseite entweder durch Neuladen (als Reaktion auf die in Abbildung @fig:newversion dargestelle Benachrichtigung) oder beim nächsten Aufruf aktualisiert.
+
+Anderseits gilt es Anfragen an den API-Server zumindest teilweise optional zu gestalten. Um dies zu erreichen wurde die `ApiClient`-Klasse entwickelt, welche für alle Anfragen an den Server und auch die lokale Suche (mehr dazu in Abschnitt @sec:localsearch) zuständig ist. Innerhalb der Applikationen werden zur einfacheren Handhabung API-Anfragen als serialisierbare Objekte dargestellt (siehe Abbildung @lst:serializablerequests). Diese Objekte werden von der ApiClient-Klasse je nach beinhalteter Attribute unterschiedlich gehandhabt.
+
+Ist eine Anfrage zum Beispiel `cachable`, so wird zuerst der lokalen Key/Value-Store angefragt -- in diesem dienen die Request-Objekte als Schlüssel. Liefert der ein Ergebnis wird mit, falls spezifiziert, mit diesem unmittelbar die Redux-Aktion (`action`-Attribut) ausgeführt. Daraufhin wird getestet ob für diesen Cache-Wert ein Ablaufdatum gesetzt ist und ob dieses überschritten wurde -- wenn letzteres gilt oder überhaupt kein Ablaufdatum vorhanden ist, wird die Anfrage an den Server gestellt, der Cache bei erhalten einer Antwort aktualisiert und erneut die Redux-Aktion mit den aktualisierten Werten aufgerufen.
+
+Listing: Serialisierbares API-Request Objekt auf Clientseite
+
+~~~{#lst:serializablerequests .javascript}
+const urhgRequest = {
+  method: 'get', cachable: true,
+  name: 'laws', groupkey: 'urhg',
+  action: FETCH_SINGLE
+};
+~~~
+
+Um auch bei nicht zwischenspeicherbaren Anfragen wie zum Beispiel dem Vormerken von Gesetzen eine fließende Nutzererfahrung zu bieten, können Anfragen simuliert werden. Dafür wird das zu gewissermaßen vorhergesagte Ergebnis als *payload*-Attribut an das lokale Request-Objekt angehangen und damit die Redux-Aktion auch ohne vorhandenen Cache unmittelbar ausgelöst.
+
+[^apiclient]: *lawly_web/src/helpers/ApiClient.js*
+
+[^canicache]: http://caniuse.com/#feat=offline-apps
+
+
 
 ### Beispielhaft: Die Gesetzesübersicht
 Im folgenden wird beispielhaft für die gesamt Architektur detailliert die Implementation der Gesetzesübersicht, siehe Abbildung @fig:lawindex, behandelt. Diese listet die Gesetze auf, bietet die Möglichkeit über die Buch-Icons links in der Tabelle Gesetze zu speichern und über die Action-Buttons rechts die Individualansichten aufzurufen. Zusätzlich werden mehrere Möglichkeiten zur Filterung angeboten: Ganz oben kann aus einer (noch zu erweiternden) Liste von Sammlungen gewählt werden und über die Schalter links nur Gesetze mit einem bestimmten Kürzel-Anfangsbuchstaben angezeigt werden. Mit den drei Tabellenkopfspalten können außerdem nur markierte Gesetze oder nur welche mit einem bestimmten Bestandteil in Kürzel oder Titel angezeigt werden. Damit der Nutzer trotz der vielen Optionen den Durchblick behält werden direkt über der Tabelle die gewählten Filter und deren Ergebnismenge knapp in natürlicher Sprache zusammengefasst.
@@ -151,3 +182,11 @@ Obwohl die `LawInitialChooser`-Komponente ist ein Blattknoten des Graphen aus Ab
 [^lawindexcontainer]: *lawly_web/src/containers/LawIndexContainer.js*
 
 [^lawindex]: *lawly_web/src/components/laws/LawIndex.js*
+
+
+
+
+### Transkompilierung & Bundling {#sec:bundler}
+Wie in @sec:javascript beschrieben werden bei der Entwicklung der Single-Page-Webapplikation moderne noch nicht in allen gängigen Browsern verfügbare JavaScript-Funktionalitäten eingesetzt. Um trotzdem eine möglichst große Bandbreite an Browsern unterstützen zu können wird dieser Code mithilfe von [Transkompilierung](#sec:glossary) zu einer älteren Version der Sprache übersetzt. Zusätzlich ist es von Interesse den benötigten Quelltext in einer Einzeldatei zu bündeln, um beim initialen Seitenaufruf möglichst wenige HTTP-Anfragen durchführen zu müssen. Bei jeder HTTP-Anfrage kommt es zu Wartezeiten zwischen Anfrage und Beginn des Antworterhalts, so dass das Übertragen von vielen Einzeldateien mehr Zeit in Anspruch nehmen würde als einer einzelnen größeren. Um die Ladezeit weiter zu verringern ist es wichtig, nur Code in das endgültige Paket zu übernehmen, welcher auch aktiv Verwendung findet. Dies ist besonders beim einsetzen externer Bibliotheken nicht trivial, da diese oft unübersichtlich verschachtelt sind. Durch den Einsatz von \ac{ES6}-Modulen ist es möglich von einem Einstiegspunkt aus den Modulbaum zu traversieren und durch sogenanntes *tree-shaking* nur genutzten Code aus jedem Modul in das endgültige Paket zu übernehmen.
+
+Um diese Schritte im Entwicklungsprozess zu automatisieren wird *Webpack* als sogenannter Bundler eingesetzt: Webpack traversiert von einem Einstiegspunkt aus den Modulbaum und lädt die einzelnen Module mit Hilfe von verschiedenen Erweiterungen. Als eine dieser Erweiterungen wird *Babel* eingesetzt, welches für die transkompilierung zuständig ist. Andere solche Erweiterungen sind zum Beispiel für das Laden von in bestimmten Komponenten eingebundene \ac{CSS}-Styles zuständig.

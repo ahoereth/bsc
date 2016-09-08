@@ -23,6 +23,7 @@ def shadowedimages(key, value, pandoctarget, _):
     return
 
   caption, keyvals = extract_keyval(keyvals, 'caption', [])
+  width, keyvals = extract_keyval(keyvals, 'width', '\\textwidth')
 
   result = '''
     \\begin{figure}[H]
@@ -30,12 +31,12 @@ def shadowedimages(key, value, pandoctarget, _):
       \\setlength{\\fboxrule}{.5pt}
       \\setlength{\\fboxsep}{0pt}
       \\tikz\\node[blur shadow={shadow blur steps=5}, style={inner sep=0, outer sep=0}]{
-        \\includegraphics[width=1.1\\textwidth,frame]{%s}
+        \\includegraphics[width=%s,frame]{%s}
       };
       \\caption{%s}
       \\label{%s}
     \\end{figure}
-  ''' % (src, caption, ident)
+  ''' % (width, src, caption, ident)
   return RawInline('latex', result)
 
 

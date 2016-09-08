@@ -2,7 +2,7 @@
 Ähnlich dem Abschnitt @sec:server-architecture setzt auch die Client Applikation im Sinne einer besseren Übersichtlichkeit und Testbarkeit auf stark modularen Code. Da eine komplette Analyse des Applikationsquelltextes bei rund 6000 Zeilen Code den Rahmen dieser Arbeit sprengen würde, wird im folgenden Beispielhaft anhand der Gesetzesübersicht die konkrete Implementation erläutert. Zusätzlich wird die offline Suchfunktion, ein sich in der Umsetzung als sehr anspruchsvoll erwiesener Teil der Applikation, analysiert. Da das Ziel der Implementation ein nicht nur theoretisch, sondern auch praktisch an Browser auslieferbares Paket sein soll, wird zu guter letzt der Buildprozess besprochen.
 
 ### Struktur
-Listing: Vereinfachte Ordnerstruktur der Client-Applikation
+Listing: Ordnerstruktur der Client-Applikation
 
 ~~~{#lst:folders}
 components/
@@ -11,10 +11,10 @@ helpers/
 modules/
 store/
 client.js
-server.js
+shells.js
 ~~~
 
-Der Quelltext der Anwendung setzt sich vereinfacht durch die in Listing @lst:folders dargestellte Ordnerstruktur zusammen. Hierbei sind die beiden aufgeführten JavaScript-Dateien, `client.js` und `server.js` die jeweiligen Einstiegspunkte für den Bundler (siehe @sec:bundler). Respektive sind sie für einerseits die Generierung des an den Browser zu übertragene JavaScript-Paket und andererseits die Generierung der HTML-Shells und das Zurverfügungstellen der statischen Dateien (JavaScript-Paket, HTML-Shells, Stylesheets) verantwortlich.
+Der Quelltext der Anwendung setzt sich vereinfacht durch die in Listing @lst:folders dargestellte Ordnerstruktur zusammen. Hierbei sind die beiden aufgeführten JavaScript-Dateien, `client.js` und `server.js` die jeweiligen Einstiegspunkte für den Bundler (siehe @sec:bundler). Respektive sind sie für einerseits die Generierung des an den Browser zu übertragene JavaScript-Paket und andererseits die Generierung der App-Shells verantwortlich.
 
 Hinter den oben aufgeführten Ordnern befinden sich die reinen React-Komponenten (siehe @sec:react), die Redux-Module (siehe @sec:redux) und die React-Redux-Container, welche für die Verbindung der beiden letzteren Verantwortlich sind. Der Store ist der zentrale Anlaufpunkt für den kompletten Datenfluss auf Clientseite und Helpers sind sonstige allgemein relevante Funktionalitäten welche nicht den vorhergehenden Kategorien zuordenbar sind.
 
@@ -59,15 +59,15 @@ Um auch bei nicht zwischenspeicherbaren Anfragen wie zum Beispiel dem Vormerken 
 ### Beispielhaft: Die Gesetzesübersicht
 Im folgenden wird beispielhaft für die gesamt Architektur detailliert die Implementation der Gesetzesübersicht, siehe Abbildung @fig:lawindex, behandelt. Diese listet die Gesetze auf, bietet die Möglichkeit über die Buch-Icons links in der Tabelle Gesetze zu speichern und über die Action-Buttons rechts die Individualansichten aufzurufen. Zusätzlich werden mehrere Möglichkeiten zur Filterung angeboten: Ganz oben kann aus einer (noch zu erweiternden) Liste von Sammlungen gewählt werden und über die Schalter links nur Gesetze mit einem bestimmten Kürzel-Anfangsbuchstaben angezeigt werden. Mit den drei Tabellenkopfspalten können außerdem nur markierte Gesetze oder nur welche mit einem bestimmten Bestandteil in Kürzel oder Titel angezeigt werden. Damit der Nutzer trotz der vielen Optionen den Durchblick behält werden direkt über der Tabelle die gewählten Filter und deren Ergebnismenge knapp in natürlicher Sprache zusammengefasst.
 
-![lawindex](assets/lawindex.png){#fig:lawindex .shadow caption="Gesetzesübersicht, \url{https://web.lawly.org/gesetze}"}
+![lawindex](assets/lawindex.png){#fig:lawindex .shadow caption="Gesetzesübersicht (Desktop)"}
 
-Die für diese Darstellung entwickelten Redux-Modulen und React-Komponenten werden als Vererbungshierarchie in Abbildung @lst:lawindex_graph dargestellt -- zusätzlich verwendete Elemente wie das übergeordnete Layout oder untergeordnete Komponenten aus anderen Bibliotheken wurden dabei ausgelassen. 
+Die für diese Darstellung entwickelten Redux-Modulen und React-Komponenten werden als Vererbungshierarchie in Abbildung @lst:lawindex_graph dargestellt -- zusätzlich verwendete Elemente wie das übergeordnete Layout oder untergeordnete Komponenten aus anderen Bibliotheken wurden dabei ausgelassen.
 
 Die Gesetzesübersicht benötigt die Daten aus zwei *Redux-Modulen*: dem `lawIndexModule`[^lawindexmodule] und dem `userModule`[^usermodule]. Redux-Module sind dabei eine Zusammenfassung von für das Arbeiten mit einem bestimmten Teil des Zustandes nötigen Funktionalitäten. Dies sind einerseits Selektoren, zum strukturierten Lesen von Daten, und anderseits Action-Creators, zum Eintragen und Manipulieren von Daten (siehe Abschnitt @sec:dataflow). Durch die Zentralisierung dieser Bestandteile wird eine einheitliche Interaktion mit dem Zustand garantiert.
 
 Im Mittelpunkt des Graphen steht der ausgefüllt abgebildete `LawIndexContainer`[^lawindexcontainer] : Er ist die Schnittstelle zwischen Redux-Modulen und React-Komponenten. Obwohl in der Implementation eigentlich selbst eine Komponente, ist diese Trennung wichtig, da so alle ihm untergeordneten Komponenten vollständig ohne Wissen über die Herkunft ihrer Daten verwendet und dementsprechend einfach getestet werden können.
 
-Listing: Ausschnitt der Gesetzesübersicht-Modulhierarchie
+Listing: Modulhierarchie Gesetzesübersicht
 
 ~~~{#lst:lawindex_graph .dot}
 digraph G {
@@ -110,8 +110,8 @@ const getLawsByCollection = createSelector(
   (laws, collection) => laws.filter(/*[...]*/)
 );
 const getLawsByInitial = createSelector(
-  [getLawsByCollection, getInitial], 
-  (laws, initial) => laws.filter(law => 
+  [getLawsByCollection, getInitial],
+  (laws, initial) => laws.filter(law =>
     law.get('groupkey')[0].toLowerCase() === initial
   )
 );
@@ -119,7 +119,7 @@ export const getLawsByPage = createSelector(/*[...]*/);
 
 ~~~
 
-Die direkt unter dem `LawIndexContainer` angeordnete Komponente ist `LawIndex`.[^lawindex] Diese ist zentral nur für die Weiterverteilung der ihr übergebenen Attribute und die visuelle Aufteilung der Ansicht zuständig. 
+Die direkt unter dem `LawIndexContainer` angeordnete Komponente ist `LawIndex`.[^lawindex] Diese ist zentral nur für die Weiterverteilung der ihr übergebenen Attribute und die visuelle Aufteilung der Ansicht zuständig.
 
 Bei Blick auf Listing @lst:LawIndex fällt auf, das für die Umsetzung der Komponentenhierarchie kein reines JavaScript, sondern *JSX* eingesetzt wird. JSX orientiert sich an der von HTML bekannten Struktur, welche durch ihre hierarchische Natur für die Darstellung von Komponenten-Hierarchien sehr gut geeignet ist. Obwohl es auch möglich ist, React ohne diese rein visuelle Vereinfachung zu nutzen, wird so viel unnötiger Code gespart und Übersichtlichkeit gewonnen. Außerdem wird hier die Einfachheit des funktionellen Ansatzes klar: Reine Komponenten sind nur eine direkte Abbildung ihrer Eingabe zu einer Darstellung. React kümmert sich hierbei wieder um die Effizienz. Ähnlich wie bei den zuvor beschrieben Selektoren wird eine solche Abbildung nur erneut berechnet, wenn sich ihre Eingabe verändert hat -- durch den Einsatz von in Abschnitt @sec:immutable beschriebenen unveränderbaren Datenstrukturen ist dieser Vergleich besonders effizient umsetzbar.
 
@@ -127,7 +127,7 @@ Listing: Vereinfachte `LawIndex` Komponente
 
 ~~~{#lst:LawIndex .javascript}
 import { Grid, Cell } from 'react-mdl';
-const LawIndex = ({ 
+const LawIndex = ({
   initials, selectInitial, selectedInitial, /* [...] */
 }) => (
   <Grid>
@@ -155,13 +155,13 @@ Listing: Vereinfachte `LawInitialChooser` Komponente
 
 ~~~{#lst:LawInitialChooser .javascript}
 import { Grid, Cell, Button } from 'react-mdl';
-const LawInitialChooser = ({ 
-  initials, selected, onSelect 
+const LawInitialChooser = ({
+  initials, selected, onSelect
 }) => (
   <Grid>
     {initials.map(initial => (
       <Cell>
-        <Button 
+        <Button
           colored={initial === selected}
           onClick={() => onSelect(initial)}
         >
@@ -173,7 +173,7 @@ const LawInitialChooser = ({
 );
 ~~~
 
-Obwohl die `LawInitialChooser`-Komponente ist ein Blattknoten des Graphen aus Abbildung @lst:lawindex_graph ist, vererbt sie noch weiter an importierte Komponenten aus der `react-mdl` Bibliothek. Diese Bibliothek ist eine Implementierung von Googles Material Design Guidelines auf Grundlage von HTML-Elementen wie `div` oder `button`. An dieser Stelle ist es allerdings auch denkbar, dass statt HTML-Elementen native Android- oder iOS-Elemente eingesetzt werden -- der hier implementierte Code ist von einer solchen Implementation unabhängig. Einem späteren Austausch der `react-mdl`-Komponenten durch native Komponenten für eine native Umsetzung einer Applikation mit ähnlicher Funktionalität steht also nichts im Wege. 
+Obwohl die `LawInitialChooser`-Komponente ist ein Blattknoten des Graphen aus Abbildung @lst:lawindex_graph ist, vererbt sie noch weiter an importierte Komponenten aus der `react-mdl` Bibliothek. Diese Bibliothek ist eine Implementierung von Googles Material Design Guidelines auf Grundlage von HTML-Elementen wie `div` oder `button`. An dieser Stelle ist es allerdings auch denkbar, dass statt HTML-Elementen native Android- oder iOS-Elemente eingesetzt werden -- der hier implementierte Code ist von einer solchen Implementation unabhängig. Einem späteren Austausch der `react-mdl`-Komponenten durch native Komponenten für eine native Umsetzung einer Applikation mit ähnlicher Funktionalität steht also nichts im Wege.
 
 [^lawindexmodule]: *lawly_web/src/modules/law_index.js*
 

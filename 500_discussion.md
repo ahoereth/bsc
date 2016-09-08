@@ -1,5 +1,5 @@
 # Diskussion {#sec:discussion}
-Zum Zeitpunkt des Verfassens sind beide Endpunkte, Client und API-Server, noch Zugriffsbeschränkt. Der API-Server erlaubt so aktuell nur Anfragen von der auf der offiziellen Domain betriebenen Web-Applikation und die Web-Applikation benötigt eine zusätzliche Authentifizierung. Dies soll möglichst bald, soweit das weitere vorgehen geklärt ist und insbesondere eine Landingpage als Einführung für neue Nutzer erstellt wurde, geändert werden. Gleichermaßen ist es für diesen Zeitpunkt auch geplant den Code vollständig unter eine Open Source Lizenz zu veröffentlichen.
+Zum Zeitpunkt des Verfassens sind beide Endpunkte, Client und API-Server, noch Zugriffsbeschränkt. Der API-Server erlaubt so aktuell nur Anfragen von der auf der offiziellen Domain betriebenen Webapplikation und die Webapplikation benötigt eine zusätzliche Authentifizierung. Dies soll möglichst bald, soweit das weitere vorgehen geklärt ist und insbesondere eine Landingpage als Einführung für neue Nutzer erstellt wurde, geändert werden. Gleichermaßen ist es für diesen Zeitpunkt auch geplant den Code vollständig unter eine Open Source Lizenz zu veröffentlichen.
 
 Aktuell wird der Code bereits auf GitHub verwaltet. Zusätzlich zu der zu diesem Dokument beigelegten CD kann auf Anfrage auch schon vorzeitig hierauf Zugriff gewehrt werden.
 

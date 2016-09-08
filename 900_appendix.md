@@ -3,8 +3,7 @@
 
 
 
-# Glossar
-\label{sec:glossary}
+# Glossar {#sec:glossary}
 
 Transcompilierung
   : *source-to-source compiler*, *transpiler*
@@ -29,6 +28,8 @@ JIT
   : Just-in-time-Kompilierung
   : Übersetzung zu Maschinencode von Programmen oder einzelnen Teilen dieser zur Laufzeit.
 
+asymmetrisches Schlüsselpaar
+  :
 
 # Abkürzungsverzeichnis
 \label{sec:abbreviations}

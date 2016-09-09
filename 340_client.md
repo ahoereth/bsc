@@ -118,10 +118,10 @@ Da die Umsetzung solcher lokaler Speicher in den verschiedenen Browser stark var
 
 
 
-<!--
+
 ### Mobile First {#sec:mobile-first}
-Beim Aufbau einer diesen Paradigmen folgenden Applikation ist es von Interesse einem "offline-first" Ansatz zu folgen. Ähnlich wie es bereits Standard ist sich beim Webdesign an "mobile-first" zu orientieren, betrachtet man quasi das schwächste beziehungsweise eingeschränkteste Glied der Kette als den Standard: Im optimalen Fall ist alles, was auf diesem Gerät nicht funktioniert, optional. Bei "mobile-first" ist so das Smartphone-Display meist der Maßstab für den gestaltet wird. An größere Displays passt sich das Layout dann möglichst durch relativ definierte Größen von Schriften und Containern und dynamisches fließen der Elemente, so dass je nach verfügbarer Fläche mehr oder weniger Container nebeneinander angezeigt werden, an.
--->
+Ein weiterer zentraler Aspekt einer \ac{PWA} ist, dass sie auf sämtlichen Endgeräten gleichermaßen komfortabel verwendbar ist. Dabei gilt es dem *mobile-first* Ansatz zu folgen: das gesamte Nutzerinterface wird demnach initial für einen kleinen Smartphone-Bildschirm, gewissermaßen das schwächsten Glied der Kette, entwickelt. Dabei wird auf flexible Komponenten gesetzt, welche sich bei Verfügbarkeit von mehr Platz, also zum Beispiel auf Tablets oder Desktopbildschirmen, fließen umverteilen und ausbreiten.
+
 
 
 

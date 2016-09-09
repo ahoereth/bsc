@@ -65,6 +65,7 @@ asymmetrisches Schlüsselpaar
   \acro{AMP}{Accelerated Mobile Pages}
   \acro{SSR}{Server Side Rendering}
   \acro{DOM}{Document Object Model}
+  \acro{CSS}{Cascading Style Sheets}
 \end{acronym}
 
 

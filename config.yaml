@@ -25,6 +25,7 @@ link-citations: True
 
 # https://github.com/lierdakil/pandoc-crossref#code-block-labels
 listings: True
+subfigGrid: true
 codeBlockCaptions: True
 figPrefix:
   -

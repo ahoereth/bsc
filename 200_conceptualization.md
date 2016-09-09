@@ -119,3 +119,25 @@ Neben den oben benannten technischen Anforderungen soll die initiale Plattform f
   * Eine Volltextsuche, die sowohl online als auch offline während der Eingabe in Echtzeit Ergebnisse liefert.
   * Die Möglichkeit sich als Nutzer zu registrieren, Gesetze zu speichern und diese auch ohne Internetverbindung zu betrachten und zu durchsuchen.
 
+\begin{figure}[H]
+  \subfloat[Startseite]{
+    \includegraphics[width=0.5\textwidth]{assets/home.png}
+    \label{fig:appoverviewHome}
+  }
+  \subfloat[Gesetzesübersicht]{
+    \includegraphics[width=0.5\textwidth]{assets/lawindex_phone.png}
+    \label{fig:appoverviewIndex}
+  }
+
+  \subfloat[Gesetzesansicht]{
+    \includegraphics[width=0.5\textwidth]{assets/urhg_horizontal.png}
+    \label{fig:appoverviewLaw}
+  }
+  \subfloat[Volltextsuche]{
+    \includegraphics[width=0.5\textwidth]{assets/search.png}
+    \label{fig:appoverviewSearch}
+  }
+
+  \caption{Vorschau der zentralen Ansichten der Applikation auf einem mobilen Endgerät}
+  \label{fig:appoverview}
+\end{figure}

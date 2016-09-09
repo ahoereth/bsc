@@ -316,7 +316,7 @@ $endfor$
 \renewcommand{\sectionmark}[1]{\markright{\thesection\enspace\spacedlowsmallcaps{#1}}}
 {% endraw %}
 
-\clearpage
+\cleardoublepage
 
 \begingroup
   \let\clearpage\relax
@@ -331,7 +331,7 @@ $endfor$
     %\addcontentsline{toc}{chapter}{\listfigurename}
     \pdfbookmark[1]{\listfigurename}{lof}
     \listoffigures
-    \vspace*{8ex}
+    \vfill
   {% endif %}
 
   %*******************************************************
@@ -344,14 +344,14 @@ $endfor$
     %\addcontentsline{toc}{chapter}{\listtablename}
     \pdfbookmark[1]{\listtablename}{lot}
     \listoftables
-    \vspace*{8ex}
+    \vfill
   {% endif %}
 
   %*******************************************************
   % List of Listings
   %*******************************************************
   {% if table_of_contents.listings %}
-    \newpage
+    % \newpage
     %\phantomsection
     \refstepcounter{dummy}
     %\addcontentsline{toc}{chapter}{\lstlistlistingname}

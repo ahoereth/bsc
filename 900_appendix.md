@@ -64,6 +64,7 @@ asymmetrisches Schlüsselpaar
   \acro{VPC}{Virtual Private Network}
   \acro{AMP}{Accelerated Mobile Pages}
   \acro{SSR}{Server Side Rendering}
+  \acro{DOM}{Document Object Model}
 \end{acronym}
 
 

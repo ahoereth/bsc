@@ -121,23 +121,31 @@ Neben den oben benannten technischen Anforderungen soll die initiale Plattform f
 
 \begin{figure}[H]
   \subfloat[Startseite]{
-    \includegraphics[width=0.5\textwidth]{assets/home.png}
+    \tikz\node[blur shadow={shadow blur steps=5}, style={inner sep=0, outer sep=0}]{
+      \includegraphics[width=0.5\textwidth, frame]{assets/home.png}
+    };
     \label{fig:appoverviewHome}
   }
   \subfloat[Gesetzesübersicht]{
-    \includegraphics[width=0.5\textwidth]{assets/lawindex_phone.png}
+    \tikz\node[blur shadow={shadow blur steps=5}, style={inner sep=0, outer sep=0}]{
+      \includegraphics[width=0.5\textwidth, frame]{assets/lawindex_phone.png}
+    };
     \label{fig:appoverviewIndex}
   }
 
   \subfloat[Gesetzesansicht]{
-    \includegraphics[width=0.5\textwidth]{assets/urhg_horizontal.png}
+    \tikz\node[blur shadow={shadow blur steps=5}, style={inner sep=0, outer sep=0}]{
+      \includegraphics[width=0.5\textwidth, frame]{assets/urhg_horizontal.png}
+    };
     \label{fig:appoverviewLaw}
   }
   \subfloat[Volltextsuche]{
-    \includegraphics[width=0.5\textwidth]{assets/search.png}
+    \tikz\node[blur shadow={shadow blur steps=5}, style={inner sep=0, outer sep=0}]{
+      \includegraphics[width=0.5\textwidth, frame]{assets/search.png}
+    };
     \label{fig:appoverviewSearch}
   }
 
-  \caption{Vorschau der zentralen Ansichten der Applikation auf einem mobilen Endgerät}
+  \caption{Vorschau der zentralen Ansichten der Applikation (Smartphone, horizontal)}
   \label{fig:appoverview}
 \end{figure}

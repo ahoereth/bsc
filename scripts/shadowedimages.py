@@ -28,8 +28,6 @@ def shadowedimages(key, value, pandoctarget, _):
   result = '''
     \\begin{figure}[H]
       \\centering
-      \\setlength{\\fboxrule}{.5pt}
-      \\setlength{\\fboxsep}{0pt}
       \\tikz\\node[blur shadow={shadow blur steps=5}, style={inner sep=0, outer sep=0}]{
         \\includegraphics[width=%s,frame]{%s}
       };

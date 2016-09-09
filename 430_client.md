@@ -28,7 +28,7 @@ Wie zuvor dargelegt, ist die Funktionalität der Applikation auch ohne Internetv
   \tikz\node[blur shadow={shadow blur steps=5}, style={inner sep=0, outer sep=0}]{
     \includegraphics[width=0.45\textwidth, frame, right]{assets/newversion}
   };
-  \caption{Aktualisierung (mobil, vertikal)}
+  \caption{Aktualisierung (Smartphone, vertikal)}
   \label{fig:newversion}
 \end{wrapfigure}
 
@@ -189,7 +189,7 @@ Obwohl die `LawInitialChooser`-Komponente ist ein Blattknoten des Graphen aus Ab
 ### Problematisch: Lokale Suche {#sec:localsearch}
 Als ein Teil der zentralen Funktionalität der Applikation gilt es die Volltextsuche auch ohne Internetverbindung zur Verfügung zu stellen. Das Problem hierbei: Volltextsuche ist auf nicht dafür dedizierten Systemen sehr rechenintensiv.
 
-![search](assets/search.png){#fig:search .shadow caption="Volltextsuche (mobil, horizontal)" width=.7\\textwidth}
+![search](assets/search.png){#fig:search .shadow caption="Volltextsuche (Smartphone, horizontal)" width=.7\\textwidth}
 
 Für die Gesetzesübersicht, beschrieben im vorhergehenden Abschnitt, wird das Filtern durch die Anwendung von regulären Ausdrücken in einer Schleife über die Gesetze realisiert. Da die Zahl dieser nur bei ungefähr 7000 liegt und nur nach Kürzel und Bezeichnung gefiltert wird, ist dies noch durch die beschriebene Memorisierung performant umsetzbar. Bei der Volltextsuche gilt es allerdings auch die individuellen Normen und insbesondere deren Textkörper zu durchsuchen. Hierbei wächst die Datenmenge mit der Nutzung der Applikation durch den individuellen Nutzer -- speichert er mehr Gesetze für die offline Verwendung ab, gilt es auch mehr Gesetze zu durchsuchen.
 

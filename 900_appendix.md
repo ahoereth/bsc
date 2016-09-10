@@ -1,4 +1,4 @@
-\part*{Appendix}
+\part*{Anhang}
 \label{ch:appendix}
 
 
@@ -31,8 +31,7 @@ JIT
 asymmetrisches Schlüsselpaar
   :
 
-# Abkürzungsverzeichnis
-\label{sec:abbreviations}
+# Abkürzungsverzeichnis {#sec:abbreviations}
 
 \begin{acronym}[UMLX]
   \acro{MVP}{Minimum Viable Product}
@@ -42,6 +41,7 @@ asymmetrisches Schlüsselpaar
   \acro{beA}{besonderes elektronisches Anwaltspostfach}
   \acro{ES}{ECMAscript}
   \acro{ES6}{ECMAScript 6}
+  \acro{ES7}{ECMAScript 7}
   \acro{MVC}{Model-View-Controller}
   \acro{REST}{Representational State Transfer}
   \acro{API}{Application Programming Interface}
@@ -70,8 +70,7 @@ asymmetrisches Schlüsselpaar
 
 
 
-# References
-\label{sec:references}
+# Referenzen {#sec:references}
 
 <!-- \raggedright -->
 \setlength{\parindent}{0in}

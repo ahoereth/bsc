@@ -359,6 +359,12 @@ $endfor$
 \cleardoublepage
 {% endif %}
 
+\pagestyle{scrheadings}
+\clearscrheadfoot
+\ohead{\rightmark}
+\cfoot[\pagemark]{\pagemark}
+\ohead{\headmark}
+
 \pagenumbering{arabic}
 %\setcounter{page}{90}
 % use \cleardoublepage here to avoid problems with pdfbookmark

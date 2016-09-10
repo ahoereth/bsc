@@ -93,7 +93,7 @@ Initial gilt es, den wiederholte Seitenaufrufe auch ohne Internetverbindung zu e
 
 Um nicht nur statische Dateien bei fehlender Internetverbindung zur Verfügung stellen zu können gilt es, Anfragen innerhalb der Applikation so zu gestalten, dass sie nicht nur durch Zugriff auf die \ac{API}, sondern auch aus einem auf dem Gerät zur Verfügung stehenden lokalen Speicher beantwortet werden können. Um dies zu ermöglichen wird auf eine zentrale Klasse gesetzt, welche sämtliche \ac{API}-Anfragen verwaltet. Um auch hier Latenzen zu vermeiden bevorzugt diese Klasse beim Beantworten von Anfragen den lokalen Speicher gegenüber der externen \ac{API}. Falls also die gesuchten Daten im lokalen Speicher vorhanden sind, werden diese unmittelbar verarbeitet. Gleichzeitig hierzu wird auch eine Anfrage an die externe Schnittstelle gestellt, mit deren eventueller Antwort gegebenenfalls die zuvor bereits durchgeführte Verarbeitung erneut ausgeführt sowie die lokal zwischengespeicherten Daten aktualisiert werden.
 
-Zu guter Letzt ist es nicht nur notwendig, relevante Daten ohne Internetverbindung verfügbar zu machen, sondern auch Interaktionen lokal zu simulieren und bei Wiedererlangen einer Verbindung mit dem Server abzugleichen. Dies nennt sich optimistische Aktualisierungen^[>\color{red}citation needed], da Aktionen gewissermaßen optimistisch lokal durchgeführt und erst im Nachhinein mit dem Server abgeglichen und eventuell durch den von diesem vorgegebenen faktischen Zustand überschrieben werden. Auch hierbei ist wieder die im letzten Absatz beschrieben zentrale Klasse zum Verwalten von Anfragen hilfreich. Falls diese feststellt, dass eine manipulierende Anfrage an den Server (also die HTTP-Methoden `PUT`, `POST` oder `DELETE`) fehlgeschlagen ist, werden die notwendigen Informationen gespeichert und die Anfrage bei wiedererlangen einer Verbindung zur \ac{API} erneut ausgeführt.
+Zu guter Letzt ist es nicht nur notwendig, relevante Daten ohne Internetverbindung verfügbar zu machen, sondern auch Interaktionen lokal zu simulieren und bei Wiedererlangen einer Verbindung mit dem Server abzugleichen. Dies nennt sich optimistisches Nutzeransicht, da Aktionen gewissermaßen optimistisch lokal durchgeführt und erst im Nachhinein mit dem Server abgeglichen und eventuell durch den von diesem vorgegebenen faktischen Zustand überschrieben werden [@Stubailo2015]. Auch hierbei ist wieder die im letzten Absatz beschrieben zentrale Klasse zum Verwalten von Anfragen hilfreich. Falls diese feststellt, dass eine manipulierende Anfrage an den Server (also die HTTP-Methoden `PUT`, `POST` oder `DELETE`) fehlgeschlagen ist, werden die notwendigen Informationen gespeichert und die Anfrage bei wiedererlangen einer Verbindung zur \ac{API} erneut ausgeführt.
 
 Die Folge der bei einem solchen optimistischen Nutzerinterface ausgeführten Operationen wird abstrahiert in Abbildung @lst:optimisticui dargestellt. Gestrichelte Kanten sind in der Darstellung solche, die auf eine Internetverbindung angewiesen und von Verbindungslatenzen betroffen sind. Die leitende Zahl an jeder Kante spezifiziert auch hier wieder die Ausführungsordnung.
 
@@ -186,7 +186,7 @@ Der verbreitetere und aus der objektorientierten Programmierung bekannte Ansatz 
 
 [^const]: Interessant hierbei ist auch, dass die Variable \texttt{obj} als \texttt{const}, also Konstante, definiert wurde: Konstant bedeutet hier allerdings nicht, dass der Wert des Objektes unverändert bleibt, sondern die in der Variable gespeicherte Referenz zu einem bestimmten Objekt. Das referenzierte Objekt ist allerdings veränderbar. Obwohl dieses Verhalten bei angehenden Programmierern oft für Verwirrung sorgt, ist es ein auch aus anderen Sprachen wie C++ (\texttt{const}) oder Java (\texttt{final}) bekanntes Verhalten. Unveränderbare Datenstrukturen lösen dies.
 
-Listing: Pass-by-reference und mutierbare Objekte in JavaScript
+Listing: Pass-by-reference und mutierbare Objekte
 
 ~~~{.javascript #lst:mutable_javascript}
 function take(ref, key) { return ref[key]--; }
@@ -197,7 +197,7 @@ const foo = take(obj, 'foo');
 
 Unveränderbare Datenstrukturen lösen dieses Problem, indem jede auf ihnen ausgeführte Operation ein neues Objekt zurückgibt, anstatt das alte direkt zu verändern (siehe Listing @lst:immutable_list).
 
-Listing: Veränderbares Array und unveränderbare Liste in JavaScript
+Listing: Mutable Arrays und immutable Listen
 
 ~~~{.javascript #lst:immutable_list}
 import { List } from 'immutable';

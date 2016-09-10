@@ -1,5 +1,5 @@
 all: thesis_skeleton.latex 000_abstract.latex
-	pandoc config.yaml [1-9][0-9][0-9]_*.md \
+	pandoc config.yaml [1-9][0-9][0-9]_*.md ./frontback/appendix.tex \
 		--include-before=./frontback/title.tex \
 		--include-before=$(word 2,$^) \
 		--template=$< \

@@ -94,7 +94,7 @@ $endif$
 % ******************************************************************************
 % 3. Loading some handy packages
 % ******************************************************************************
-\PassOptionsToPackage{german}{babel}
+\PassOptionsToPackage{ngerman}{babel}
 % \PassOptionsToPackage{english}{babel}
 \usepackage{babel}
 
@@ -112,22 +112,17 @@ $endif$
 
 \PassOptionsToPackage{printonlyused,smaller}{acronym}
 \usepackage{acronym} % nice macros for handling all acronyms in the thesis
+\usepackage[xindy]{glossaries}
 
 {% raw %}
 %\renewcommand*{\acsfont}[1]{\textssc{#1}} % for MinionPro
 %\renewcommand{\bflabel}[1]{{#1}\hfill} % fix the list of acronyms
 {% endraw %}
 
-\usepackage{biblatex}
+\usepackage[citestyle=authoryear]{biblatex}
+\usepackage{csquotes}
 \bibliography{$bibfile$}
-$if(book-class)$
 \renewcommand\bibname{$bibtitle$}
-$else$
-\renewcommand\refname{$bibtitle$}
-$endif$
-
-
-
 
 % ******************************************************************************
 % 4. Setup floats: tables, (sub)figures, and captions
@@ -370,16 +365,5 @@ $endfor$
 \cleardoublepage
 
 $body$
-
-$if(include-after)$
-\appendix
-
-\part*{Appendix}
-
-$for(include-after)$
-$include-after$
-$endfor$
-
-$endif$
 
 \end{document}

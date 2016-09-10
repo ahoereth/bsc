@@ -1,3 +1,12 @@
 # Implementation {#sec:implementation}
+Im Folgenden wird auf die konkrete Implementation der zu Beginn angekündigten beiden Phasen, Datenaggregation (Abschnitt @sec:data) und Applikationsimplementation (wieder unterteilt in Server, Abschnitt @sec:server-architecture und Client, Abschnitt @sec:client-architecture) eingegangen. Besonders im Client-Abschnitt erfolgt dies nicht umfänglich sondern für einzelne Bereiche beispielhaft, da dies sonst den Rahmen dieses Dokumentes übersteigen würde. Zum Abschluss wird in Abschnitt @sec:deployment auf die Veröffentlichung der beiden Applikationsbestandteile für den Produktiveinsatz eingegangen.
 
-<!-- Die dritte benannte Komponente ist die Datenbank. Obwohl sie sehr eng mit dem API-Server verstrickt ist (er ist der einzige der direkt mit ihr kommuniziert), bleibt sie, für Skalierungszwecke, strukturell von ihm getrennt. Als System wird hier *Amazon RDMS for PostgreSQL* gesetzt. PostgreSQL bietet, seit Version 9.4 (aktuell ist 9.5), mächtige Funktionen zur Verwendung von JSON Dokumenten (*JSONB* genannt für *JSON Blob*^[citation needed]) in einer relationellen Datenbankstruktur. Hierdurch wird die bisher zu treffende Entscheidung ob eine SQL oder NoSQL Datenbank verwendet werden soll erleichtert und eine unkomplizierte Kombination der beiden ermöglicht. Amazon ist der Anbieter der Wahl, da er Preisleistungstechnich im Bereich der managed Postgres-Datenbanken ungeschlagen ist. -->
+Für die Versionskontrolle des Projekts wird auf drei `git`-Repositories gesetzt, welche über den Anbieter GitHub[^github] verwaltet werden: Einmal für den Server-Quelltext (*lawly_api*) [^servergit], den Client-Quelltext (*lawly_web*)[^clientgit] und das in Markdown verfasste vorliegende Dokument (*bsc*)[^bscgit]. Um die Verbindung zwischen den folgenden Beschreibungen und dem eigentlichen Quelltext zu erleichtern werden besprochene Dateien mithilfe von Hyperlinks in den Fußnoten referenziert.
+
+[^github]: [github.com](https://github.com)
+
+[^clientgit]: [github.com/ahoereth/lawly_web](https://github.com/ahoereth/lawly_web) 
+
+[^servergit]: [github.com/ahoereth/lawly_api](https://github.com/ahoereth/lawly_api) 
+
+[^bscgit]: [github.com/ahoereth/bsc](https://github.com/ahoereth/bsc)

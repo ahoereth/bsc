@@ -14,6 +14,7 @@ all: thesis_skeleton.latex 000_abstract.latex
 		--filter=./scripts/marginnotes.py \
 		--filter=./scripts/shadowedimages.py \
 		--listings \
+		--wrap=preserve \
 		-f markdown+definition_lists \
 		-o thesis.pdf
 	rm $^

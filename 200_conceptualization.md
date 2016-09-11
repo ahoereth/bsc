@@ -117,6 +117,8 @@ Neben den oben benannten technischen Anforderungen soll die initiale Plattform f
   * Eine Volltextsuche, die sowohl online als auch offline während der Eingabe in Echtzeit Ergebnisse liefert.
   * Die Möglichkeit sich als Nutzer zu registrieren, Gesetze zu speichern und diese auch ohne Internetverbindung zu betrachten und zu durchsuchen.
 
+\vfill
+
 \begin{figure}[H]
   \subfloat[Startseite]{
     \tikz\node[blur shadow={shadow blur steps=5}, style={inner sep=0, outer sep=0}]{
@@ -147,3 +149,5 @@ Neben den oben benannten technischen Anforderungen soll die initiale Plattform f
   \caption{Vorschau der zentralen Ansichten der Applikation (Smartphone, horizontal)}
   \label{fig:appoverview}
 \end{figure}
+
+\vfill

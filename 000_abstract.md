@@ -5,7 +5,7 @@
 \let\cleardoublepage\relax
 
 \chapter*{Abstract}
-Abstract in english\dots
+The German legal system is in its core very conservative and only slowly advancing. Although there have been some modernization attempts, they have not proven too successful. Most of the work in courts, law offices and legal studies still rely primarily on analogue approaches. Still -- there have been some promising signals pointing to an upcoming paradigm shift. This thesis investigates the upcoming opportunities for digital solutions in the juridical field. Specifically a software service set out to rival traditional collections and commentaries of legal documents is being conceptualized and a minimal viable product in form of a web application developed.
 
 \vfill
 

@@ -1,7 +1,7 @@
 ## Server {#sec:server-theory}
 Im Folgenden wird zu Beginn auf die Entscheidung eingegangen, Server und Client strukturell vollständig voneinander zu trennen. In den Abschnitten @sec:api und @sec:database wird dann, respektive, die eingesetzte Server- und Datenbank-Architektur diskutiert.
 
-Aufgrund der Anforderung einer in Zukunft flexibel auf weitere Plattformen erweiterbaren Applikation kommt nur eine klare Trennung von Server und Client in Frage. Bei der Entwicklung eines reinen \ac{API}-Servers ist es wichtig, dass dieser Daten in einer von ihrer für den Endnutzer endgültigen Repräsentation unabhängigen, leicht zu verarbeiteten Form zur Verfügung stellt. Allerdings gilt es dabei gleichermaßen, die bereitgestellten Schnittstellen nicht zu abstrakt zu gestalten, sondern Daten sinnvoll zu bündeln, um vermeidbare Anfragen durch Client-Applikationen vorzubeugen.
+Aufgrund der Anforderung einer in Zukunft flexibel auf weitere Plattformen erweiterbaren Applikation kommt nur eine klare Trennung von Server und Client in Frage. Bei der Entwicklung eines reinen \ac{API} Servers ist es wichtig, dass dieser Daten in einer von ihrer für den Endnutzer endgültigen Repräsentation unabhängigen, leicht zu verarbeiteten Form zur Verfügung stellt. Allerdings gilt es dabei gleichermaßen, die bereitgestellten Schnittstellen nicht zu abstrakt zu gestalten, sondern Daten sinnvoll zu bündeln, um vermeidbare Anfragen durch Client-Applikationen vorzubeugen.
 
 Aus dieser Unabhängigkeit ergibt sich die Möglichkeit serverseitige Logik, wie beispielsweise Datenbankanfragen und Nutzer-Authentifizierung, wiederzuverwenden. Im besten Fall wird für eine bestimmte Aufgabe, wie etwa die Registrierung eines neuen Nutzers, die serverseitige Logik nur ein einziges mal implementiert, so dass beliebige darauf angewiesene clientseitige Applikationen in Zukunft nur noch eine einmalig standardisierte Anfrage an den Server stellen müssen. Dadurch ist es nicht Notwendig bei der Erstellung zusätzlicher Apps mit ähnlichem Funktionsumfang wie dem initialen Produkt Änderungen am Server vorzunehmen. Auch bei der Implementierung neuer Funktionalität auf allen Plattformen muss so nur einmalig eine neue \ac{API}-Schnittstelle hinzugefügt werden.
 
@@ -10,7 +10,7 @@ In Bezug auf eine Webapplikation ergibt sich zusätzlich der Vorteil, dass die \
 
 
 ### Application Programming Interface {#sec:api}
-Grundlegend gibt es aktuell zwei für den Einsatz als \acp{API} interessante Konzepte:^[>\color{red}https://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation.pdf ?]
+Grundlegend gibt es aktuell zwei für den Einsatz als \acp{API} interessante Konzepte:
 
   1. Eine \ac{HTTP}-\ac{REST}-\ac{API}, über welche primär statische Daten wie Gesetzesdokumente zur Verfügung gestellt werden, und
   2. Websockets, welche für die Synchronisierung von atomaren Interaktionen der Nutzer mit der Applikation zwischen Datenbank und über mehrere Geräte hinweg zuständig sind.

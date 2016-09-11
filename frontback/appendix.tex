@@ -36,6 +36,16 @@
 \end{acronym}
 
 
-\label{sec:references}
-{\let\cleardoublepage\relax \chapter*{Referenzen}}
+
+% Allow flexible page breaks in the reference list.
+\newcommand\orghypertarget{}
+\let\orghypertarget\hypertarget
+\renewcommand\hypertarget[2]{%
+  \leavevmode%
+  \orghypertarget{#1}{#2}%
+}
+
+
+\chapter*{Referenzen}
 \addcontentsline{toc}{chapter}{\tocEntry{Referenzen}}
+

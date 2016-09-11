@@ -18,6 +18,7 @@ supervisors:
   # - "Primary supervisor: Prof. Dr. Oliver Vornberger"
   # - "Secondary supervisor: Dr. phil. Tobias Thelen"
 university_logo: img/uos2.eps
+lang: de-DE
 
 documentclass: scrbook
 fontfamily: libertine

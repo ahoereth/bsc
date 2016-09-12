@@ -66,7 +66,6 @@ const getLawsByInitial = createSelector(
   )
 );
 export const getLawsByPage = createSelector(/*[...]*/);
-
 ~~~
 
 Die direkt unter dem `LawIndexContainer` angeordnete Komponente ist `LawIndex`.[^lawindex] Diese ist zentral nur für die Weiterverteilung der ihr übergebenen Attribute und die visuelle Aufteilung der Ansicht zuständig.
@@ -77,7 +76,7 @@ Listing: Vereinfachte `LawIndex` Komponente
 
 ~~~{#lst:LawIndex .javascript}
 import { Grid, Cell } from 'react-mdl';
-const LawIndex = ({
+export const LawIndex = ({
   initials, selectInitial, selectedInitial, /* [...] */
 }) => (
   <Grid>
@@ -105,7 +104,7 @@ Listing: Vereinfachte `LawInitialChooser` Komponente
 
 ~~~{#lst:LawInitialChooser .javascript}
 import { Grid, Cell, Button } from 'react-mdl';
-const LawInitialChooser = ({
+export const LawInitialChooser = ({
   initials, selected, onSelect
 }) => (
   <Grid>

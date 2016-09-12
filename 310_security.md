@@ -18,7 +18,7 @@ Bevor der Server die Möglichkeit hat eine sichere \ac{HTTPS}-Verbindung anzubie
 
 Listing: HTTPS-Verschlüsselte Kommunikation
 
-```{.dot #lst:https}
+```{.dot #lst:https scale=0.75}
 digraph G {
   rankdir=LR
   node [shape=rect];

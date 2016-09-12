@@ -42,6 +42,7 @@ def dot(key, value, pandoctarget, _):
   width, keyvals = extract_keyval(keyvals, 'width', '\\textwidth')
 
   if targetformat == 'tex':
+    scale, keyvals = extract_keyval(keyvals, 'scale', '1')
 
     p = Popen(['dot2tex', '-ftikz', '--codeonly'], stdout=PIPE, stdin=PIPE, stderr=PIPE)
     tikz, err = p.communicate(bytes(code, 'utf-8'))
@@ -52,14 +53,14 @@ def dot(key, value, pandoctarget, _):
       \\begin{figure}[H]
         \\centering
         \\resizebox{%s}{!}{
-          \\begin{tikzpicture}
+          \\begin{tikzpicture}[scale=%s]
             %s
           \\end{tikzpicture}
         }
         \\caption{%s}
         \\label{%s}
       \\end{figure}
-    ''' % (width, tikz.decode('utf-8'), caption, ident)
+    ''' % (width, scale, tikz.decode('utf-8'), caption, ident)
     return RawBlock('latex', result)
 
   elif targetformat in ['png', 'pdf']:

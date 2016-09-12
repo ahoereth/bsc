@@ -125,15 +125,15 @@ const LawInitialChooser = ({
 
 Obwohl die `LawInitialChooser`-Komponente ein Blattknoten des Graphen aus Abbildung @lst:lawindex_graph ist, vererbt sie selbst weiter an importierte Komponenten aus der `react-mdl` Bibliothek. Diese Bibliothek ist eine Implementierung von Googles Material Design Guidelines auf Grundlage von \acs{HTML}-Elementen wie `div` oder `button`. An dieser Stelle ist es allerdings auch denkbar, dass statt \acs{HTML}-Elementen native Android- oder iOS-Elemente eingesetzt werden -- der hier implementierte Code ist von der in der nächsten Ebene der Hierarchie eingesetzten Architektur unabhängig. Einem späteren Austausch der `react-mdl`-Komponenten durch native Komponenten für eine native Umsetzung einer Applikation mit ähnlicher Funktionalität steht also nichts im Wege.
 
-[^getlawsbycollection]: [lawly_web: /src/modules/law_index.js#L135-L142](https://github.com/ahoereth/lawly_web/blob/master/src/modules/law_index.js#L135-L142)
+[^getlawsbycollection]: [lawly_web: /src/modules/law_index.js#L135-L142](https://github.com/ahoereth/lawly_web/blob/bsc/src/modules/law_index.js#L135-L142)
 
-[^lawindexmodule]: [lawly_web: /src/modules/law_index.js#L96ff](https://github.com/ahoereth/lawly_web/blob/master/src/modules/law_index.js)
+[^lawindexmodule]: [lawly_web: /src/modules/law_index.js#L96ff](https://github.com/ahoereth/lawly_web/blob/bsc/src/modules/law_index.js#L96)
 
-[^usermodule]: [lawly_web: /src/modules/user.js](https://github.com/ahoereth/lawly_web/blob/master/src/modules/user.js)
+[^usermodule]: [lawly_web: /src/modules/user.js](https://github.com/ahoereth/lawly_web/blob/bsc/src/modules/user.js)
 
-[^lawindexcontainer]: [lawly_web: /src/containers/LawIndexContainer.js](https://github.com/ahoereth/lawly_web/blob/master/src/containers/LawIndexContainer.js)
+[^lawindexcontainer]: [lawly_web: /src/containers/LawIndexContainer.js](https://github.com/ahoereth/lawly_web/blob/bsc/src/containers/LawIndexContainer.js)
 
-[^lawindex]: [lawly_web: /src/components/laws/LawIndex.js](https://github.com/ahoereth/lawly_web/blob/master/src/components/laws/LawIndex.js)
+[^lawindex]: [lawly_web: /src/components/laws/LawIndex.js](https://github.com/ahoereth/lawly_web/blob/bsc/src/components/laws/LawIndex.js)
 
 
 
@@ -168,7 +168,7 @@ const urhgRequest = {
 
 Um auch bei nicht zwischenspeicherbaren Anfragen wie beispielsweise dem Vormerken von Gesetzen eine fließende Nutzererfahrung zu bieten, können Anfragen simuliert werden. Dafür wird das gewissermaßen vorhergesagte Ergebnis als *payload*-Attribut an das lokale Request-Objekt angehangen womit daraufhin die Redux-Aktion auch ohne vorhandenen Cache unmittelbar ausgelöst werden kann.
 
-[^apiclient]: [lawly_web: /src/helpers/ApiClient.js](https://github.com/ahoereth/lawly_web/blob/master/src/helpers/ApiClient.js)
+[^apiclient]: [lawly_web: /src/helpers/ApiClient.js](https://github.com/ahoereth/lawly_web/blob/bsc/src/helpers/ApiClient.js)
 
 [^canicache]: http://caniuse.com/#feat=offline-apps
 
@@ -189,9 +189,9 @@ Web Worker sind eine in neueren Browsern[^caniwebwork] zur Verfügung gestellte 
 
 [^caniwebwork]: http://caniuse.com/#search=webworker
 
-[^localsearch]: [lawly_web: /src/helpers/LocalSearch.js](https://github.com/ahoereth/lawly_web/blob/master/src/helpers/LocalSearch.js)
+[^localsearch]: [lawly_web: /src/helpers/LocalSearch.js](https://github.com/ahoereth/lawly_web/blob/bsc/src/helpers/LocalSearch.js)
 
-[^localsearchworker]: [lawly_web: /src/helpers/LocalSearchWorker.js](https://github.com/ahoereth/lawly_web/blob/master/src/helpers/LocalSearchWorker.js)
+[^localsearchworker]: [lawly_web: /src/helpers/LocalSearchWorker.js](https://github.com/ahoereth/lawly_web/blob/bsc/src/helpers/LocalSearchWorker.js)
 
 
 

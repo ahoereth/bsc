@@ -12,11 +12,11 @@ Um den *gesetze-im-internet.de*-Server nicht zu überlasten oder dazu zu verleit
 
 Sobald alle XML-Dokumente in ihrer aktuellen Form auf dem System zwischengespeichert sind werden diese weiter verarbeitet.[^code:parse] Eine Datei wird zuerst in den Speicher eingelesen und ihr Inhalt mithilfe der `GiiParser`-Klasse[^code:parser] verarbeitet. Diese traversiert den XML-Baum wiederum mit XPath und gleicht beispielsweise Unregelmäßigkeiten in Knoten-Bezeichnungen aus um eine über sämtliche Gesetze hinweg gleichmäßige Datenstruktur zu erhalten. Die eigentlichen in den Normen enthaltenen Fließtexte werden zusätzlich von der verwendeten Auszeichnungssprache, einer Mischung aus HTML und XML, zu Markdown übersetzt -- auch hierbei steht wieder eine Normalisierung über verschiedene zum Einsatz kommende Strukturen im Vordergrund.
 
-[^code:fetch]: [lawly_api: scripts/fetchGiiXmls.js](https://github.com/ahoereth/lawly_api/blob/master/scripts/fetchGiiXmls.js)
+[^code:fetch]: [lawly_api: scripts/fetchGiiXmls.js](https://github.com/ahoereth/lawly_api/blob/bsc/scripts/fetchGiiXmls.js)
 
-[^code:parse]: [lawly_api: scripts/parseGiiXmls.js](https://github.com/ahoereth/lawly_api/blob/master/scripts/parseGiiXmls.js)
+[^code:parse]: [lawly_api: scripts/parseGiiXmls.js](https://github.com/ahoereth/lawly_api/blob/bsc/scripts/parseGiiXmls.js)
 
-[^code:parser]: [lawly_api: scripts/GiiParser.js](https://github.com/ahoereth/lawly_api/blob/master/scripts/GiiParser.js)
+[^code:parser]: [lawly_api: scripts/GiiParser.js](https://github.com/ahoereth/lawly_api/blob/bsc/scripts/GiiParser.js)
 
 Listing: Sequentielles aggregieren der Rohdaten
 

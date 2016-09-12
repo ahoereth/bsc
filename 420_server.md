@@ -6,7 +6,7 @@ Durch die Entscheidung den Server als reine \ac{API} umzusetzen, fällt dieser d
 ### Authentifizierung {#sec:server:middleware}
 Die Authentifizierung von Anfragen findet mithilfe einer *Middleware* statt.[^code:authentication] Middlewares sind Funktionen welche von Express zwischen das Eingehen einer Anfrage und ihrer Bearbeitung durch einen bestimmten Handler geschaltet werden und die enthaltenen Request- und Response-Objekte erweitern können. Die implementierte Authentifizierungs-Middleware überprüft, ob der `Authorization`-Header gesetzt ist. Wenn dies gilt, wird aus diesem der \ac{JWT} extrahiert und, mithilfe der Open Source Bibliothek `node-jsonwebtokens` auf Validität überprüft. Zusätzlich wird überprüft ob der Token nur noch weniger als 24 Stunden gültig ist und gegebenenfalls ein neuer ausgestellt. Die im \ac{JWT} enthaltenen Nutzerdaten und der eventuelle neue Token werden dem Request-Objekt hinzugefügt und dieses an nachfolgende Middlewares bzw. den Route-Handler weitergereicht. Vergleiche in Bezug hierauf auch Abschnitt @sec:security.
 
-[^code:authentication]: [lawly_api: /server/config/authentication.js#L144ff](https://github.com/ahoereth/lawly_api/blob/master/server/config/authentication.js#L144-L190)
+[^code:authentication]: [lawly_api: /server/config/authentication.js#L144ff](https://github.com/ahoereth/lawly_api/blob/bsc/server/config/authentication.js#L144-L190)
 
 
 
@@ -21,15 +21,15 @@ Für detailliertere Informationen über ein Gesetz steht der Endpunkt `/laws/:gr
 
 Unter `/users` hingegen werden nicht nur lesende `GET`-, sondern auch schreibende Anfragen (also `PUT`, `POST` oder `DELETE`) bereitgestellt.[^code:users] So dient `POST /users` zum Beispiel der Erstellung eines neuen oder Authentifizierung eines bestehenden Benutzeraccounts.^[Hierbei handelt es sich um den einzigen Endpunkt, an dem das Nutzerpasswort erwartet wird. Alle anderen Endpunkte, wenn in ihrem Zugriff beschränkt, benötigen für die Autorisierung einen hierüber ausgestellten oder von der in Abschnitt @sec:server:middleware beschrieben Middleware erneuerten \ac{JWT}.] Die zweite zentrale aktuell bereitgestellte Route ist etwas verschachtelter: `PUT /:email/laws/:groupkey/:enu?`. Hierüber können Nutzer per `PUT` Anfrage, also einer Anfrage um einen bestehenden Datenbestand zu verändern, Gesetze und Normen in ihre Sammlung aufnehmen. Der `:email` Parameter spezifiziert dabei, wessen Sammlung verändert werden soll -- aktuell gilt es, dass Nutzer nur zur Veränderung ihrer eigenen Sammlung autorisiert sind (die Adresse wird also mit dem \ac{JWT} abgeglichen), langfristig ist es aber denkbar, dass auch Gruppen gemeinsame Sammlungen anlegen und bearbeiten können. `:groupkey` spezifiziert das Kürzel des Gesetzes und `:enu` die eindeutige Enumeration einer Norm innerhalb des Gesetzes -- falls `:enu` nicht angegeben ist, wird die Wurzel-Norm zugegriffen. Innerhalb des Anfragen-Körpers wird hierbei nun ein JSON-Objekt mit dem Feld `starred` erwartet, dessen Boole'scher Wert angibt, ob die spezifizierte Norm gemerkt oder vergessen werden soll.
 
-[^code:router]: [lawly_api: /server/routes/index.js](https://github.com/ahoereth/lawly_api/blob/master/server/routes/v0/index.js)
+[^code:router]: [lawly_api: /server/routes/index.js](https://github.com/ahoereth/lawly_api/blob/bsc/server/routes/v0/index.js)
 
-[^code:laws]: [lawly_api: /server/routes/laws.js](https://github.com/ahoereth/lawly_api/blob/master/server/routes/v0/laws.js)
+[^code:laws]: [lawly_api: /server/routes/laws.js](https://github.com/ahoereth/lawly_api/blob/bsc/server/routes/v0/laws.js)
 
-[^code:users]: [lawly_api: /server/routes/users.js](https://github.com/ahoereth/lawly_api/blob/master/server/routes/v0/users.js)
+[^code:users]: [lawly_api: /server/routes/users.js](https://github.com/ahoereth/lawly_api/blob/bsc/server/routes/v0/users.js)
 
 
 
 ### Antworten
 Um Antworten gleichmäßig zu gestalten wurde ein Klasse implementiert, welche eine Response-Objekt erwartet (welches jedem Route-Handler übergeben wird) und Methoden anbietet dieses einheitlich zu verarbeiten.[^code:reply] Grundlegend gilt hierbei, dass jede Methode der Klasse für einen bestimmten HTTP-Statuscode zuständig ist und es damit vereinfacht, diesen korrekt zu setzen. Zusätzlich werden die an eine Antwort angehängten Daten dabei in ein einheitliches JSON-Objekt verpackt, welches zusätzliche Informationen wie den Erfolg oder Misserfolg der Operation und einen eventuell durch die zuvor beschriebe Middleware generierten neuen Autorisierungstoken beinhaltet. Außerdem werden ein paar Unregelmäßigkeiten in der Handhabung von Antworten ausgeglichen. Ein Beispiel hierfür ist der Statuscode `204 No Content`, bei welchem laut Standard generell keine Daten enthalten sein dürfen [@Fielding2014] und dessen Header von älteren Versionen des Internet Explorer komplett ignoriert wird -- um dies zu vermeiden und auch bei `204 No Content` einen erneuerten Token senden zu können, werden solche Antworten auf Status `200 OK` umgeschrieben.
 
-[^code:reply]: [lawly_api: /server/helpers/reply.js](https://github.com/ahoereth/lawly_api/blob/master/server/helpers/reply.js)
+[^code:reply]: [lawly_api: /server/helpers/reply.js](https://github.com/ahoereth/lawly_api/blob/bsc/server/helpers/reply.js)

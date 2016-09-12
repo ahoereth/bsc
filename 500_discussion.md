@@ -30,3 +30,9 @@ Letztendlich ist auch die Finanzierung des Projektes nicht zu vernachlässigen. 
 [^buymeacookie]: [patreon.com](https://www.patreon.com/)
 
 [^fundmebig]: [prototypefund.de](https://prototypefund.de)
+
+\vfill
+
+![Aktuelles *lawly.org* Logo](assets/lawly.png){#fig:lawly}
+
+\vfill

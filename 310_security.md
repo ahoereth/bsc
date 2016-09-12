@@ -1,7 +1,7 @@
 ## Sicherheit {#sec:security}
 Sicherheit wird heutzutage immer größer geschrieben. Themen wie Privatsphäre und Verschlüsselung sind in aller Munde und es vergeht kaum ein Monat in dem nicht eine weitere große Firma ein *Datenleck* zu verbüßen hat.[^justanotherbreach] Die Schwierigkeit liegt darin, Sicherheit und Nutzungskomfort in Einklang zu bringen.
 
-[^justanotherbreach]: Für eine mit Referenzen versehene Visualisierung siehe [informationisbeautiful.net/visualizations/worlds-biggest-data-breaches-hacks](http://www.informationisbeautiful.net/visualizations/worlds-biggest-data-breaches-hacks), abgerufen 08/2016
+[^justanotherbreach]: Für eine mit Referenzen versehene Visualisierung siehe [informationisbeautiful.net/visualizations/worlds-biggest-data-breaches-hacks](http://www.informationisbeautiful.net/visualizations/worlds-biggest-data-breaches-hacks), Stand 08/2016
 
 Im Folgenden sollen drei zentrale Problembereiche und ihre in der Umsetzung dieser Arbeit eingesetzten Lösungen erörtert werden:
 

@@ -153,7 +153,7 @@ Einerseits wird beim Bundling der Applikation (siehe Abschnitt @sec:bundler) ein
 
 Anderseits gilt es, Anfragen an den \ac{API}-Server zumindest teilweise optional zu gestalten. Um dies zu erreichen wurde die `ApiClient`-Klasse[^apiclient] entwickelt, welche für alle Anfragen an den Server und auch die lokale Suche (mehr dazu in Abschnitt @sec:localsearch) zuständig ist. Innerhalb der Applikationen werden zur einfacheren Handhabung API-Anfragen als serialisierbare Objekte dargestellt (siehe Listing @lst:serializablerequests). Diese Objekte werden von der `ApiClient`-Klasse je nach beinhalteter Attribute unterschiedlich gehandhabt.
 
-Ist eine Anfrage zum Beispiel `cachable`, so wird zuerst der lokale Key/Value-Store angefragt -- in diesem dienen diese Request-Objekte als Schlüssel. Liefert der lokale Store ein Ergebnis, wird mit diesem unmittelbar, falls spezifiziert, die Redux-Aktion (`action`-Attribut) ausgeführt. Daraufhin wird getestet ob für diesen Cache-Wert ein Ablaufdatum gesetzt ist und ob dieses überschritten wurde -- wenn letzteres gilt oder überhaupt kein Ablaufdatum vorhanden ist, wird die Anfrage an den Server gestellt, der Cache bei erhalten einer Antwort aktualisiert und gegebenenfalls erneut die Redux-Aktion mit den aktualisierten Werten aufgerufen. Durch die Verwendung eines mit Ablaufsdatum versehenen Caches wird nicht nur die Interaktion des Nutzers mit der Webseite beschleunigt, sondern auch die Belastung des Servers durch weniger Anfragen reduziert. ^[>\color{red}Watch out for this to not overlap the figure.]
+Ist eine Anfrage zum Beispiel `cachable`, so wird zuerst der lokale Key/Value-Store angefragt -- in diesem dienen diese Request-Objekte als Schlüssel. Liefert der lokale Store ein Ergebnis, wird mit diesem unmittelbar, falls spezifiziert, die Redux-Aktion (`action`-Attribut) ausgeführt. Daraufhin wird getestet ob für diesen Cache-Wert ein Ablaufdatum gesetzt ist und ob dieses überschritten wurde -- wenn letzteres gilt oder überhaupt kein Ablaufdatum vorhanden ist, wird die Anfrage an den Server gestellt, der Cache bei erhalten einer Antwort aktualisiert und gegebenenfalls erneut die Redux-Aktion mit den aktualisierten Werten aufgerufen. Durch die Verwendung eines mit Ablaufsdatum versehenen Caches wird nicht nur die Interaktion des Nutzers mit der Webseite beschleunigt, sondern auch die Belastung des Servers durch weniger Anfragen reduziert.
 
 Listing: Serialisierbares API-Request Objekt
 
@@ -168,8 +168,6 @@ const urhgRequest = {
 Um auch bei nicht zwischenspeicherbaren Anfragen wie beispielsweise dem Vormerken von Gesetzen eine fließende Nutzererfahrung zu bieten, können Anfragen simuliert werden. Dafür wird das gewissermaßen vorhergesagte Ergebnis als *payload*-Attribut an das lokale Request-Objekt angehangen womit daraufhin die Redux-Aktion auch ohne vorhandenen Cache unmittelbar ausgelöst werden kann.
 
 [^apiclient]: [lawly_web: /src/helpers/ApiClient.js](https://github.com/ahoereth/lawly_web/blob/bsc/src/helpers/ApiClient.js)
-
-[^canicache]: http://caniuse.com/#feat=offline-apps
 
 
 
@@ -186,7 +184,7 @@ Falls der \ac{API}-Server nicht verfügbar ist, wird lokal gesucht. Hierbei hat 
 
 Web Worker sind eine in neueren Browsern[^caniwebwork] zur Verfügung gestellte Funktionalität zum Auslagern von JavaScript-Operationen in einen gesonderten Prozess. Dabei wird zwischen dem Hauptprozess und dem Web Worker ähnlich wie auf Serverseite beim Eintreffen von Anfragen über Ereignisse kommuniziert. Um dies auf Clientseite zu abstrahieren wurden zwei Klassen entwickelt: `LocalSearch`[^localsearch] und `LocalSearchWorker`[^localsearchworker]. Erstere wird von der zentralen \ac{API}-Abstraktion (siehe Abschnitt @sec:offline-first) auf ähnliche Weise wie der \ac{API}-Server angesprochen und Antworten asynchron verarbeitet. Die `LocalSearch`-Klasse überträgt Anfragen zusammen mit einem eindeutigen Hash an die in ihrem individuellen Prozess ausgeführte `LocalSearchWorker`-Klasse und lauscht auf das durch den Hash identifizierbare Ergebnis auf diese konkrete Anfrage.
 
-[^caniwebwork]: http://caniuse.com/#search=webworker
+[^caniwebwork]: Quelle: [caniuse.com/#search=webworker](http://caniuse.com/#search=webworker), Stand 08/2016
 
 [^localsearch]: [lawly_web: /src/helpers/LocalSearch.js](https://github.com/ahoereth/lawly_web/blob/bsc/src/helpers/LocalSearch.js)
 
